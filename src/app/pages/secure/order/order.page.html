@@ -1,0 +1,200 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">รายละเอียดคำสั่งซื้อ</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary">
+        <ion-icon [src]="" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid [fixed]="true" class="grid-order">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="12" size-xs="12" class="">
+
+
+
+
+        <!-- order title -->
+        <div class="order order-title grid-notification">
+          <div class="table">
+            <div class="row order-number">
+              <div class="col"><b>หมายเลขคำสั่งซื้อ</b></div>
+              <div class="col price">
+                <ion-text color="medium"><strong>{{orderID.substring(0,3)+"XX"}}</strong></ion-text>
+                <ion-buttons class="btn-copy">คัดลอก</ion-buttons>
+              </div>
+            </div>
+            <div class="row order-date">
+              <div class="col">
+                <ion-text color="medium">วันที่สั่งซื้อ</ion-text>
+              </div>
+              <div class="col price">
+                <ion-text color="medium">21/06/2023</ion-text>
+              </div>
+            </div>
+            <div class="row order-status">
+              <div class="col"><b>สถานะการสั่งซื้อ</b></div>
+              <div class="col price">
+                <ion-text class="sub-title"><b
+                    class="{{this.orderNameStatus.nameStatus}}">{{this.orderNameStatus.title}}</b></ion-text>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- address detail -->
+        <div class="order address" *ngIf="this.orderNameStatus.nameStatus !== 'completed'">
+          <h3><strong>ที่อยู่การจัดส่ง</strong></h3>
+          <div class="table">
+            <div class="row order-number" style=" margin-bottom: 10px;">
+              <div class="col"><ion-text>ชัยยันต์ แจ้งกระจ่าง</ion-text></div>
+              <div class="col price">
+                <ion-text color="secondary">(+66) 61 935 4665</ion-text>
+              </div>
+            </div>
+            <div class="row order-date">
+              <div class="">
+                <ion-text>18 อาคาร ทรู ทาวเวอร์ ถนนรัชดาภิเษก แขวงห้วยขวาง เขตห้วยขวาง
+                  จังหวัดกรุงเทพฯ 10310</ion-text>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product details -->
+        <div class="products" *ngIf="this.orderNameStatus.nameStatus !== 'completed'">
+          <div class="title">
+            <ion-text><strong>รายละเอียดการสั่งซื้อ</strong></ion-text>
+          </div>
+          <div class="product">
+            <div class="product-image">
+              <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
+            </div>
+            <div class="product-detail">
+              <div class="product-name">
+                <ion-text>
+                  ha densimatrix
+                </ion-text>
+              </div>
+              <div class="product-price">
+                <ion-text>
+                  ฿ 2,820
+                </ion-text>
+              </div>
+            </div>
+            <div class="product-quantity">
+              x <span>3</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product details -->
+        <div class="products products-active" *ngIf="this.orderNameStatus.nameStatus === 'completed'">
+          <div class="title">
+            <ion-text><strong>รายละเอียดการสั่งซื้อ</strong></ion-text>
+          </div>
+          <div class="product">
+            <div class="product-image">
+              <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
+            </div>
+            <div class="product-detail">
+              <div class="product-name">
+                <ion-text>
+                  ha densimatrix
+                </ion-text>
+              </div>
+              <div class="product-price">
+                <ion-text>
+                  ฿ 2,820
+                </ion-text>
+              </div>
+            </div>
+            <div class="product-quantity">
+              x <span>3</span>
+            </div>
+          </div>
+          <div class="summary-price">
+            <ion-text><strong>฿ 8,460</strong></ion-text>
+          </div>
+          <div class="product-review">
+            <div class="review-left">
+              <div class="review-title">
+                <ion-label>รวมการสั่งซื้อ</ion-label>
+              </div>
+              <div class="review-point">
+                <ion-text>คะแนน</ion-text>
+                <div class="star" slot="primary">
+                  <ion-icon [src]="iconStar"></ion-icon>
+                  <ion-icon [src]="iconStar"></ion-icon>
+                  <ion-icon [src]="iconStar"></ion-icon>
+                  <ion-icon [src]="iconStar"></ion-icon>
+                  <ion-icon [src]="iconStar"></ion-icon>
+                </div>
+              </div>
+            </div>
+            <div class="btn">
+              <ion-button>ซื้ออีกครั้ง</ion-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- add payment -->
+        <div class="payment" *ngIf="this.orderNameStatus.nameStatus !== 'completed'">
+          <ion-list lines="none" class="payment">
+            <div class="payment-title">
+              <ion-text>วิธีการชำระเงิน</ion-text>
+            </div>
+            <div class="payment-detail">
+              <b>QR พร้อมเพย์</b>
+              <!-- <ion-icon name="chevron-forward-sharp"></ion-icon> -->
+            </div>
+          </ion-list>
+        </div>
+
+        <!-- Summary order -->
+        <div class="order" *ngIf="this.orderNameStatus.nameStatus !== 'completed'">
+
+          <h3>ข้อมูลการชำระเงิน</h3>
+          <div class="table">
+            <div class="row total-prices">
+              <div class="col">รวมการจัดส่ง</div>
+              <div class="col price">฿ 8,460</div>
+            </div>
+            <div class="row total-discount">
+              <div class="col">ส่วนลด</div>
+              <div class="col price">฿ 2,115</div>
+            </div>
+            <div class="row summary-price">
+              <div class="col">
+                <h3><strong>ยอดชำระเงินทั้งหมด</strong></h3>
+              </div>
+              <div class="col price">
+                <h3><strong>฿ 6,345</strong></h3>
+              </div>
+            </div>
+          </div>
+          <div class="ion-text-center ">
+            <ion-button class="btn-checkout" [routerLink]="['/','thank-you']" color="secondary">
+              Next
+            </ion-button>
+          </div>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

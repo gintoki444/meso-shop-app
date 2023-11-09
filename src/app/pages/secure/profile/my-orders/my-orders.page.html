@@ -1,0 +1,66 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">การสั่งซื้อของฉัน</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/cart">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+        <ion-badge>2</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+
+
+
+  <div style="position: relative;">
+    <div class="horizontal-scroll">
+      <div class="item" *ngFor="let item of orderStatus  let i = index" (click)="setActiveItem(i)"
+        [ngClass]="{ 'active': i === activeIndex }">
+        <ion-label>{{ item.title }}</ion-label>
+      </div>
+      <div class="line" [ngStyle]="lineStyles"></div>
+    </div>
+  </div>
+
+</ion-header>
+
+<ion-content>
+  <ion-grid [fixed]="true" class="grid-notification">
+    <ion-row class="ion-justify-content-center" offset-md="2" *ngFor="let order of dataOrder" [routerLink]="['/','order' , order.orderID]">
+      <ion-col size-md="3" size-xs="3" class="ion-text-center">
+        <ion-icon [src]="activeID[0].icon" class="i-cart-order"></ion-icon>
+      </ion-col>
+      <ion-col size-md="8" size-xs="8" class="">
+        <div>
+          <ion-text class="title">คำสั่งซื้อ : <b>#{{order.orderID}}</b> </ion-text>
+        </div>
+        <div>
+          <ion-text class="sub-title">สถานะการจัดส่ง :
+            <b class="{{order.statusOrder}}" *ngIf="order.statusOrder == 'completed'">
+              สำเร็จแล้ว
+            </b>
+            <b class="{{order.statusOrder}}" *ngIf="order.statusOrder == 'processing'">
+              กำลังดำเนินการจัดส่ง
+            </b>
+            <b class="{{order.statusOrder}}" *ngIf="order.statusOrder == 'pending'">
+              รอการชำระเงิน
+            </b>
+          </ion-text>
+        </div>
+      </ion-col>
+      <ion-col size-md="1" size-xs="1" class="btn-next">
+        <ion-buttons>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

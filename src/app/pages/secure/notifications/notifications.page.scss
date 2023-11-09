@@ -1,0 +1,60 @@
+:host {
+    .grid-notification {
+        padding: 0;
+
+        ion-row{
+            background: #E9E9E9;
+            align-items: center;
+            padding: 10px 24px;
+            margin-bottom: 10px;
+
+            ion-col{
+                padding: 0;
+            }
+
+            .title{
+                font-size: 18px;
+                color: #000;
+            }
+
+            .sub-title{
+                font-size: 14px;
+                color: #000;
+                opacity: 61%;
+            }
+
+            .i-sales{
+                font-size: 55px;
+            }
+
+            .btn-next {
+                ion-icon {
+                    font-size: 28px;
+                    margin-left: auto;
+                    // transform: rotate(0.5turn);
+                }
+            }
+        }
+    }
+    .order-notification{
+        p{
+            padding: 0 24px;
+            margin-top: 6px;
+        }
+        .i-cart-order{
+            font-size: 30px ;
+        }
+
+        ion-text{
+            b.success {
+                color: #00C62F;
+            }
+            b.process {
+                color: #FF9900;
+            } 
+            b.cancle {
+                color: #707070;
+            }
+        }
+    }
+}

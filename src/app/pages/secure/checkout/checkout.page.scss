@@ -1,0 +1,169 @@
+ion-header .header-title {
+    font-weight: normal;
+}
+
+.buttons-last-slot {
+    opacity: 0;
+}
+
+ion-footer{
+    padding-top: 10px;
+    padding-bottom: 30px;
+    background: #fff;
+}
+
+ion-grid,
+ion-row,
+ion-col {
+    padding: 0;
+
+    ion-list,
+    .product,
+    .coupon,
+    .payment {
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+}
+
+.address {
+    justify-content: space-around;
+    --ion-background-color: #F2F2F2;
+    border-radius: 0;
+    min-height: 92px;
+
+    .address-icon {
+        width: 27%;
+        text-align: 0 12px;
+        padding: 0 12px;
+        text-align: center;
+        max-width: 90px;
+    }
+
+    .address-icon.end {
+        width: 15%;
+        font-size: 32px;
+        text-align: right;
+    }
+
+    .address-detail {
+        width: 58%;
+        padding: 0 10px;
+        margin-right: auto;
+    }
+
+    p {
+        margin-block-start: 0em;
+        margin-block-end: 10px;
+    }
+}
+
+.product {
+    display: flex;
+    --background: #F2F2F2;
+    background-color: #F2F2F2;
+    min-height: 119px;
+    margin-bottom: 10px;
+    padding: 12px 24px;
+    align-items: center;
+
+    .product-image {
+        width: 30%;
+        height: 100%;
+        text-align: center;
+        max-width: 90px;
+    }
+
+    .product-detail {
+        width: 50%;
+        height: 100%;
+        padding: 0 18px;
+        margin-right: auto;
+
+        .product-price {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    }
+
+    .product-quantity {
+        width: 20%;
+        height: 100%;
+        text-align: right;
+        padding: 0 15px;
+        font-size: 20px;
+    }
+}
+
+.coupon,
+.payment {
+    background: #D5D5D5;
+    --ion-background-color: #D5D5D5;
+    min-height: 60px;
+
+    ion-list {
+        padding: 0;
+        margin-bottom: 0;
+
+        .coupon-title,
+        .payment-title {
+            margin-right: auto;
+        }
+
+        .coupon-detail,
+        .payment-detail {
+            display: flex;
+            align-items: center;
+
+            ion-icon {
+                font-size: 24px;
+                margin-left: 15px;
+            }
+        }
+    }
+}
+
+.order {
+    --background: #F2F2F2;
+    background-color: #F2F2F2;
+    padding: 20px 24px;
+
+    h3 {
+        font-size: 20px;
+        margin-block-start: 10px;
+        margin-block-end: 10px;
+    }
+
+    .table {
+        width: 100%;
+
+        .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+            .col{
+                width: 50%;
+                padding: 10px 0;
+            }
+            .col.price{
+                text-align: right;
+                padding-right: 5px;
+            }
+        }
+    }
+}
+
+@media(max-width:500px) {
+    .product-image {
+        text-align: left;
+
+        ion-img {
+            max-width: 73px;
+            max-height: 73px;
+        }
+    }
+}

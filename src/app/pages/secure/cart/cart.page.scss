@@ -1,0 +1,112 @@
+:host {
+
+    ion-item {
+        --padding-start: 24px;
+        --inner-padding-end: 24px;
+    }
+
+    .grid-cart {
+
+        .product {
+            display: flex;
+            --background: #F2F2F2;
+            background-color: #F2F2F2;
+            min-height: 119px;
+            margin-bottom: 10px;
+            padding: 12px 24px;
+            align-items: center;
+
+            .product-image {
+                width: 20%;
+                height: 100%;
+
+                ion-img {
+                    max-width: 73px;
+                    max-height: 73px;
+                }
+            }
+
+            .product-detail {
+                width: 42%;
+                height: 100%;
+                padding: 0 18px;
+
+                .product-price {
+                    margin-top: 10px;
+                }
+            }
+
+            .product-quantity {
+                width: 30%;
+                height: 100%;
+                text-align: center;
+                align-items: center;
+                display: flex;
+
+                ion-button {
+                    font-size: 20px;
+                    height: 34px;
+                    width: 35px;
+                    margin: 0;
+                    --background: #D8D8D8;
+                    --border-radius: 50px;
+                    --box-shadow: none;
+                }
+
+                span {
+                    font-size: 24px;
+                    margin: 0 10px;
+                }
+            }
+
+            .product-check {
+                width: 10%;
+                height: 100%;
+                text-align: right;
+            }
+        }
+    }
+
+    .footrt-cart {
+        display: flex;
+        align-items: center;
+        padding: 20px 25px;
+        background-color: #E2E2E2;
+
+        .total-prices {
+            margin: auto;
+            text-align: center;
+
+            ion-label {
+                font-size: 20px;
+                font-weight: normal;
+            }
+        }
+
+        ion-button {
+            margin-left: auto;
+            min-height: 57px;
+            text-align: center;
+            padding: 0 18px;
+            background: #272727;
+            min-width: auto;
+            color: #fff;
+            font-size: 17px;
+            --background: #272727;
+            --box-shadow: none;
+        }
+    }
+
+}
+
+ion-grid,
+ion-row,
+ion-col {
+    padding: 0;
+}
+
+.check-all>label {
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: 15px;
+}

@@ -1,0 +1,67 @@
+<ion-header collapse="fade">
+  <ion-toolbar [ngClass]="!dataResolve ? 'address-active' : ''">
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/settings">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">{{dataResolve ! ? dataResolve.titleName : "ข้อมูลที่อยู่" }}</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary">
+        <ion-icon [src]="" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid [fixed]="true" class="grid-address">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="12" size-xs="12" class="">
+        <div class="address-titles" *ngIf="!dataResolve">
+          <ion-text>ที่อยู่</ion-text>
+        </div>
+      </ion-col>
+      <ion-col size-md="12" size-xs="12" class="">
+
+        <!-- Add address -->
+        <ion-list lines="none" class="address">
+          <div class="icon-address" *ngIf="!dataResolve">
+            <ion-icon [src]="iconLocation" class="icon-search"></ion-icon>
+          </div>
+          <div class="address-detail">
+            <h2>Britney Spears</h2>
+            <ion-text>(+66) 34 567 8999</ion-text>
+            <ion-text>18 อาคาร ทรู ทาวเวอร์ ถนนรัชดาภิเษก
+              แขวงห้วยขวาง เขตห้วยขวาง
+              จังหวัดกรุงเทพฯ 10310</ion-text>
+          </div>
+          <div class="end">
+            <ion-button>edit</ion-button>
+            <div class="status">
+              <ion-text>default</ion-text>
+            </div>
+          </div>
+        </ion-list>
+
+        <ion-list lines="none" class="address-add">
+          <ion-button routerLink="add-address">
+            <ion-icon name="add-outline"></ion-icon>
+            เพิ่มที่อยู่ใหม่
+          </ion-button>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center" *ngIf="dataResolve">
+  <ion-button class="btn-confirm" color="secondary">
+    confirm
+  </ion-button>
+</ion-footer>

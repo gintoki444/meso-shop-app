@@ -1,0 +1,91 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">{{dataResolve ! ? dataResolve.titleName : "โค้ดส่วนลด meso Code" }}</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary">
+        <ion-icon [src]="" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid [fixed]="true" class="grid-coupon">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="12" size-xs="12" class="">
+
+        <div class="coupon">
+          <!-- Coupon form -->
+          <div class="coupon-form">
+            <ion-input name="" placeholder="เพิ่มโค้ดส่วนลด" value="25%" clearInput="true"></ion-input>
+          </div>
+
+          <!-- Coupon List -->
+          <div class="coupon-all">
+            <div class="coupon-list">
+              <div class="coupon-image">
+                <ion-img src="../../../../../assets/imgs/coupon/coupon-logo.png"></ion-img>
+              </div>
+              <div class="coupon-detail">
+                <div class="coupon-name"><ion-text>ส่วนลด 25%</ion-text></div>
+                <div class="coupon-exe-date"><ion-text>หมดอายุ : 30/6/2022</ion-text></div>
+                <div class="coupon-min-price"><ion-text>ขั้นต่ำ 0฿</ion-text></div>
+              </div>
+              <div class="coupon-check">
+                <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
+                <ion-text *ngIf="!dataResolve">เงื่อนไข</ion-text>
+              </div>
+            </div>
+
+            <div class="coupon-list">
+              <div class="coupon-image">
+                <ion-img src="../../../../../assets/imgs/coupon/coupon-logo.png"></ion-img>
+              </div>
+              <div class="coupon-detail">
+                <div class="coupon-name"><ion-text>ส่วนลด 50%</ion-text></div>
+                <div class="coupon-exe-date"><ion-text>หมดอายุ : 30/6/2022</ion-text></div>
+                <div class="coupon-min-price"><ion-text>ขั้นต่ำ 0฿</ion-text></div>
+              </div>
+              <div class="coupon-check">
+                <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
+                <ion-text *ngIf="!dataResolve">เงื่อนไข</ion-text>
+              </div>
+            </div>
+
+
+            <div class="coupon-list">
+              <div class="coupon-image">
+                <ion-img src="../../../../../assets/imgs/coupon/coupon-logo.png"></ion-img>
+              </div>
+              <div class="coupon-detail">
+                <div class="coupon-name"><ion-text>ส่วนลด 3,000 ฿</ion-text></div>
+                <div class="coupon-exe-date"><ion-text>หมดอายุ : 30/6/2022</ion-text></div>
+                <div class="coupon-min-price"><ion-text>ขั้นต่ำ 0฿</ion-text></div>
+              </div>
+              <div class="coupon-check">
+                <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
+                <ion-text *ngIf="!dataResolve">เงื่อนไข</ion-text>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center"  *ngIf="dataResolve">
+  <ion-button class="btn-confirm" color="secondary">
+    ยืนยัน
+  </ion-button>
+</ion-footer>

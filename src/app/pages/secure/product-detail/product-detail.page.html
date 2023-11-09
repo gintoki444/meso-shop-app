@@ -1,0 +1,196 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button color="secondary" routerLink="/search">
+        <ion-icon [src]="iconSearch" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center" routerLink="/home">
+      <ion-img src="../../../../assets/icon/mesoestetic logo.png" class="logo" alt="welcome"></ion-img>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/cart">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="storeData.totalItem">{{storeData.totalItem}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="product">
+
+  <!-- Swiper Slider -->
+  <div class="bg-slider">
+    <ion-button class="btn-withlist">
+      <ion-icon [src]="iconWithList"></ion-icon>
+    </ion-button>
+    <swiper-container id="mainProductSlider" [modules]="swiperModules" [loop]="true">
+      <swiper-slide *ngFor="let Img of productImg; let i = index">
+        <img src="{{productImg[i].src}}" alt="{{productImg[i].name}}">
+      </swiper-slide>
+    </swiper-container>
+    <swiper-container id="thumbsProductSlider" [modules]="swiperModules" [slidesPerView]="4">
+      <swiper-slide *ngFor="let Img of productImg; let i = index">
+        <img src="{{productImg[i].src}}" alt="Thumbnail {{productImg[i].name}}">
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+
+  <ion-grid [fixed]="true" class="products-content">
+    <ion-row class="ion-justify-content-center">
+
+      <!-- Product Title -->
+      <ion-col size-lg="8" size-xs="8" class="product-title-left">
+        <div class="product-title">
+          <h2 class="product-name" [innerHTML]="product.name"></h2>
+        </div>
+      </ion-col>
+
+      <ion-col size-lg="4" size-xs="4" class="product-title-right">
+        <div class="product-discount" *ngIf="product.on_sale === true">
+          <div class="banner-onsale"><span class="txt-ban">ลด</span><span class="onsale"> 24%</span></div>
+        </div>
+      </ion-col>
+
+      <ion-col size-lg="8" size-xs="8" class="product-title-left">
+        <div class="product-title">
+          <h4 class="product-price" *ngIf="product.sale_price === ''">{{product.price | number }} ฿</h4>
+          <ion-text *ngIf="product.sale_price !== ''" [innerHTML]="product.price_html"></ion-text>
+        </div>
+      </ion-col>
+
+      <ion-col size-lg="4" size-xs="4" class="product-title-right">
+        <div class="product-review">
+          <ion-icon [src]="iconStar"></ion-icon>
+          4,9 (216)
+        </div>
+      </ion-col>
+
+      <!-- Product short detail -->
+      <ion-col size="12">
+        <div class="product-detail">
+          <ion-text [innerHTML]="product.short_description"></ion-text>
+        </div>
+      </ion-col>
+
+      <!-- Product detail -->
+      <ion-col size="12">
+        <div class="product-detail">
+          <h4 style="font-weight: bolder;">รายละเอียด</h4>
+          <ion-text [innerHTML]="product.description"></ion-text>
+        </div>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <!-- Review -->
+  <div class="review">
+
+    <div class="review-list user-01">
+      <div class="review-tile">
+        <div class="review-profile" slot="start">
+
+          <ion-avatar>
+            <img src="../../../../assets/card-media.png">
+          </ion-avatar>
+          <ion-text color="primary">ชัย********ง</ion-text>
+        </div>
+
+        <div class="review-point" slot="primary">
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+        </div>
+      </div>
+      <div class="review-content">
+        <div class="review-text">
+          <ion-text>
+            ตอนนี้รู้สึกเลิฟ กับสินค้าตัวนี้มาก หน้าใสชุ่มชื่รขึ้นเยอะมาก จากที่มีสารพีด ปัญหาผิวหน้ามาหลายปี
+          </ion-text>
+        </div>
+        <div class="review-image" *ngFor="let Img of productImg; let i = index">
+          <img src="{{productImg[i].src}}" alt="Thumbnail {{productImg[i].name}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="review-list user-02">
+      <div class="review-tile">
+        <div class="review-profile" slot="start">
+
+          <ion-avatar>
+            <img src="../../../../assets/card-media.png">
+          </ion-avatar>
+          <ion-text color="primary">ชัย********ง</ion-text>
+        </div>
+
+        <div class="review-point" slot="primary">
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+          <ion-icon [src]="iconStar"></ion-icon>
+        </div>
+      </div>
+      <div class="review-content">
+        <div class="review-text">
+          <ion-text>
+            ตอนนี้รู้สึกเลิฟ กับสินค้าตัวนี้มาก หน้าใสชุ่มชื่รขึ้นเยอะมาก จากที่มีสารพีด ปัญหาผิวหน้ามาหลายปี
+          </ion-text>
+        </div>
+        <div class="review-image" *ngFor="let Img of productImg; let i = index">
+          <img src="{{productImg[i].src}}" alt="Thumbnail {{productImg[i].name}}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Promotion  -->
+  <ion-grid [fixed]="true" class="grid-products">
+    <ion-row class="ion-justify-content-center products" offset-md="2">
+
+      <ion-col size="12" class="promotion-title">
+        <div class="promotion-name">
+          <ion-text class="">
+            <span>สินค้าที่คุณสนใจ</span>
+          </ion-text>
+        </div>
+      </ion-col>
+
+      <ion-col size-ld="3" size-md="4" size-xs="6" class="product-list" *ngFor="let product of allProducts">
+        <ion-card [routerLink]="['/', 'product', 'detail', product.id]">
+          <div class="product-discount" *ngIf="product.on_sale === true">
+            <div class="banner-onsale"><span class="txt-ban">ลด</span><span class="onsale"> 24%</span></div>
+          </div>
+          <ion-img *ngIf="product.images[0]" [src]="product.images[0].src"></ion-img>
+          <ion-card-content>
+            <p class="product-name">{{product.name}}</p>
+            <p class="product-price">{{product.price | number }} ฿</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="animate__animated animate__fadeInUp">
+  <ion-button class="ion-margin" color="tertiary">
+    Buy now
+  </ion-button>
+  <ion-button class="ion-margin btn-addtocart" *ngIf="btnAddtocart == false" color="secondary" (click)="addToCart()">
+    Add to cart
+  </ion-button>
+  <!-- <ion-button class="ion-margin btn-viewcart" color="secondary" *ngIf="btnAddtocart == true" (click)="viewCart()">
+    View Cart
+    <ion-icon name="arrow-forward-outline"></ion-icon>
+  </ion-button> -->
+</ion-footer>

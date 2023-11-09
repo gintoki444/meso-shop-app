@@ -1,0 +1,44 @@
+
+<ion-content>
+  <!-- New Product  -->
+  <ion-grid [fixed]="true" class="grid-products">
+    <ion-row class="ion-justify-content-center products" offset-md="2">
+      <ion-col size-md="12" size-xs="12"  style="position: relative;">
+        <div id="container">
+          <div id="top-profile">
+            <ion-buttons slot="start" class="btn-back">
+              <ion-back-button color="secondary" text="" defaultHref="/settings">
+              </ion-back-button>
+            </ion-buttons>
+          </div>
+
+          <div id="bottom-profile">
+            <!-- 2. -->
+            <div id="circle">
+              <div class="profile-image">
+                <ion-avatar>
+                  <img src="../../../../assets/imgs/user-profile/user-profile.png">
+                </ion-avatar>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col  size-md="12" size-xs="12" style="padding: 0 24px;">
+        <ion-text class="ion-text-center">
+          <h4>ชัยยันต์ แจ้งกระจ่าง</h4>
+        </ion-text>
+        
+        <ion-text class="">
+          <h5>อีเมล์ : <strong>chaiyun@hotmail.com</strong></h5>
+        </ion-text>
+        <ion-text class="">
+          <h5>เบอร์โทรศัพท์ : <strong>061 235 4665</strong></h5>
+        </ion-text>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-button [routerLink]="['/','profile','edit']" class="btn-edit">แก้ไข</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

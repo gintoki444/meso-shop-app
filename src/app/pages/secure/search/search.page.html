@@ -1,0 +1,50 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="secondary" routerLink="/search">
+        <ion-icon [src]="iconSearch" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center" routerLink="/home">
+      <ion-img src="../../../../assets/icon/mesoestetic logo.png" class="logo" alt="welcome"></ion-img>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/cart">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="search">
+    <div class="search-form">
+      <!-- Search form -->
+      <ion-input name="" placeholder="Search..." value="ha" clearInput></ion-input>
+    </div>
+    <div class="search-detail">
+      <div class="search-text">
+        <ion-text>
+          Showing results for <b>ha</b>
+        </ion-text>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promotion  -->
+  <ion-grid [fixed]="true" class="grid-products">
+    <ion-row class="ion-justify-content-center products" offset-md="2">
+      <ion-col size-ld="3" size-md="4" size-xs="6" class="product-list" *ngFor="let product of allProducts">
+        <ion-card [routerLink]="['/', 'product', 'detail', product.id]">
+          <ion-img *ngIf="product.images[0]" [src]="product.images[0].src"></ion-img>
+          <ion-card-content>
+            <p class="product-name">{{product.name}}</p>
+            <p class="product-price">{{product.price | number }} ฿</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

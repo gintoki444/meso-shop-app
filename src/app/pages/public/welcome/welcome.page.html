@@ -1,0 +1,124 @@
+<ion-header class="header">
+  <div class="ion-text-center logo">
+    <ion-img src="../../../../assets/icon/logo-welcome.png" alt="welcome"></ion-img>
+  </div>
+</ion-header>
+<ion-content class="container ">
+  <!-- <swiper class="swiper-welcome" #swiper [config]="config" (slideChange)="swiperSlideChanged($event)"
+    (reachEnd)="onLastSlide()">
+    <ng-template swiperSlide> -->
+      <div class="content-center animate__animated animate__fadeInUp">
+        <ion-grid [fixed]="true">
+          <ion-row class="ion-justify-content-center ion-align-items-center">
+            <ion-col size-md="5" size-lg="4" size-xs="12">
+              <div class="error-check" *ngIf="errorCheck === true">
+                <p class="ion-text-center">Please read and check the term of service and privacy policy before shopping
+                </p>
+              </div>
+              <div class="logo-container">
+                <h4 class="animate__animated animate__fadeInUp ion-text-center">
+                  <ion-text color="dark">Choose a sign in / sign up method</ion-text>
+                </h4>
+              </div>
+              <div>
+                <ion-button class="btn-login btn-facebook">
+                  <i><ion-img src="../../../../assets/icon/i-facebook.svg"></ion-img></i>
+                  Facebook
+                </ion-button>
+              </div>
+              <div>
+                <ion-button class="btn-login btn-google">
+                  <i><ion-img src="../../../../assets/icon/i-gmail.svg"></ion-img></i>
+                  Google
+                </ion-button>
+              </div>
+              <div>
+                <ion-button class="btn-login btn-apple">
+                  <i><ion-img src="../../../../assets/icon/i-apple.svg"></ion-img></i>
+                  Apple
+                </ion-button>
+              </div>
+              <div>
+                <ion-button class="btn-login btn-email" (click)="getStarted()">
+                  <i><ion-img src="../../../../assets/icon/i-mail.svg"></ion-img></i>
+                  Email
+                </ion-button>
+              </div>
+              <ion-list lines="none">
+                <ion-item>
+                  <ion-checkbox alignment="start" value="1" (click)="isChecked()"></ion-checkbox>
+                  <span>I agree to the <a href="#">Term of Service</a> and
+                    <a href="#">Privacy Policy</a>.</span>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    <!-- </ng-template>
+  </swiper> -->
+  <!-- <swiper class="swiper-welcome" #swiper [config]="config" (slideChange)="swiperSlideChanged($event)"
+    (reachEnd)="onLastSlide()">
+    <ng-template swiperSlide>
+
+
+      <h3 class="animate__animated animate__fadeInUp">
+        <ion-text color="light">Capacitor Ready</ion-text>
+      </h3>
+      <p class="animate__animated animate__fadeInUp">
+        <ion-text color="medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore optio mollitia sed sint
+          quod, repellendus illum ex, doloribus, quis ipsam officiis hic saepe commodi? Ab porro laboriosam totam iure
+          et.</ion-text>
+      </p>
+    </ng-template>
+    <ng-template swiperSlide>
+      <ion-icon name="logo-ionic" class="animate__animated animate__fadeInDown"></ion-icon>
+
+      <h3 class="animate__animated animate__fadeInUp">
+        <ion-text color="light">Ionic Start Theme</ion-text>
+      </h3>
+      <p class="animate__animated animate__fadeInUp">
+        <ion-text color="medium">Latest Ionic version starter theme. Experiencing the best of new features to start your
+          project.</ion-text>
+      </p>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <ion-icon name="logo-capacitor" class="animate__animated animate__fadeInDown"></ion-icon>
+
+      <h3 class="animate__animated animate__fadeInUp">
+        <ion-text color="light">Capacitor Ready</ion-text>
+      </h3>
+      <p class="animate__animated animate__fadeInUp">
+        <ion-text color="medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore optio mollitia sed sint
+          quod, repellendus illum ex, doloribus, quis ipsam officiis hic saepe commodi? Ab porro laboriosam totam iure
+          et.</ion-text>
+      </p>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <ion-icon name="stats-chart" class="animate__animated animate__fadeInDown"></ion-icon>
+
+      <h3 class="animate__animated animate__fadeInUp">
+        <ion-text color="light">Components Sample</ion-text>
+      </h3>
+      <p class="animate__animated animate__fadeInUp">
+        <ion-text color="medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore optio mollitia sed sint
+          quod, repellendus illum ex, doloribus, quis ipsam officiis hic saepe commodi? Ab porro laboriosam totam iure
+          et.</ion-text>
+      </p>
+    </ng-template>
+  </swiper> -->
+</ion-content>
+
+<!-- <ion-footer class="ion-padding-bottom-large animate__animated animate__fadeInUp">
+  <ion-button class="ion-margin" expand="block" size="large" color="secondary" (click)="nextSlide()"
+    *ngIf="!last_slide">
+    Next
+    <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+  </ion-button>
+  <ion-button class="ion-margin" expand="block" size="large" color="secondary" (click)="getStarted()"
+    *ngIf="last_slide">
+    Get started
+  </ion-button>
+</ion-footer> -->

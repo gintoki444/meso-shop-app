@@ -1,0 +1,62 @@
+<ion-header collapse="fade">
+  <ion-toolbar [ngClass]="!dataResolve ? 'address-active' : ''">
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">เพิ่มจังหวัด</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary">
+        <ion-icon [src]="" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid [fixed]="true" class="grid-address">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="12" size-xs="12" class="">
+
+        <!-- Add address -->
+
+        <form class="form-default">
+
+          <ion-list lines="none" class="address">
+            <div class="form-address-detail">
+              <h4>ที่อยู่</h4>
+            </div>
+            <div class="">
+              <!-- Login form -->
+              <ion-item lines="none">
+                <ion-label>จังหวัด</ion-label>
+                <ion-input color="secondary" type="text"></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>อำเภอ</ion-label>
+                <ion-input color="secondary" type="text"></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>รหัสไปรษณีย์</ion-label>
+                <ion-input color="secondary" type="number"></ion-input>
+              </ion-item>
+            </div>
+          </ion-list>
+        </form>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center">
+  <ion-button class="btn-confirm" color="secondary">
+    ยืนยัน
+  </ion-button>
+</ion-footer>

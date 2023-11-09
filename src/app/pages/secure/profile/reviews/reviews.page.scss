@@ -1,0 +1,54 @@
+:host {
+    ion-toolbar {
+        background: #D5D5D5;
+    }
+    ion-content {
+        --padding-top:20px;
+    }
+    .header-title {
+        font-weight: normal;
+        font-size: 20px;
+    }
+    ion-grid,
+    ion-row,
+    ion-col{
+        padding: 0;
+    }
+
+    .review .review-list {
+        background-color: #E9E9E9;
+        padding: 30px 24px;
+        border-bottom: solid 1px #fff;
+    }
+
+    .review .review-list .review-content .review-image img {
+        width: 58px;
+        height: 58px;
+        margin: 0 5px;
+        padding: 0;
+    }
+
+    .img-first{
+        margin-left: 0!important;
+    }
+    .img-end{
+        margin-right: 0!important;
+    }
+
+    .review-product{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        background-color: #fff;
+        margin-top: 15px;
+
+        .product-image{
+            width: 20%;
+        }
+        .product-name{
+            width: 80%;
+            padding: 0 15px;
+            font-size: 15px;
+        }
+    }
+}

@@ -1,0 +1,229 @@
+<ion-header collapse="fade">
+
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button color="secondary" routerLink="/search">
+        <ion-icon [src]="iconSearch" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center" [routerLink]="['/' ,'home']">
+      <ion-img src="../../../../assets/icon/mesoestetic logo.png" class="logo" alt="welcome"></ion-img>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/cart">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="bg-slider">
+    <swiper-container [modules]="swiperModules" [loop]="true" [autoplay]="{delay:5000}">
+      <!-- <swiper :modules="modules" :autoplay="true" :keyboard="true" :pagination="true" :scrollbar="true" :zoom="true"> -->
+      <swiper-slide>
+        <img src="assets/imgs/slider/slide-4.png" alt="">
+      </swiper-slide>
+      <swiper-slide>
+        <img src="assets/imgs/slider/slide-2.webp" alt="">
+      </swiper-slide>
+      <swiper-slide>
+        <img src="assets/imgs/slider/slide-3.webp" alt="">
+      </swiper-slide>
+      <!-- </swiper> -->
+    </swiper-container>
+  </div>
+
+  <div class="ion-padding">
+
+    <!-- Promotion  -->
+    <ion-grid [fixed]="true" class="grid-products">
+      <ion-row class="ion-justify-content-center products" offset-md="2">
+
+        <ion-col size="12" class="promotion-title">
+          <div class="promotion-name">
+            <ion-text class="">
+              <span>Mall F</span>
+              <ion-icon [src]="iconLightning" class="i-lightning"></ion-icon>
+              <span>ASH SALE</span>
+            </ion-text>
+          </div>
+        </ion-col>
+
+        <ion-col size-ld="3" size-md="4" size-xs="6" class="product-list" *ngFor="let product of allProducts">
+          <ion-card [routerLink]="['/', 'product', 'detail', product.id]">
+            <div class="product-discount" *ngIf="product.on_sale === true">
+              <div class="banner-onsale"><span class="txt-ban">ลด</span><span class="onsale"> 24%</span></div>
+            </div>
+            <ion-img *ngIf="product.images[0]" [src]="product.images[0].src"></ion-img>
+            <ion-card-content>
+              <p class="product-name">{{product.name}}</p>
+              <p class="product-price">{{product.price | number }} ฿</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- New Product  -->
+    <ion-grid [fixed]="true" class="grid-products">
+      <ion-row class="ion-justify-content-center products" offset-md="2">
+
+        <ion-col size="12" class="promotion-title">
+          <div class="promotion-name">
+            <ion-text class="">
+              <span>New Product</span>
+            </ion-text>
+          </div>
+
+          
+        </ion-col>
+
+        <ion-col size-ld="3" size-md="4" size-xs="6" class="product-list" *ngFor="let product of allProducts">
+          <ion-card [routerLink]="['/', 'product', 'detail', product.id]">
+            <div class="product-discount" *ngIf="product.on_sale === true">
+              <div class="banner-onsale"><span class="txt-ban">ลด</span><span class="onsale"> 24%</span></div>
+            </div>
+            <ion-img *ngIf="product.images[0]" [src]="product.images[0].src"></ion-img>
+            <ion-card-content>
+              <p class="product-name">{{product.name}}</p>
+              <p class="product-price">{{product.price | number }} ฿</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Product With list -->
+    <ion-grid [fixed]="true" class="grid-products">
+      <ion-row class="ion-justify-content-center products" offset-md="2">
+
+        <ion-col size="12" class="promotion-title">
+          <div class="promotion-name">
+            <ion-text class="">
+              <span>สินค้าที่คุณสนใจ</span>
+            </ion-text>
+          </div>
+
+          
+        </ion-col>
+
+        <ion-col size-ld="3" size-md="4" size-xs="6" class="product-list" *ngFor="let product of allProducts">
+          <ion-card [routerLink]="['/', 'product', 'detail', product.id]">
+            <div class="product-discount" *ngIf="product.on_sale === true">
+              <div class="banner-onsale"><span class="txt-ban">ลด</span><span class="onsale"> 24%</span></div>
+            </div>
+            <ion-img *ngIf="product.images[0]" [src]="product.images[0].src"></ion-img>
+            <ion-card-content>
+              <p class="product-name">{{product.name}}</p>
+              <p class="product-price">{{product.price | number }} ฿</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- <ion-list-header>
+      <ion-label color="tertiary">Card/List Sample</ion-label>
+    </ion-list-header> -->
+
+    <!-- Skeletons -->
+    <!-- <ion-list class="item-card-list animate__animated animate__fadeIn" *ngIf="!content_loaded">
+      <ion-item lines="none" color="primary" *ngFor="let i of [].constructor(3);">
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></h3>
+          <p><ion-skeleton-text animated style="width: 30%"></ion-skeleton-text></p>
+        </ion-label>
+      </ion-item>
+    </ion-list> -->
+
+    <!-- <ion-list class="item-card-list animate__animated animate__fadeIn" *ngIf="content_loaded" lines="none">
+      <ion-item color="primary" button detail>
+        <ion-label color="medium">
+          <h3>$12,123.99</h3>
+          <p>Deutsche Bank AG</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item color="primary" button detail>
+        <ion-label color="medium">
+          <h3>$255,000</h3>
+          <p>Bitcoin</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item color="primary" button detail>
+        <ion-label color="medium">
+          <h3>$1,500.00</h3>
+          <p>PayPal</p>
+        </ion-label>
+      </ion-item>
+    </ion-list> -->
+
+    <hr>
+
+    <!-- <ion-list-header>
+      <ion-label color="tertiary">Card/List Sample 2</ion-label>
+      <ion-button color="medium" *ngIf="content_loaded">See All <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-list-header> -->
+
+    <!-- Skeletons -->
+    <!-- <ion-list class="list-custom animate__animated animate__fadeIn" lines="full" *ngIf="!content_loaded">
+      <ion-item color="primary" *ngFor="let i of [].constructor(3);">
+        <ion-label color="medium">
+          <h3><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></h3>
+          <p><ion-skeleton-text animated style="width: 70%"></ion-skeleton-text></p>
+        </ion-label>
+        <ion-skeleton-text slot="end" animated style="width: 10%"></ion-skeleton-text>
+      </ion-item>
+    </ion-list>
+
+    <ion-list class="list-custom animate__animated animate__fadeIn" lines="full" *ngIf="content_loaded">
+      <ion-item color="primary" button detail="false">
+        <ion-avatar slot="start" class="ion-avatar-default-icon">
+          <ion-icon color="tertiary" size="large" name="cafe-outline"></ion-icon>
+        </ion-avatar>
+
+        <ion-label>
+          <h3>Coffee</h3>
+          <p>Lorem Ipsum &middot; 09.04.2023</p>
+        </ion-label>
+        <ion-badge color="danger" slot="end">- $7.50</ion-badge>
+      </ion-item>
+
+      <ion-item color="primary" button detail="false">
+        <ion-avatar slot="start" class="ion-avatar-default-icon">
+          <ion-icon color="tertiary" size="large" name="cash-outline"></ion-icon>
+        </ion-avatar>
+
+        <ion-label>
+          <h3>Salary</h3>
+          <p>Lorem Ipsum Inc. &middot; 06.03.2023</p>
+        </ion-label>
+        <ion-badge color="secondary" slot="end">$7500</ion-badge>
+      </ion-item>
+
+      <ion-item color="primary" button detail="false">
+        <ion-avatar slot="start" class="ion-avatar-default-icon">
+          <ion-icon color="tertiary" size="large" name="home-outline"></ion-icon>
+        </ion-avatar>
+
+        <ion-label>
+          <h3>Rent</h3>
+          <p>Lorem Inc. &middot; 03.02.2023</p>
+        </ion-label>
+        <ion-badge color="danger" mode="ios" slot="end">- $1800.00</ion-badge>
+      </ion-item>
+    </ion-list> -->
+
+  </div>
+
+</ion-content>

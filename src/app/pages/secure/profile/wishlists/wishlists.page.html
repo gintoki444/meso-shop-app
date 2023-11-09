@@ -1,0 +1,53 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center" routerLink="/home">
+      <ion-img src="../../../../assets/icon/mesoestetic logo.png" class="logo" alt="welcome"></ion-img>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/settings">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- New Product  -->
+  <ion-grid [fixed]="true" class="grid-products" *ngIf="products">
+    <ion-row class="ion-justify-content-center products" offset-md="2">
+
+      <ion-col size="12" class="wishlis">
+        <div class="title">
+          <ion-text class="ion-text-center">
+            <ion-icon [src]="iconWithList"></ion-icon>
+            <span>Wishlist</span>
+          </ion-text>
+        </div>
+      </ion-col>
+
+      <ion-col size-ld="3" size-md="4" size-xs="6" class="product-list" *ngFor="let product of products">
+        <ion-card [routerLink]="['/', 'product', 'detail', product.id]">
+          <div class="product-wishlist">
+            <ion-icon [src]="iconWithList"></ion-icon>
+          </div>
+          <div class="product-discount" *ngIf="product.on_sale === true">
+            <div class="banner-onsale"><span class="txt-ban">ลด</span><span class="onsale"> 24%</span></div>
+          </div>
+          <ion-img *ngIf="product.images[0]" [src]="product.images[0].src"></ion-img>
+
+          <ion-card-content>
+            <p class="product-name">{{product.name}}</p>
+            <p class="product-price">{{product.price | number }} ฿</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

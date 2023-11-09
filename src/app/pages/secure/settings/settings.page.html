@@ -1,0 +1,127 @@
+<ion-content [fullscreen]="true">
+
+  <ion-card class="ion-no-margin profile-card">
+    <ion-card-content class="profile-detail">
+      <div class="profile-image">
+        <ion-avatar>
+          <img src="../../../../assets/imgs/user-profile/user-profile.png">
+        </ion-avatar>
+
+      </div>
+      <div class="profile-name">
+        <h1>
+          <ion-text color="secondary"><strong>Britney Spears</strong></ion-text>
+        </h1>
+        <p>
+          <ion-text color="secondary" class="user-status">
+            classic member
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </ion-text>
+        </p>
+      </div>
+      <div class="profile-cart">
+        <ion-button routerLink="/cart">
+          <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+          <ion-badge class="animate__animated animate__fadeInUp">2</ion-badge>
+        </ion-button>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <div class="ion-padding">
+
+    <ion-list lines="none">
+      <!-- ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open" detail="false">
+        <ion-label>
+          <h3>ตั้งค่าบัญชี</h3>
+        </ion-label>
+      </ion-item> -->
+
+      <div *ngFor="let p of pages" class="profile">
+        <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open"
+          detail="false">
+          <ion-label>
+            <h3>{{p.title}}</h3>
+          </ion-label>
+          <ion-icon name="chevron-down-outline" *ngIf="!p.open"></ion-icon>
+          <ion-icon name="chevron-up-outline" *ngIf="p.open"></ion-icon>
+        </ion-item>
+
+        <ion-list *ngIf="p.open" class="sub-title-list">
+          <ion-item color="primary" class="sub-title" *ngFor="let sub of p.children" routerLink="/{{sub.url}}"
+            routerDirection="root" routerLinkActive="active" detail="false">
+            <ion-label>
+              <h3>{{sub.title}}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <ion-item color="primary" button detail="false" [routerLink]="['/','my-orders','completed']">
+        <ion-label>
+          <h3>การสั่งซื้อของฉัน</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+
+      <ion-item color="primary" button detail="false" [routerLink]="['/','wishlists']">
+        <ion-icon slot="start" [src]="iconWithList"></ion-icon>
+        <ion-label>
+          <h3>my wishlist</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-list lines="none" class="profile-order">
+      <div>
+
+        <ion-icon [src]="iconOrderPay" [routerLink]="['/','my-orders','pending']"></ion-icon>
+        <ion-item color="primary">
+          <ion-label>
+            <h3>ที่ต้องชำระ</h3>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <div>
+        <ion-icon [src]="iconOrderSend" [routerLink]="['/','my-orders','processing']"></ion-icon>
+        <ion-item color="primary">
+          <ion-label>
+            <h3>ที่ต้องได้รับ</h3>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <div>
+        <ion-icon [src]="iconOrderReview" [routerLink]="['/','reviews']"></ion-icon>
+        <ion-item color="primary">
+          <ion-label>
+            <h3>ให้คะแนน</h3>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
+
+    <hr class="hr-normal">
+
+    <ion-list lines="none">
+      <ion-item color="primary" button detail="false">
+        <ion-label>
+          <h3>คะแนน meso-click</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+      <ion-item color="primary" button detail="false" [routerLink]="['/','coupon']">
+        <ion-label>
+          <h3>โค้ดส่วนลดของฉัน</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+</ion-content>

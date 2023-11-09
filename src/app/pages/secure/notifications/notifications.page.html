@@ -1,0 +1,113 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">Notifications</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/cart">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid [fixed]="true" class="grid-notification">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="2" size-xs="2" class="ion-text-center">
+        <ion-icon [src]="iconSales" class="i-sales"></ion-icon>
+      </ion-col>
+      <ion-col size-md="8" size-xs="8" class="">
+        <div>
+          <ion-text class="title">โปรโมชั่นจาก Mesoesteic</ion-text>
+        </div>
+        <div>
+          <ion-text class="sub-title">Flash sale ! สินค้ามากมาย</ion-text>
+        </div>
+      </ion-col>
+      <ion-col size-md="2" size-xs="2" class="btn-next">
+        <ion-buttons>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="order-notification">
+    <ion-grid [fixed]="true">
+      <ion-row class="ion-justify-content-center" offset-md="2">
+        <ion-col>
+          <p>
+            อัปเดทคำสั่งซื้อ
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid [fixed]="true" class="grid-notification">
+      <ion-row class="ion-justify-content-center" offset-md="2" [routerLink]="['/','order', '123456']" >
+        <ion-col size-md="2" size-xs="2" class="ion-text-center">
+          <ion-icon [src]="iconCartOrder" class="i-cart-order"></ion-icon>
+        </ion-col>
+        <ion-col size-md="8" size-xs="8" class="">
+          <div>
+            <ion-text class="title">คำสั่งซื้อ : <b>#123456</b> </ion-text>
+          </div>
+          <div>
+            <ion-text class="sub-title">สถานะการจัดส่ง : <b class="success">กำลังดำเนินการจัดส่ง</b></ion-text>
+          </div>
+        </ion-col>
+        <ion-col size-md="2" size-xs="2" class="btn-next">
+          <ion-buttons>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center" offset-md="2" [routerLink]="['/','order', '456879']">
+        <ion-col size-md="2" size-xs="2" class="ion-text-center">
+          <ion-icon [src]="iconCartOrder" class="i-cart-order"></ion-icon>
+        </ion-col>
+        <ion-col size-md="8" size-xs="8" class="">
+          <div>
+            <ion-text class="title">คำสั่งซื้อ : <b>#456879</b> </ion-text>
+          </div>
+          <div>
+            <ion-text class="sub-title">สถานะการจัดส่ง : <b class="cancle">ยกเลิกคำสั่งซือ</b></ion-text>
+          </div>
+        </ion-col>
+        <ion-col size-md="2" size-xs="2" class="btn-next">
+          <ion-buttons>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-center" offset-md="2" [routerLink]="['/','order', '456812']">
+        <ion-col size-md="2" size-xs="2" class="ion-text-center">
+          <ion-icon [src]="iconCartOrder" class="i-cart-order"></ion-icon>
+        </ion-col>
+        <ion-col size-md="8" size-xs="8" class="">
+          <div>
+            <ion-text class="title">คำสั่งซื้อ : <b>#456812</b> </ion-text>
+          </div>
+          <div>
+            <ion-text class="sub-title">สถานะการจัดส่ง : <b class="process">รอการชำระเงิน</b></ion-text>
+          </div>
+        </ion-col>
+        <ion-col size-md="2" size-xs="2" class="btn-next">
+          <ion-buttons>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+</ion-content>

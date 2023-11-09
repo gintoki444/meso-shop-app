@@ -1,0 +1,98 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">Cart (<span>7</span>)</ion-text>
+    </ion-buttons>
+
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" routerLink="/cart">
+        <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid [fixed]="true" class="grid-cart">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="12" size-xs="12" class="">
+        <ion-list lines="none" class="product-list">
+          <ion-item class="check-all">
+            <label>ทั้งหมด</label> <ion-checkbox></ion-checkbox>
+          </ion-item>
+        </ion-list>
+
+        <div class="product">
+          <div class="product-image">
+            <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
+          </div>
+          <div class="product-detail">
+            <div class="product-name">
+              <ion-text>
+                ha densimatrix
+              </ion-text>
+            </div>
+            <div class="product-price">
+              <ion-text>
+                ฿ 2,820
+              </ion-text>
+            </div>
+          </div>
+          <div class="product-quantity">
+            <ion-button>-</ion-button>
+            <span>3</span>
+            <ion-button>+</ion-button>
+          </div>
+          <div class="product-check">
+            <ion-checkbox></ion-checkbox>
+          </div>
+        </div>
+        
+        <div class="product">
+          <div class="product-image">
+            <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
+          </div>
+          <div class="product-detail">
+            <div class="product-name">
+              <ion-text>
+                ha densimatrix
+              </ion-text>
+            </div>
+            <div class="product-price">
+              <ion-text>
+                ฿ 2,820
+              </ion-text>
+            </div>
+          </div>
+          <div class="product-quantity">
+            <ion-button>-</ion-button>
+            <span>3</span>
+            <ion-button>+</ion-button>
+          </div>
+          <div class="product-check">
+            <ion-checkbox></ion-checkbox>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp">
+  <div class="total-prices">
+    <ion-label>
+      Totally : <b>฿ 8,460</b>
+    </ion-label>
+  </div>
+  <ion-button class="btn-checkout" routerLink="/checkout">
+    Check out (2)
+  </ion-button>
+</ion-footer>

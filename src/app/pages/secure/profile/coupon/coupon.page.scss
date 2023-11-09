@@ -1,0 +1,78 @@
+:host {
+    --ion-color-step-600: transparent;
+
+    ion-grid,
+    ion-row,
+    ion-col {
+        padding: 0;
+    }
+    
+    ion-footer{
+        padding-top: 10px;
+        padding-bottom: 30px;
+        background: #fff;
+    }
+
+    .coupon {
+
+        .coupon-form {
+            margin: 10px 0 20px;
+            padding: 0 24px;
+
+            ion-input {
+                background-color: #E9E9E9;
+                border-radius: 50px;
+                --padding-start: 24px;
+                font-size: 18px;
+
+                ion-icon {
+                    --font-size: 24px;
+                }
+            }
+        }
+
+        .coupon-list {
+            display: flex;
+            --background: #F2F2F2;
+            background-color: #F2F2F2;
+            min-height: 119px;
+            margin-bottom: 10px;
+            padding: 12px 24px;
+            align-items: center;
+
+            .coupon-image {
+                width: 40%;
+                height: 100%;
+                text-align: center;
+                max-width: 90px;
+            }
+
+            .coupon-detail {
+                width: 65%;
+                height: 100%;
+                padding: 0 0 0 18px;
+                margin-right: auto;
+
+                .coupon-name {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
+
+                .coupon-exe-date,
+                .coupon-min-price {
+                    font-size: 14px;
+                }
+            }
+
+            .coupon-check {
+                padding-right: 10px;
+
+                ion-text{
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
+}

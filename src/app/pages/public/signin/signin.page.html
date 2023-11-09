@@ -1,0 +1,64 @@
+<ion-header class="header">
+  <div class="ion-text-center logo">
+    <ion-img src="../../../../assets/icon/logo-welcome.png" alt="welcome"></ion-img>
+  </div>
+</ion-header>
+
+<ion-content>
+
+  <div class="ion-full-height">
+    <ion-grid [fixed]="true">
+      <ion-row class="ion-justify-content-center" offset-md="2">
+        <ion-col class="fixed-screen" size-md="5" size-lg="5" size-xs="12">
+
+          <div class="header-container">
+            <h4 class="ion-text-center">
+              <ion-text color="dark">Fill up your mail and password.</ion-text>
+            </h4>
+          </div>
+
+          <!-- Login form -->
+          <form class="form-signin" [formGroup]="signin_form" (submit)="signIn()">
+            <ion-item class="" lines="none">
+              <ion-label position="floating">
+                mail
+              </ion-label>
+              <ion-input color="secondary" type="email" formControlName="email"></ion-input>
+            </ion-item>
+
+            <ion-item class="" lines="none">
+              <ion-label position="floating">
+                password
+              </ion-label>
+              <ion-input color="secondary" formControlName="password" type="password"
+                placeholder="Your password"></ion-input>
+            </ion-item>
+
+            <ion-button class="ion-margin-top width-75" type="submit" expand="block" size="large" color="secondary">
+              Sign in
+            </ion-button>
+
+            <ion-button color="secondary" fill="clear" expand="block" class="ion-button-small ion-margin-top-medium"
+              routerLink="/password-reset">
+              Forgot password?
+            </ion-button>
+          </form>
+
+          <div class="ion-text-center ion-footer">
+            <div class="logo-container">
+              <h4 class="ion-text-center">
+                <ion-text color="dark">Haven't account yet?</ion-text>
+              </h4>
+            </div>
+
+            <ion-button class="width-75" expand="block" color="tertiary" (click)="signUp()">
+              Sign up
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+</ion-content>

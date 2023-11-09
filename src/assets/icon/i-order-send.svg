@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="44" viewBox="0 0 76 44">
+  <g id="Group_259" data-name="Group 259" transform="translate(-6935 620)">
+    <rect id="Rectangle_110" data-name="Rectangle 110" width="76" height="44" transform="translate(6935 -620)" fill="none"/>
+    <g id="Group_143" data-name="Group 143" transform="translate(6367.174 -1123.904)">
+      <g id="Group_139" data-name="Group 139" transform="translate(591.977 529.887)">
+        <path id="Path_49" data-name="Path 49" d="M683.509,753.018a5.509,5.509,0,1,1,5.509-5.509A5.515,5.515,0,0,1,683.509,753.018Zm0-9.05a3.541,3.541,0,1,0,3.541,3.541A3.545,3.545,0,0,0,683.509,743.968Z" transform="translate(-678 -742)"/>
+      </g>
+      <g id="Group_140" data-name="Group 140" transform="translate(616.11 529.887)">
+        <path id="Path_50" data-name="Path 50" d="M1051.509,753.018a5.509,5.509,0,1,1,5.509-5.509A5.515,5.515,0,0,1,1051.509,753.018Zm0-9.05a3.541,3.541,0,1,0,3.541,3.541A3.545,3.545,0,0,0,1051.509,743.968Z" transform="translate(-1046 -742)"/>
+      </g>
+      <g id="Group_141" data-name="Group 141" transform="translate(605.028 534.412)">
+        <rect id="Rectangle_83" data-name="Rectangle 83" width="9.116" height="1.967" transform="translate(0 0)"/>
+      </g>
+      <g id="Group_142" data-name="Group 142" transform="translate(585.94 515)">
+        <path id="Path_51" data-name="Path 51" d="M633.555,536.379H629.03v-1.967h2.558v-4.656c0-1.95-1.312-3.943-10.831-5.322l-.376-.054-.242-.293c-.059-.071-5.932-7.118-10.586-7.118H597.486c-1.468,0-2.019,0-9.08,7.582a5,5,0,0,0-.5,2.754c.048,1.839.281,5.425.394,7.108h1.836v1.967H586.47l-.065-.914c-.016-.229-.4-5.625-.461-8.11-.072-2.732.785-3.875.958-4.076l.027-.03c7.111-7.638,8.115-8.248,10.557-8.248h12.067c5.027,0,10.6,6.1,11.855,7.541,4.5.674,7.5,1.53,9.4,2.685a5.049,5.049,0,0,1,2.744,4.53Z" transform="translate(-585.94 -515)"/>
+      </g>
+      <g id="Group_150" data-name="Group 150" transform="translate(387.944 -23.096)">
+        <path id="Path_58" data-name="Path 58" d="M5222,541h-9.114" transform="translate(-5024)" fill="none" stroke="#000" stroke-width="1.5"/>
+        <path id="Path_59" data-name="Path 59" d="M5222,541h-9.114" transform="translate(-5031 6)" fill="none" stroke="#000" stroke-width="1.5"/>
+        <path id="Path_60" data-name="Path 60" d="M5222,541h-9.114" transform="translate(-5030 13)" fill="none" stroke="#000" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

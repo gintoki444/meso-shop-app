@@ -1,0 +1,40 @@
+<ion-tabs>
+
+  <ion-tab-bar color="primary" slot="bottom">
+
+    <ion-tab-button tab="home">
+      <ion-icon [src]="iconHome"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="shop">
+      <ion-icon [src]="iconShop"></ion-icon>
+      <ion-label>Shop</ion-label>
+    </ion-tab-button>
+
+    <!-- Placeholder for fab button -->
+    <!-- <ion-tab-button class="ion-tab-button-placeholder">
+    </ion-tab-button> -->
+
+    <ion-tab-button tab="notifications">
+      <ion-icon [src]="iconNotification"></ion-icon>
+      <ion-label>
+        Notification
+      </ion-label>
+      <ion-badge>3</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings">
+      <ion-icon [src]="iconAccount"></ion-icon>
+      <ion-label>Me</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+  <!-- <ion-fab class="ion-fab-custom" vertical="bottom" horizontal="center" slot="fixed" (click)="selectAction()">
+    <ion-fab-button color="dark">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+</ion-tabs>

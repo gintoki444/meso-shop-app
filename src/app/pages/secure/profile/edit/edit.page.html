@@ -1,0 +1,100 @@
+<!-- <ion-header collapse="fade" [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary" defaultHref="/profile">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title color="light">
+      Profile
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <form [formGroup]="edit_profile_form" (ngSubmit)="submit()">
+        <ion-button color="secondary" type="submit">
+          Done
+        </ion-button>
+      </form>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content [fullscreen]="true">
+
+  <ion-card class="ion-no-margin profile-card">
+    <ion-card-content>
+      <ion-avatar>
+        <img src="../../../../assets/imgs/user-profile/user-profile.png">
+      </ion-avatar>
+      <!-- 
+      <h1>
+        <ion-text color="tertiary"><strong>John Doe</strong></ion-text>
+      </h1>
+
+      <p>
+        <ion-text color="medium">john.doe@mail.com</ion-text>
+      </p> -->
+
+      <ion-button class="btn-upload" (click)="updateProfilePicture()">
+        แก้ไขรูป
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- <div class="ion-padding">
+    <form class="form-default" [formGroup]="edit_profile_form" (submit)="submit()">
+
+      <ion-item color="dark" class="animate__animated animate__fadeInUp">
+        <ion-label position="floating">
+          First name
+        </ion-label>
+        <ion-input color="secondary" formControlName="name_first" placeholder="First name"></ion-input>
+      </ion-item>
+
+      <ion-item color="dark" class="animate__animated animate__fadeInUp">
+        <ion-label position="floating">
+          Last name
+        </ion-label>
+        <ion-input color="secondary" formControlName="name_last" placeholder="Last name"></ion-input>
+      </ion-item>
+
+      <ion-button color="secondary" type="submit">
+        Done
+      </ion-button>
+
+    </form>
+
+  </div> -->
+
+  <form class="form" [formGroup]="edit_profile_form" (submit)="submit()">
+    <ion-card class="ion-no-margin profile-card">
+      <ion-card-content style="text-align: left;">
+        <div class="form-title">
+          <ion-text><strong>Edit information</strong></ion-text>
+        </div>
+        <div class="form-content">
+          <div class="form-input">
+            <ion-label>Name</ion-label>
+            <ion-input placeholder="ชื่อ-นามสกุล" type="text" formControlName="full_name"></ion-input>
+          </div>
+          <div class="form-input">
+            <ion-label>e-mail address</ion-label>
+            <ion-input placeholder="e-mail" type="email" formControlName="email"></ion-input>
+          </div>
+          <div class="form-input">
+            <ion-label>phone number</ion-label>
+            <ion-input placeholder="เบอร์โทรศัพท์" formControlName="tel_phone"></ion-input>
+          </div>
+
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-button class="btn-confirm" color="secondary" type="submit">
+      ยืนยัน
+    </ion-button>
+
+  </form>
+</ion-content>

@@ -1,0 +1,65 @@
+:host {
+    ion-content {
+        --background: #D5D5D5;
+    }
+    
+    ion-grid,
+    ion-row,
+    ion-col{
+        padding: 0;
+    }
+    .profile-image {
+        justify-content: center;
+        display: flex;
+        
+        ion-avatar {
+            width: 110px;
+            height: 110px;
+        }
+    }
+    ion-col{
+        background: #fff;
+    }
+}
+
+
+
+#container{
+    width: 100%;
+    float: left;
+    padding: 0;
+    margin: 0 auto;
+    position:relative;
+}
+
+#top-profile{
+    width: 100%;
+    height: 82px;
+    padding: 15px 24px;
+    background: #D5D5D5;
+    
+}
+
+#bottom-profile{
+    width: 100%;
+    height: 60px;
+    background: #fff;
+}
+
+#circle{
+    width: 110px;
+    height: 110px;
+    position:absolute;
+    left:0;
+    top:22px;
+    bottom:0;
+    right:0;
+    margin:auto;
+}
+
+.btn-edit {
+    --padding: 10px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    font-size: 20px;
+}
