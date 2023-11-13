@@ -30,7 +30,7 @@ export class PaymentsPage implements OnInit {
     // Open filter modal
     const modal = await this.modalController.create({
       component: FilterPage,
-      swipeToClose: true,
+      // swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl
     });
 

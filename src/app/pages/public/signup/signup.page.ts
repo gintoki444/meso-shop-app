@@ -26,6 +26,8 @@ export class SignupPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isLoggedIn();
+    
     // Setup form
     this.signup_form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
@@ -56,13 +58,20 @@ export class SignupPage implements OnInit {
       // Proceed with loading overlay
       const loading = await this.loadingController.create({
         cssClass: 'default-loading',
-        message: '<p>Signing up...</p><span>Please be patient.</span>',
+        message: 'Signing up... Please be patient.',
         spinner: 'crescent'
       });
       await loading.present();
 
       // TODO: Add your sign up logic
       // ...
+      this.authService.signUp(this.signup_form.value.email, this.signup_form.value.password).then(data => {
+        console.log("data", data)
+        this.router.navigateByUrl('/home');
+        loading.dismiss();
+      }).catch(e => {
+        this.presentErrorToast("Sigup failed. Please check your credentials.");
+      })
 
       // Success messages + routing
       this.toastService.presentToast('Welcome!', 'Lorem ipsum', 'top', 'success', 2000);
@@ -73,6 +82,38 @@ export class SignupPage implements OnInit {
 
   signIn(){
     this.router.navigateByUrl('/signin');
+  }
+
+  // Function to display an error toast message
+  async presentErrorToast(message: string) {
+    this.loadingController.dismiss();
+    this.toastService.presentToast('Error', message, 'top', 'danger', 3000);
+  }
+
+  async isLoggedIn() {
+    try {
+      // Proceed with loading overlay
+      const loading = await this.loadingController.create({
+        cssClass: 'default-loading',
+        message: 'Loading....',
+        spinner: 'crescent'
+      });
+
+      await loading.present();
+      const val = await this.authService.getSession();
+
+      if (!val) {
+        this.loadingController.dismiss();
+
+      }else{
+        this.loadingController.dismiss();
+        this.router.navigateByUrl('/home');
+        
+      }
+    } catch (e) {
+      this.loadingController.dismiss();
+      console.log(e)
+    }
   }
 
 }

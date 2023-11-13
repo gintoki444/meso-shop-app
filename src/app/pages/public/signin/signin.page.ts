@@ -6,8 +6,6 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
 
 
-import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
-
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
@@ -20,7 +18,6 @@ export class SigninPage implements OnInit {
   signin_form: FormGroup;
   submit_attempt: boolean = false;
 
-  signin_data: any;
 
   constructor(
     private authService: AuthService,
@@ -28,10 +25,10 @@ export class SigninPage implements OnInit {
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private router: Router,
-    private WC: WoocommerceService,
   ) { }
 
   ngOnInit() {
+    this.isLoggedIn();
 
     // Setup form
     this.signin_form = this.formBuilder.group({
@@ -39,19 +36,43 @@ export class SigninPage implements OnInit {
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
 
-    // this.signin_form.get('email').setValue('onlineuser@gmail.com');
-    // this.signin_form.get('password').setValue('Der@12345');
-    this.signin_form.get('email').setValue('');
-    this.signin_form.get('password').setValue('');
+    this.signin_form.get('email').setValue('onlineuser@gmail.com');
+    this.signin_form.get('password').setValue('Der@12345');
+    // this.signin_form.get('email').setValue('');
+    // this.signin_form.get('password').setValue('');
   }
 
+  async isLoggedIn() {
+    try {
+      // Proceed with loading overlay
+      const loading = await this.loadingController.create({
+        cssClass: 'default-loading',
+        message: 'Loading....',
+        spinner: 'crescent'
+      });
+
+      await loading.present();
+      const val = await this.authService.getSession();
+
+      if (!val) {
+        this.loadingController.dismiss();
+
+      }else{
+        this.loadingController.dismiss();
+        this.router.navigateByUrl('/home');
+        
+      }
+    } catch (e) {
+      this.loadingController.dismiss();
+      console.log(e)
+    }
+  }
 
 
   // Sign in
   async signIn() {
 
     this.submit_attempt = true;
-    this.signin_data = '';
 
     // If email or password empty
     if (this.signin_form.value.email == '' || this.signin_form.value.password == '') {
@@ -62,37 +83,47 @@ export class SigninPage implements OnInit {
       // Proceed with loading overlay
       const loading = await this.loadingController.create({
         cssClass: 'default-loading',
-        message: '<p>Signing in...</p><span>Please be patient.</span>',
+        message: 'Signing in...Please be patient.',
         spinner: 'crescent'
       });
       await loading.present();
 
 
       // TODO: Add your sign in logic
-      try {
-        const response = await this.WC.getLogin(this.signin_form.value.email, this.signin_form.value.password).toPromise();
-        if (response.token != null) {
-          setTimeout(async () => {
-            // Sign in success
-            await this.router.navigate(['/home']);
-            loading.dismiss();
-          }, 300);
-        }
-      } catch (e) {
-
+      this.authService.signIn(this.signin_form.value.email, this.signin_form.value.password).then(data => {
+        console.log("data", data)
+        this.router.navigateByUrl('/home');
+        loading.dismiss();
+      }).catch(e => {
         this.presentErrorToast("Login failed. Please check your credentials.");
-      }
+      })
+
+
+      // try {
+      //   const response = await this.WC.getLogin(this.signin_form.value.email, this.signin_form.value.password).toPromise();
+      //   if (response.token != null) {
+      //     setTimeout(async () => {
+      //       // Sign in success
+      //       await this.router.navigate(['/home']);
+      //       loading.dismiss();
+      //     }, 300);
+      //   }
+      // } catch (e) {
+
+      //   this.presentErrorToast("Login failed. Please check your credentials.");
+      // }
     }
   }
-
-  signUp() {
-    this.router.navigateByUrl('/signup');
-  }
-
 
   // Function to display an error toast message
   async presentErrorToast(message: string) {
     this.loadingController.dismiss();
     this.toastService.presentToast('Error', message, 'top', 'danger', 3000);
+  }
+
+
+
+  signUp() {
+    this.router.navigateByUrl('/signup');
   }
 }

@@ -80,7 +80,7 @@ export class WelcomePage implements AfterContentChecked {
 
     // Navigate to /home
     if(this.checkedItems === true ){
-      this.router.navigateByUrl('/signup');
+      this.router.navigateByUrl('/signin');
     }else{
       this.errorCheck = true;
     }

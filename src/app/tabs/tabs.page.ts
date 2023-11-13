@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
+import { StorageService } from '../services/storage/storage.service';
+import { AuthService } from '../services/auth/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-tabs',
@@ -15,9 +19,17 @@ export class TabsPage {
   iconNotification = '../../../../assets/icon/i-notification.svg';
   iconAccount = '../../../../assets/icon/i-account.svg';
 
+  isLogin:any;
+
   constructor(
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private authService: AuthService,
+    private rout: Router,
   ) {}
+  
+  ngOnInit() {
+    this.checkLogin();
+  }
 
   // Select action
   async selectAction() {
@@ -53,5 +65,11 @@ export class TabsPage {
         }]
     });
     await actionSheet.present();
+  }
+  async checkLogin(){
+    const isLogin = await this.authService.getSession();
+    if(!isLogin){
+      this.rout.navigateByUrl('/signin')
+    }
   }
 }

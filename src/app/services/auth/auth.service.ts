@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { WoocommerceService } from '../woocommerces/woocommerce.service';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,60 +11,41 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private WC: WoocommerceService
+    private WC: WoocommerceService,
+    private storage: StorageService,
 
   ) { }
 
   // Get user session
   async getSession() {
-
-    // ...
-    // put auth session here
-    // ...
-
-    // Sample only - remove this after real authentication / session
-    let session = {
-      email: 'john.doe@mail.com'
-    }
-
-    return false;
-    // return session;
+    return (await this.storage.getStorage('uid')).value;
   }
 
   // Sign in
   async signIn(email: string, password: string) :Promise<any> {
-
-    // Sample only - remove this after real authentication / session
-    // let sample_user = {
-    //   email: email,
-    //   password: password
-    // }
-
-    // return sample_user;
+    const response = await this.WC.getLogin(email,password).toPromise();
+    const userdata = await this.WC.getUserData(email,password).toPromise();
+    await this.storage.setStorage('userID',userdata[0].id);
+    console.log('userdata :', userdata);
+    console.log('response :', response);
+    return await this.storage.setStorage('uid',response.token);
   }
 
   // Sign up
-  async signUp(email: string, password: string) {
-    // Sample only - remove this after real authentication / session
-    let sample_user = {
-      email: email,
-      password: password
-    }
-
-    return sample_user;
+  async signUp(email: string, password: string) :Promise<any> {
+    const response = await this.WC.getLogin(email,password).toPromise();
+    const userdata = await this.WC.postRegister(email,password).toPromise();
+    await this.storage.setStorage('userID',userdata.id);
+    return await this.storage.setStorage('uid',response.token);
   }
 
-  setUserData(useData) {
+  // setUserData(useData) {
+  // }
 
-  }
+  resetPassword(){}
 
   // Sign out
   async signOut() {
-    // ...
-    // clean subscriptions / local storage etc. here
-    // ...
-
-    // Navigate to sign-in
     this.router.navigateByUrl('/signin');
   }
 }

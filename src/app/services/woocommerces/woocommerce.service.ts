@@ -18,6 +18,8 @@ export class WoocommerceService {
   allProducts: any;
   allCategories: any;
   loginData: any;
+  userData:any;
+  registerData: any;
 
   // get All product
   getAllProducts() {
@@ -60,5 +62,32 @@ export class WoocommerceService {
     }
     );
     return this.loginData;
+  }
+
+  // get user Login
+  postRegister(username: any, password: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}&email=${username}&username=${username}&password=${password}`;
+    this.registerData = this.http.post(
+      this.apiURL, {
+        username: username,
+        email: username,
+        password: password,
+      }
+    );
+    return this.registerData;
+  }
+
+  // get user data
+  getUserData(username: any, password: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}&email=${username}&password=${password}`;
+    this.userData = this.http.get(this.apiURL);
+    return this.userData;
+  }
+
+  // get user data
+  getUserDataByID(id:any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.userData = this.http.get(this.apiURL);
+    return this.userData;
   }
 }

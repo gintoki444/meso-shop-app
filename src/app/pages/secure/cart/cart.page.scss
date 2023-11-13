@@ -44,13 +44,15 @@
                 display: flex;
 
                 ion-button {
-                    font-size: 20px;
+                    font-size: 21px;
                     height: 34px;
                     width: 35px;
                     margin: 0;
+                    min-height: auto;
                     --background: #D8D8D8;
                     --border-radius: 50px;
                     --box-shadow: none;
+                    --padding-bottom: 3px;
                 }
 
                 span {
