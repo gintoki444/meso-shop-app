@@ -1,9 +1,10 @@
 import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angular/core';
 
-
 //import woo
 import { ActivatedRoute, Router } from '@angular/router';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
+
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-my-orders',
@@ -17,6 +18,7 @@ export class MyOrdersPage implements AfterViewInit {
   iconCartPending = '../../../../assets/icon/i-cart-pending.svg';
   iconCartProcessing = '../../../../assets/icon/i-cart-processing.svg';
 
+  cartItem: any;
   activeID: any;
   activeIndex: number = 0;
   lineStyles: { [key: string]: string } = {};
@@ -77,6 +79,7 @@ export class MyOrdersPage implements AfterViewInit {
     private router: Router,
     private WC: WoocommerceService,
     private activatedRoute: ActivatedRoute,
+    private cartServices: CartService,
   ) { }
 
 
@@ -85,8 +88,15 @@ export class MyOrdersPage implements AfterViewInit {
 
 
   ngAfterViewInit() {
-
+    this.Cart();
     this.getOrderData();
+  }
+
+  
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
   }
 
   // Set line position

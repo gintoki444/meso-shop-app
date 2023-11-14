@@ -22,7 +22,7 @@
       <div class="profile-cart">
         <ion-button routerLink="/cart">
           <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
-          <ion-badge class="animate__animated animate__fadeInUp">2</ion-badge>
+          <ion-badge class="animate__animated animate__fadeInUp" *ngIf="cartItem">{{cartItem}}</ion-badge>
         </ion-button>
       </div>
 

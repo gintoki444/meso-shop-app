@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,6 +14,7 @@ export class SettingsPage implements OnInit {
   iconOrderSend = '../../../../assets/icon/i-order-send.svg';
   iconOrderReview = '../../../../assets/icon/i-order-review.svg';
 
+  cartItem: any;
   pages = [
     {
       title: 'ตั้งค่าบัญชี',
@@ -34,15 +36,22 @@ export class SettingsPage implements OnInit {
   ]
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private cartServices: CartService,
   ) { }
 
   ngOnInit() {
+    this.Cart();
   }
 
   // Sign out
   signOut() {
     this.authService.signOut();
+  }
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
   }
 
 }

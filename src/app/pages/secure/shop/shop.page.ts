@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-shop',
@@ -19,12 +20,15 @@ export class ShopPage implements OnInit {
 
   constructor(
     private WC: WoocommerceService,
+    private cartServices: CartService,
   )  {
   }
   allProducts: any = [];
+  cartItem: any;
 
   ngOnInit() {
 
+    this.Cart();
     this.shopPageProducts();
   }
 
@@ -40,4 +44,9 @@ export class ShopPage implements OnInit {
     });
   }
 
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
+  }
 }

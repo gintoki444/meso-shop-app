@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import woo
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-wishlists',
@@ -28,13 +29,23 @@ export class WishlistsPage implements OnInit {
   iconWithList = '../../../../assets/icon/i-with-list-active.svg';
   iconCart = '../../../../assets/icon/i-cart.svg';
 
+  cartItem: any;
+
   constructor(
     private WC: WoocommerceService,
+    private cartServices: CartService,
   ) { }
 
   ngOnInit() {
 
+    this.Cart();
     this.wishlistProducts();
+  }
+
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
   }
 
   wishlistProducts() {

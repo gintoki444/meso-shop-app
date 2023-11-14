@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { StorageService } from '../services/storage/storage.service';
 import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 

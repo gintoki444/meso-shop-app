@@ -96,7 +96,7 @@ export class ProductDetailPage implements OnInit {
         this.product.quantity += 1;
         this.calculate();
       }
-      // this.btnAddtocart = true;
+      this.btnAddtocart = true;
     } catch (e) {
       console.log(e);
     }
@@ -171,7 +171,7 @@ export class ProductDetailPage implements OnInit {
 
   async viewCart() {
     if (this.cartData.product) await this.saveToCart();
-    // this.router.navigate(['/', 'cart']);
+    this.router.navigate(['/', 'cart']);
   }
 
 }

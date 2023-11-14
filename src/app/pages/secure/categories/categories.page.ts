@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 
 //import woo
@@ -15,6 +16,7 @@ export class CategoriesPage implements OnInit {
   
   iconSearch = '../../../../assets/icon/i-search.svg';
   iconCart = '../../../../assets/icon/i-cart.svg';
+  cartItem: any;
 
   // รับค่า
   getCategories: any;
@@ -22,12 +24,20 @@ export class CategoriesPage implements OnInit {
 
   constructor(
     private WC: WoocommerceService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private cartServices: CartService,
   ) { }
 
   ngOnInit() {
+    this.Cart();
     this.categoriesDetail();
     this.productCategories();
+  }
+
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
   }
 
   categoriesDetail() {

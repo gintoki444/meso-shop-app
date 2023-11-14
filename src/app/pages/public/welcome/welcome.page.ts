@@ -2,6 +2,8 @@ import { AfterContentChecked, ChangeDetectorRef, Component, ViewChild, ViewEncap
 // import { SwiperComponent } from 'swiper/angular';
 // import SwiperCore, { SwiperOptions, Pagination } from 'swiper';
 // SwiperCore.use([Pagination]);
+import { LoadingController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { Router } from '@angular/router';
 
@@ -13,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class WelcomePage implements AfterContentChecked {
   // Checkbox
-  checkedItems:Boolean = false;
+  checkedItems: Boolean = false;
   errorCheck: Boolean = false;
 
 
@@ -31,11 +33,13 @@ export class WelcomePage implements AfterContentChecked {
   // }
 
   constructor(
+    private authService: AuthService,
+    private loadingController: LoadingController,
     private router: Router,
     private ref: ChangeDetectorRef
   ) {
-
-   }
+    this.isLoggedIn();
+  }
 
   ngAfterContentChecked(): void {
 
@@ -46,11 +50,11 @@ export class WelcomePage implements AfterContentChecked {
 
 
   // Checkbox Validate policy
-  isChecked(){
-    if(this.checkedItems === false){
+  isChecked() {
+    if (this.checkedItems === false) {
       this.checkedItems = true;
       this.errorCheck = false;
-    }else{
+    } else {
       this.checkedItems = false;
     }
   }
@@ -79,10 +83,36 @@ export class WelcomePage implements AfterContentChecked {
   async getStarted() {
 
     // Navigate to /home
-    if(this.checkedItems === true ){
+    if (this.checkedItems === true) {
       this.router.navigateByUrl('/signin');
-    }else{
+    } else {
       this.errorCheck = true;
+    }
+  }
+
+  async isLoggedIn() {
+    try {
+      // Proceed with loading overlay
+      const loading = await this.loadingController.create({
+        cssClass: 'default-loading',
+        message: 'Loading....',
+        spinner: 'crescent'
+      });
+
+      await loading.present();
+      const val = await this.authService.getSession();
+
+      if (!val) {
+        this.loadingController.dismiss();
+
+      } else {
+        this.loadingController.dismiss();
+        this.router.navigateByUrl('/home');
+
+      }
+    } catch (e) {
+      this.loadingController.dismiss();
+      console.log(e)
     }
   }
 

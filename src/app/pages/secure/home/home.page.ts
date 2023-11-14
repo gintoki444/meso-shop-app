@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +13,21 @@ export class HomePage implements OnInit {
   iconSearch = '../../../../assets/icon/i-search.svg';
   iconCart = '../../../../assets/icon/i-cart.svg';
 
+  cartItem: any;
   swiperModules = [IonicSlides];
-
   content_loaded: boolean = false;
-
-  constructor(private WC: WoocommerceService) {}
   allProducts: any = [];
+  constructor(
+    private WC: WoocommerceService,
+    private cartServices: CartService,
+    ) {
+      
+    this.Cart();
+    }
+  
 
   ngOnInit() {
+
     this.homePageProducts();
     // Fake timeout
     setTimeout(() => {
@@ -37,5 +45,11 @@ export class HomePage implements OnInit {
       this.allProducts = data;
       console.log('All Products: ', this.allProducts);
     });
+  }
+
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
   }
 }

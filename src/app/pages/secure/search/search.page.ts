@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 
 //import woo
@@ -17,12 +18,15 @@ export class SearchPage implements OnInit {
   product: any;
   productImg: any;
   allProducts: any = [];
+  cartItem: any;
 
   constructor(
     private WC: WoocommerceService,
+    private cartServices: CartService,
   ) {}
 
   ngOnInit() {
+    this.Cart();
     this.searchProducts();
   }
 
@@ -36,6 +40,12 @@ export class SearchPage implements OnInit {
       this.allProducts = data;
       console.log('All Products: ', this.allProducts);
     });
+  }
+
+  async Cart(){
+    let cartData = JSON.parse(await this.cartServices.getCart());
+    this.cartItem = cartData.totalItem
+    console.log('cartItem :', this.cartItem)
   }
 
 }

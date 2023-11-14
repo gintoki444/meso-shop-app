@@ -12,7 +12,7 @@
     <ion-buttons slot="primary">
       <ion-button color="secondary" routerLink="/cart">
         <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
-        <ion-badge>2</ion-badge>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="cartItem">{{cartItem}}</ion-badge>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
