@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-shop',
@@ -21,6 +22,7 @@ export class ShopPage implements OnInit {
   constructor(
     private WC: WoocommerceService,
     private cartServices: CartService,
+    private cdr: ChangeDetectorRef,
   )  {
   }
   allProducts: any = [];
@@ -28,7 +30,7 @@ export class ShopPage implements OnInit {
 
   ngOnInit() {
 
-    this.Cart();
+    this.getCart();
     this.shopPageProducts();
   }
 
@@ -44,9 +46,14 @@ export class ShopPage implements OnInit {
     });
   }
 
-  async Cart(){
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+  
+  getCart() {
+    this.cartServices.cart.subscribe((cart) => {
+      if(cart) {
+        this.cartItem = cart.totalItem;
+        this.cdr.detectChanges(); // Manually trigger change detection
+      }
+    });
+    this.cartServices.getCartData();
   }
 }

@@ -61,6 +61,23 @@ ion-col {
     }
 }
 
+.address.add{
+    justify-content: space-around;
+    --ion-background-color: #F2F2F2;
+    border-radius: 0;
+    min-height: 92px;
+    padding: 15px!important;
+
+    h2{
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0 0 10px;
+    }
+    ion-text{
+        font-size: 14px;
+    }
+}
+
 .product {
     display: flex;
     --background: #F2F2F2;
@@ -83,6 +100,11 @@ ion-col {
         padding: 0 18px;
         margin-right: auto;
 
+        .product-name {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
         .product-price {
             margin-top: 10px;
             font-weight: bold;

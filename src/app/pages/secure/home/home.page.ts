@@ -3,6 +3,8 @@ import { IonicSlides } from '@ionic/angular';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 import { CartService } from 'src/app/services/cart/cart.service';
 
+import { ChangeDetectorRef } from '@angular/core';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -20,14 +22,12 @@ export class HomePage implements OnInit {
   constructor(
     private WC: WoocommerceService,
     private cartServices: CartService,
-    ) {
-      
-    this.Cart();
-    }
-  
+    private cdr: ChangeDetectorRef,
+  ) { }
+
 
   ngOnInit() {
-
+    this.getCart();
     this.homePageProducts();
     // Fake timeout
     setTimeout(() => {
@@ -36,20 +36,18 @@ export class HomePage implements OnInit {
   }
 
   homePageProducts() {
-    // add cart service
-    // this.cartService.cartItem.subscribe((data) => {
-    //   this.cartItems = data;
-    // });
-
     this.WC.getAllProducts().subscribe((data: any) => {
       this.allProducts = data;
-      console.log('All Products: ', this.allProducts);
     });
   }
 
-  async Cart(){
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+  getCart() {
+    this.cartServices.cart.subscribe((cart) => {
+      if(cart) {
+        this.cartItem = cart.totalItem;
+        this.cdr.detectChanges(); // Manually trigger change detection
+      }
+    });
+    this.cartServices.getCartData();
   }
 }

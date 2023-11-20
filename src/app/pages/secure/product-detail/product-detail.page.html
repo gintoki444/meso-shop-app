@@ -17,7 +17,7 @@
     <ion-buttons slot="primary">
       <ion-button color="secondary" routerLink="/cart">
         <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
-        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="storeData.totalItem">{{storeData.totalItem}}</ion-badge>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="cartItem > 0">{{cartItem}}</ion-badge>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -186,7 +186,7 @@
   <ion-button class="ion-margin" color="tertiary">
     Buy now
   </ion-button>
-  <ion-button class="ion-margin btn-addtocart" *ngIf="btnAddtocart == false" color="secondary" (click)="addToCart()">
+  <ion-button class="ion-margin btn-addtocart" *ngIf="btnAddtocart == false" color="secondary" (click)="addToCart(product)">
     Add to cart
   </ion-button>
   <ion-button class="ion-margin btn-viewcart" color="secondary" *ngIf="btnAddtocart == true" (click)="viewCart()">

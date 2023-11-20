@@ -6,12 +6,13 @@
     </ion-buttons>
 
     <ion-buttons class="ion-text-center">
-      <ion-text class="header-title">Cart (<span>7</span>)</ion-text>
+      <ion-text class="header-title">Cart<span *ngIf="cartItem"> ( {{cartItem}} )</span></ion-text>
     </ion-buttons>
 
     <ion-buttons slot="primary">
       <ion-button color="secondary" routerLink="/cart">
         <ion-icon [src]="iconCart" class="icon-search"></ion-icon>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="cartItem">{{cartItem}}</ion-badge>
       </ion-button>
     </ion-buttons>
 
@@ -20,79 +21,63 @@
 
 <ion-content>
 
-  <ion-grid [fixed]="true" class="grid-cart">
+  <ion-grid [fixed]="true" class="grid-cart" *ngIf="cartData">
     <ion-row class="ion-justify-content-center" offset-md="2">
       <ion-col size-md="12" size-xs="12" class="">
         <ion-list lines="none" class="product-list">
           <ion-item class="check-all">
-            <label>ทั้งหมด</label> <ion-checkbox></ion-checkbox>
+            <label>ทั้งหมด</label> <ion-checkbox [(ngModel)]="selectAll" (ionChange)="toggleAllCheckboxes()"></ion-checkbox>
           </ion-item>
         </ion-list>
 
-        <div class="product">
-          <div class="product-image">
-            <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
+        <div class="product" *ngFor="let products of checkboxes">
+          <div class="product-image" [routerLink]="['product','detail',products.product.id]">
+            <ion-img [src]="products.product.images[0].src"></ion-img>
           </div>
           <div class="product-detail">
-            <div class="product-name">
+            <div class="product-name" [routerLink]="['product','detail',products.product.id]">
               <ion-text>
-                ha densimatrix
+                {{products.product.name}}
               </ion-text>
             </div>
             <div class="product-price">
               <ion-text>
-                ฿ 2,820
+                <span class="onsale" *ngIf="products.product.sale_price">฿ {{products.product.regular_price | number }}</span> 
+                <strong>฿ {{products.product.price | number }}</strong>
               </ion-text>
             </div>
           </div>
           <div class="product-quantity">
-            <ion-button>-</ion-button>
-            <span>3</span>
-            <ion-button>+</ion-button>
+            <ion-button (click)="quantityMinus(products.product)">-</ion-button>
+            <span>{{products.product.quantity}}</span>
+            <ion-button (click)="quantityPlus(products.product)">+</ion-button>
           </div>
           <div class="product-check">
-            <ion-checkbox></ion-checkbox>
-          </div>
-        </div>
-        
-        <div class="product">
-          <div class="product-image">
-            <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
-          </div>
-          <div class="product-detail">
-            <div class="product-name">
-              <ion-text>
-                ha densimatrix
-              </ion-text>
-            </div>
-            <div class="product-price">
-              <ion-text>
-                ฿ 2,820
-              </ion-text>
-            </div>
-          </div>
-          <div class="product-quantity">
-            <ion-button>-</ion-button>
-            <span>3</span>
-            <ion-button>+</ion-button>
-          </div>
-          <div class="product-check">
-            <ion-checkbox></ion-checkbox>
+            <ion-checkbox [(ngModel)]="products.checked" (ionChange)="updateCheckboxAll()"></ion-checkbox>
           </div>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 
+  <ion-grid [fixed]="true" class="grid-cart" *ngIf="!cartData">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col class="ion-text-center">
+        <p>ไม่มีสินค้าในตะกร้า</p>
+        <ion-button color="secondary" class="btn-checkout" routerLink="/shop">Shop now</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
-<ion-footer class="footrt-cart animate__animated animate__fadeInUp">
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp" *ngIf="totalProducts">
   <div class="total-prices">
     <ion-label>
-      Totally : <b>฿ 8,460</b>
+      Totally : <b>฿ {{totalPrice | number }} </b>
     </ion-label>
   </div>
-  <ion-button class="btn-checkout" routerLink="/checkout">
-    Check out (2)
+  <ion-button class="btn-checkout" (click)="checkout()">
+    Check out 
+    <span>( {{totalProducts}} )</span>
   </ion-button>
 </ion-footer>

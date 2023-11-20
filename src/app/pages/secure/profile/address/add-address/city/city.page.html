@@ -26,26 +26,46 @@
 
         <!-- Add address -->
 
-        <form class="form-default">
+        <form class="form-default" [formGroup]="address_form" (submit)="updateAddress()">
 
           <ion-list lines="none" class="address">
             <div class="form-address-detail">
               <h4>ที่อยู่</h4>
             </div>
             <div class="">
-              <!-- Login form -->
+              <!-- address form -->
+              <ion-item lines="none">
+                <ion-label>ที่อยู่</ion-label>
+                <ion-input color="secondary" formControlName="address_1"  name="address_1" type="text"></ion-input>
+              </ion-item>
+              <div *ngIf="!address_form.controls.address_1.valid && address_form.controls.address_1.dirty " class="validator-error">
+                <ion-text color="danger">กรุณาเพิ่มที่อยู่</ion-text>
+              </div>
+
               <ion-item lines="none">
                 <ion-label>จังหวัด</ion-label>
-                <ion-input color="secondary" type="text"></ion-input>
+                <ion-input color="secondary" formControlName="city"  name="city" type="text"></ion-input>
               </ion-item>
+              <div *ngIf="!address_form.controls.city.valid && address_form.controls.city.dirty" class="validator-error">
+                <ion-text color="danger">กรุณาเพิ่มจังหวัด</ion-text>
+              </div>
+
               <ion-item lines="none">
                 <ion-label>อำเภอ</ion-label>
-                <ion-input color="secondary" type="text"></ion-input>
+                <ion-input color="secondary" formControlName="state"  name="state" type="text"></ion-input>
               </ion-item>
+              <div *ngIf="!address_form.controls.state.valid && address_form.controls.state.dirty" class="validator-error">
+                <ion-text color="danger">กรุณาเพิ่มอำเภอ</ion-text>
+              </div>
+
               <ion-item lines="none">
                 <ion-label>รหัสไปรษณีย์</ion-label>
-                <ion-input color="secondary" type="number"></ion-input>
+                <ion-input color="secondary" formControlName="postcode"  name="postcode" type="number"></ion-input>
               </ion-item>
+              <div *ngIf="!address_form.controls.postcode.valid && address_form.controls.state.dirty" class="validator-error">
+                <ion-text color="danger">กรุณาเพิ่มรหัสไปรษณีย์</ion-text>
+              </div>
+
             </div>
           </ion-list>
         </form>
@@ -56,7 +76,7 @@
 </ion-content>
 
 <ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center">
-  <ion-button class="btn-confirm" color="secondary">
+  <ion-button class="btn-confirm" color="secondary" (click)="updateAddress()">
     ยืนยัน
   </ion-button>
 </ion-footer>

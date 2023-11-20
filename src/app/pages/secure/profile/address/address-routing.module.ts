@@ -15,6 +15,13 @@ const routes: Routes = [
     resolve: {
       myarray :AddressResolveService,
     }
+  },
+  {
+    path: 'edit-address/:id',
+    loadChildren: () => import('./add-address/add-address.module').then( m => m.AddAddressPageModule),
+    resolve: {
+      myarray :AddressResolveService,
+    }
   }
 ];
 

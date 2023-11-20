@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+
 import { CartService } from 'src/app/services/cart/cart.service';
 
 
@@ -26,18 +28,23 @@ export class CategoriesPage implements OnInit {
     private WC: WoocommerceService,
     private activatedRoute: ActivatedRoute,
     private cartServices: CartService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
-    this.Cart();
+    this.getCart();
     this.categoriesDetail();
     this.productCategories();
   }
 
-  async Cart(){
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+  async getCart() {
+    this.cartServices.cart.subscribe((cart) => {
+      if(cart) {
+        this.cartItem = cart.totalItem;
+        this.cdr.detectChanges(); // Manually trigger change detection
+      }
+    });
+    this.cartServices.getCartData();
   }
 
   categoriesDetail() {

@@ -25,7 +25,7 @@ export class AuthService {
   async signIn(email: string, password: string) :Promise<any> {
     const response = await this.WC.getLogin(email,password).toPromise();
     const userdata = await this.WC.getUserData(email,password).toPromise();
-    await this.storage.setStorage('userID',userdata[0].id);
+    await this.storage.setStorage('userdata',JSON.stringify(userdata[0]));
     console.log('userdata :', userdata);
     console.log('response :', response);
     return await this.storage.setStorage('uid',response.token);
@@ -33,9 +33,9 @@ export class AuthService {
 
   // Sign up
   async signUp(email: string, password: string) :Promise<any> {
-    const response = await this.WC.getLogin(email,password).toPromise();
     const userdata = await this.WC.postRegister(email,password).toPromise();
-    await this.storage.setStorage('userID',userdata.id);
+    const response = await this.WC.getLogin(email,password).toPromise();
+    await this.storage.setStorage('userdata',JSON.stringify(userdata));
     return await this.storage.setStorage('uid',response.token);
   }
 

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { CustomerService } from 'src/app/services/customer/customerservice';
 
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -13,6 +15,9 @@ export class SettingsPage implements OnInit {
   iconOrderPay = '../../../../assets/icon/i-order-payment.svg';
   iconOrderSend = '../../../../assets/icon/i-order-send.svg';
   iconOrderReview = '../../../../assets/icon/i-order-review.svg';
+
+  customerData: any;
+  customerName: any;
 
   cartItem: any;
   pages = [
@@ -38,20 +43,38 @@ export class SettingsPage implements OnInit {
   constructor(
     private authService: AuthService,
     private cartServices: CartService,
+    private cdr: ChangeDetectorRef,
+    private customerService: CustomerService,
   ) { }
 
   ngOnInit() {
-    this.Cart();
+    this.getCustomer();
+    this.getCart();
+    
   }
 
   // Sign out
   signOut() {
     this.authService.signOut();
   }
-  async Cart(){
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+
+  getCart(){
+    this.cartServices.cart.subscribe((cart) => {
+      if(cart) {
+        this.cartItem = cart.totalItem;
+        this.cdr.detectChanges();
+      }
+    });
+    this.cartServices.getCartData();
+  }
+
+  async getCustomer(){
+    await this.customerService.getCustomer().then(data => {
+      // console.log('this.customerName :',data)
+      this.customerData = JSON.parse(data);
+      console.log('this.customerName :',this.customerData)
+      this.customerName = this.customerData.email
+    });
   }
 
 }

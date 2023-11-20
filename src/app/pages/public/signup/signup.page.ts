@@ -30,7 +30,7 @@ export class SignupPage implements OnInit {
     
     // Setup form
     this.signup_form = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.email, Validators.required])],
+      email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
       password_repeat: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
@@ -71,12 +71,13 @@ export class SignupPage implements OnInit {
         loading.dismiss();
       }).catch(e => {
         this.presentErrorToast("Sigup failed. Please check your credentials.");
+        loading.dismiss();
       })
 
-      // Success messages + routing
-      this.toastService.presentToast('Welcome!', 'Lorem ipsum', 'top', 'success', 2000);
-      await this.router.navigate(['/home']);
-      loading.dismiss();
+      // // Success messages + routing
+      // this.toastService.presentToast('Welcome!', 'Lorem ipsum', 'top', 'success', 2000);
+      // await this.router.navigate(['/home']);
+      // loading.dismiss();
     }
   }
 

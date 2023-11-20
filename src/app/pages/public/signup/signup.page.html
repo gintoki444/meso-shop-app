@@ -25,7 +25,10 @@
               <ion-label position="floating">
                 mail
               </ion-label>
-              <ion-input type="email" formControlName="email" placeholder="Your email"></ion-input>
+              <ion-input type="email" formControlName="email" [(ngModel)]="email" placeholder="Your email"></ion-input>
+              <!-- <ion-input formControlName="email" type="email" [(ngModel)]="email"></ion-input> -->
+
+
             </ion-item>
 
             <ion-item class="" lines="none">

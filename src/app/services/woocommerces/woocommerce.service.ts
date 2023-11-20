@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +19,16 @@ export class WoocommerceService {
   allProducts: any;
   allCategories: any;
   loginData: any;
-  userData:any;
+  userData: any;
   registerData: any;
+  OrderrData: any;
 
   // get All product
   getAllProducts() {
     this.apiURL =
       this.apiURL = `${this.siteURL}${this.woocomPart}products?per_page=50&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
     this.allProducts = this.http.get(this.apiURL);
-    console.log("get :", this.apiURL)
+    // console.log("get :", this.apiURL)
     return this.allProducts;
   }
 
@@ -34,7 +36,7 @@ export class WoocommerceService {
   getProductDetail(productId: any) {
     this.apiURL = `${this.siteURL}${this.woocomPart}products/${productId}?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
     this.allProducts = this.http.get(this.apiURL);
-    console.log("get :", this.apiURL)
+    // console.log("get :", this.apiURL)
     return this.allProducts;
   }
 
@@ -67,12 +69,14 @@ export class WoocommerceService {
   // get user Login
   postRegister(username: any, password: any) {
     this.apiURL = `${this.siteURL}${this.woocomPart}customers?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}&email=${username}&username=${username}&password=${password}`;
+
+    // console.log("data", this.apiURL)
     this.registerData = this.http.post(
       this.apiURL, {
-        username: username,
-        email: username,
-        password: password,
-      }
+      username: username,
+      email: username,
+      password: password,
+    }
     );
     return this.registerData;
   }
@@ -85,9 +89,43 @@ export class WoocommerceService {
   }
 
   // get user data
-  getUserDataByID(id:any) {
+  getUserDataByID(id: any) {
     this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
     this.userData = this.http.get(this.apiURL);
     return this.userData;
   }
+
+
+  // get user Login
+  putCustomer(id: any, userData: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}/shipping_addresses=${userData}?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.registerData = userData;
+
+    console.log("WC userData", id)
+    console.log("WC userData", userData)
+    this.registerData = this.http.post(
+      this.apiURL, {
+      shipping_addresses: userData,
+    }
+    );
+    return this.registerData;
+  }
+
+  postOrders(orders:any) {
+    console.log("WC orders", orders)
+    this.apiURL = `${this.siteURL}${this.woocomPart}orders?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.OrderrData = this.http.post(
+      this.apiURL, orders);
+    // console.log('OrderrData wc ',this.OrderrData)
+    return this.OrderrData;
+  }
+
+
+  // private createHeaders(): HttpHeaders {
+  //   return new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Basic ${btoa(`${this.consumerKey}:${this.consumerSecret}`)}`,
+  //   });
+  // }
+
 }

@@ -57,8 +57,19 @@ const routes: Routes = [
     loadChildren: () => import('./profile/wishlists/wishlists.module').then(m => m.WishlistsPageModule)
   },
   {
-    path: 'cart',
-    loadChildren: () => import('./cart/cart.module').then(m => m.CartPageModule)
+    path: '', children: [
+      {
+        path: 'cart',
+        loadChildren: () => import('./cart/cart.module').then(m => m.CartPageModule)
+      },
+      {
+        path: 'cart/product/detail/:productID',
+        loadChildren: () =>
+          import('./product-detail/product-detail.module').then(
+            (m) => m.ProductDetailPageModule
+          ),
+      },
+    ]
   },
   {
     path: 'checkout',
@@ -88,7 +99,7 @@ const routes: Routes = [
   },
   {
     path: 'reviews',
-    loadChildren: () => import('./profile/reviews/reviews.module').then( m => m.ReviewsPageModule)
+    loadChildren: () => import('./profile/reviews/reviews.module').then(m => m.ReviewsPageModule)
   },
   {
     path: 'profile/edit',
@@ -96,7 +107,7 @@ const routes: Routes = [
   },
   {
     path: 'profile/change-password',
-    loadChildren: () => import('./profile/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+    loadChildren: () => import('./profile/change-password/change-password.module').then(m => m.ChangePasswordPageModule)
   },
   {
     path: 'order',
@@ -104,13 +115,13 @@ const routes: Routes = [
       [
         {
           path: ':orderID',
-          loadChildren: () => import('./order/order.module').then( m => m.OrderPageModule)
+          loadChildren: () => import('./order/order.module').then(m => m.OrderPageModule)
         },
       ]
   },
   {
     path: 'thank-you',
-    loadChildren: () => import('./checkout/thank-you/thank-you.module').then( m => m.ThankYouPageModule)
+    loadChildren: () => import('./checkout/thank-you/thank-you.module').then(m => m.ThankYouPageModule)
   },
 ];
 

@@ -60,6 +60,12 @@
     .profile-name {
       width: 65%;
       padding: 0 25px;
+
+      h1 {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
 
     .profile-cart {
@@ -129,7 +135,7 @@
       --ion-color-primary: #f2f2f2;
       --ion-item-background: #f2f2f2;
       --padding-start: 24px;
-      --padding-end: 14px;
+      --padding-end: 8px;
       --min-height: 65px;
     }
   }
