@@ -17,7 +17,8 @@ export class SettingsPage implements OnInit {
   iconOrderReview = '../../../../assets/icon/i-order-review.svg';
 
   customerData: any;
-  customerName: any;
+  displayName: any;
+  imgProfile:any;
 
   cartItem: any;
   pages = [
@@ -70,10 +71,16 @@ export class SettingsPage implements OnInit {
 
   async getCustomer(){
     await this.customerService.getCustomer().then(data => {
-      // console.log('this.customerName :',data)
       this.customerData = JSON.parse(data);
-      console.log('this.customerName :',this.customerData)
-      this.customerName = this.customerData.email
+
+      // console.log('this.customerName :',this.customerData.last_name)
+      this.imgProfile = this.customerData.avatar_url;
+      
+      if(this.customerData.first_name && this.customerData.last_name){
+        this.displayName = this.customerData.first_name+ ' '+ this.customerData.last_name;
+      }else {
+        this.displayName = this.customerData.username;
+      }
     });
   }
 

@@ -18,14 +18,14 @@ const routes: Routes = [
     path: 'coupon/:add',
     loadChildren: () => import('../profile/coupon/coupon.module').then(m => m.CouponPageModule),
     resolve: {
-      myarray :CouponResolveService
+      myarray: CouponResolveService.prototype.selectResolve,
     }
   },
   {
     path: 'address',
     loadChildren: () => import('../profile/address/address.module').then(m => m.AddressPageModule),
     resolve: {
-      myarray :AddressResolveService,
+      myarray :AddressResolveService.prototype.selectResolve,
     }
   },
 ];

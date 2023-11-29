@@ -22,6 +22,8 @@ export class WoocommerceService {
   userData: any;
   registerData: any;
   OrderrData: any;
+  couponData: any;
+  paymentData: any;
 
   // get All product
   getAllProducts() {
@@ -96,22 +98,34 @@ export class WoocommerceService {
   }
 
 
-  // get user Login
-  putCustomer(id: any, userData: any) {
-    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}/shipping_addresses=${userData}?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
-    this.registerData = userData;
+  // update data user
+  putCustomer(id: any, data: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
 
-    console.log("WC userData", id)
-    console.log("WC userData", userData)
-    this.registerData = this.http.post(
-      this.apiURL, {
-      shipping_addresses: userData,
-    }
+    // console.log("WC userDat 1a", data)
+    this.userData = this.http.put(this.apiURL,
+      {
+        meta_data: [data]
+      }
     );
-    return this.registerData;
+    // console.log("WC id", id)
+    // console.log("WC userDat 2a", this.userData)
+    return this.userData;
+  }
+  
+
+  // update data user
+  putCustomerProfile(id: any, data: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+
+    // console.log("WC userDat 1a", data)
+    this.userData = this.http.put(this.apiURL,data );
+    // console.log("WC id", id)
+    // console.log("WC userDat 2a", this.userData)
+    return this.userData;
   }
 
-  postOrders(orders:any) {
+  postOrders(orders: any) {
     console.log("WC orders", orders)
     this.apiURL = `${this.siteURL}${this.woocomPart}orders?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
     this.OrderrData = this.http.post(
@@ -120,12 +134,19 @@ export class WoocommerceService {
     return this.OrderrData;
   }
 
+  getcouponList() {
+    this.apiURL = `${this.siteURL}${this.woocomPart}coupons?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.couponData = this.http.get(this.apiURL);
+    // console.log('OrderrData wc ',this.OrderrData)
+    return this.couponData;
+  }
 
-  // private createHeaders(): HttpHeaders {
-  //   return new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Basic ${btoa(`${this.consumerKey}:${this.consumerSecret}`)}`,
-  //   });
-  // }
+  // get user data
+  getPaymentGateway() {
+    this.apiURL = `${this.siteURL}${this.woocomPart}payment_gateways?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.paymentData = this.http.get(this.apiURL);
+    return this.paymentData;
+  }
+
 
 }

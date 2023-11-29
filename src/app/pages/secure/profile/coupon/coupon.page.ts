@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CouponService } from 'src/app/services/coupon/coupon.service';
 
 @Component({
   selector: 'app-coupon',
@@ -8,22 +9,42 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CouponPage implements OnInit {
 
-  dataResolve : any
+  dataResolve : any;
+  couponData: any;
+  selectCouponData:any;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    private route: Router,
+    private routeActive: ActivatedRoute,
+    private couponService: CouponService,
   ) { }
 
   ngOnInit() {
+    this.getCouponList();
 
-    const data = this.route.snapshot.data.myarray;
-    if(data){
-      this.dataResolve = data;
-    }else {
-      this.dataResolve = "";
-      console.log("dataResolve: ",this.dataResolve)
+    this.dataResolve = this.routeActive.snapshot.data.myarray;
+    console.log('dataResolve :',this.dataResolve)
+  }
+
+  async getCouponList(){
+   const coupon = await this.couponService.getCouponList();
+   this.couponData = coupon;
+  }
+
+  selectCoupon(coupon: any) {
+    if(this.dataResolve.statusCheck === 'select'){
+      this.selectCouponData = coupon;
+      this.addOrderCoupon();
     }
+  }
+
+  async addOrderCoupon() {
+    this.couponService.setCouponData(this.selectCouponData);
+    this.route.navigate(['checkout'])
+  }
+
+  validationCondition(){
+
   }
 
 }

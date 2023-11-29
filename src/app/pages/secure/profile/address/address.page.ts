@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { CustomerService } from 'src/app/services/customer/customerservice';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 
 @Component({
@@ -12,37 +13,76 @@ export class AddressPage implements OnInit {
 
   iconLocation = '../../../../assets/icon/i-location-2.svg';
   dataResolve: any;
-
-  shippingData: any = {
-    first_name: "ชานุ",
-    last_name: "Admin IT",
-    address_1: "52/23 AIA",
-    address_2: "",
-    city: "กรุงเทพ",
-    state: "ดินแดง",
-    postcode: "10100",
-    country: "TH"
-  }
+  resetShippingData: any = {
+    shipping_id: '',
+    first_name: '',
+    last_name: '',
+    address_1: '',
+    address_2: '',
+    districts: '',
+    amphures: '',
+    provinces: '',
+    postcode: '',
+    country: 'TH',
+    phone: "",
+    status: "No",
+    detail: '',
+  };
+  shippingData: any;
+  selectShippingData: any;
+  billingData: any;
 
   constructor(
     private route: Router,
     private activeRoute: ActivatedRoute,
     private checkoutService: CheckoutService,
+    private customerService: CustomerService,
   ) { }
 
   ngOnInit() {
 
-    const data = this.activeRoute.snapshot.data.myarray;
-    if (data) {
-      this.dataResolve = data;
-    } else {
-      this.dataResolve = "";
-      console.log("dataResolve: ", this.dataResolve)
+    this.dataResolve = this.activeRoute.snapshot.data.myarray;
+    this.activeRoute.params.subscribe(params => {
+      this.getShipping();
+    });
+  }
+
+  // IonViewWillEnter() {
+  //   this.getShipping();
+  // }
+
+  async getShipping() {
+    this.customerService.updateCustomer();
+    const shippingDataNew = JSON.parse(await this.customerService.getCustomer());
+    this.billingData = shippingDataNew.billing
+
+    shippingDataNew.meta_data.forEach(data => {
+      if (data.key == 'shipping') {
+        this.shippingData = data.value;
+      }
+    })
+  }
+
+  selectShipping(shipping: any) {
+    if(this.dataResolve.statusCheck === 'select'){
+      this.selectShippingData = shipping;
+      this.addOrderShipping();
     }
   }
 
   async addOrderShipping() {
-    this.checkoutService.setShippingData(this.shippingData)
+    this.checkoutService.setShippingData(this.selectShippingData);
     this.route.navigate(['checkout'])
+  }
+
+  async AddNewShipping(){
+    await this.customerService.clearShippingData();
+    this.route.navigate(['/','address','add-address']);
+  }
+
+  async editShipping(shipping: any){
+    await this.customerService.setShippingData(shipping);
+    // console.log('shipping.id ',shipping.shipping_id)
+    this.route.navigate(['/','address','edit-address'])
   }
 }

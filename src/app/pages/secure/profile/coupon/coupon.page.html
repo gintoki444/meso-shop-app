@@ -6,7 +6,7 @@
     </ion-buttons>
 
     <ion-buttons class="ion-text-center">
-      <ion-text class="header-title">{{dataResolve ! ? dataResolve.titleName : "โค้ดส่วนลด meso Code" }}</ion-text>
+      <ion-text class="header-title">{{dataResolve.titleName}}</ion-text>
     </ion-buttons>
 
     <ion-buttons slot="primary">
@@ -32,14 +32,19 @@
 
           <!-- Coupon List -->
           <div class="coupon-all">
-            <div class="coupon-list">
+            <div class="coupon-list" *ngFor="let coupon of couponData" (click)="selectCoupon(coupon)">
               <div class="coupon-image">
                 <ion-img src="../../../../../assets/imgs/coupon/coupon-logo.png"></ion-img>
               </div>
               <div class="coupon-detail">
-                <div class="coupon-name"><ion-text>ส่วนลด 25%</ion-text></div>
-                <div class="coupon-exe-date"><ion-text>หมดอายุ : 30/6/2022</ion-text></div>
-                <div class="coupon-min-price"><ion-text>ขั้นต่ำ 0฿</ion-text></div>
+                <div class="coupon-name">
+                  <ion-text>
+                    ส่วนลด {{coupon.amount | number}}
+                    {{coupon.discount_type === 'percent' ? '%' : coupon.discount_type === 'fixed_cart'&& '฿'}}
+                  </ion-text>
+                </div>
+                <div class="coupon-exe-date"><ion-text>หมดอายุ : {{coupon.date_expires_gmt ? (coupon.date_expires_gmt | date): '-'}}</ion-text></div>
+                <div class="coupon-min-price"><ion-text>ขั้นต่ำ {{coupon.minimum_amount ? (coupon.minimum_amount | number): '-'}}฿</ion-text></div>
               </div>
               <div class="coupon-check">
                 <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
@@ -47,36 +52,6 @@
               </div>
             </div>
 
-            <div class="coupon-list">
-              <div class="coupon-image">
-                <ion-img src="../../../../../assets/imgs/coupon/coupon-logo.png"></ion-img>
-              </div>
-              <div class="coupon-detail">
-                <div class="coupon-name"><ion-text>ส่วนลด 50%</ion-text></div>
-                <div class="coupon-exe-date"><ion-text>หมดอายุ : 30/6/2022</ion-text></div>
-                <div class="coupon-min-price"><ion-text>ขั้นต่ำ 0฿</ion-text></div>
-              </div>
-              <div class="coupon-check">
-                <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
-                <ion-text *ngIf="!dataResolve">เงื่อนไข</ion-text>
-              </div>
-            </div>
-
-
-            <div class="coupon-list">
-              <div class="coupon-image">
-                <ion-img src="../../../../../assets/imgs/coupon/coupon-logo.png"></ion-img>
-              </div>
-              <div class="coupon-detail">
-                <div class="coupon-name"><ion-text>ส่วนลด 3,000 ฿</ion-text></div>
-                <div class="coupon-exe-date"><ion-text>หมดอายุ : 30/6/2022</ion-text></div>
-                <div class="coupon-min-price"><ion-text>ขั้นต่ำ 0฿</ion-text></div>
-              </div>
-              <div class="coupon-check">
-                <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
-                <ion-text *ngIf="!dataResolve">เงื่อนไข</ion-text>
-              </div>
-            </div>
           </div>
         </div>
       </ion-col>

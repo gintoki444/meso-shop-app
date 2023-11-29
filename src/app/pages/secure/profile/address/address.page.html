@@ -6,7 +6,7 @@
     </ion-buttons>
 
     <ion-buttons class="ion-text-center">
-      <ion-text class="header-title">{{dataResolve ! ? dataResolve.titleName : "ข้อมูลที่อยู่" }}</ion-text>
+      <ion-text class="header-title">{{dataResolve.titleName}}</ion-text>
     </ion-buttons>
 
     <ion-buttons slot="primary">
@@ -30,27 +30,32 @@
       <ion-col size-md="12" size-xs="12" class="">
 
         <!-- Add address -->
-        <ion-list lines="none" class="address">
-          <div class="icon-address" *ngIf="!dataResolve">
-            <ion-icon [src]="iconLocation" class="icon-search"></ion-icon>
+        <ion-list lines="none" class="address" *ngFor="let shipping of shippingData">
+          <div class="edit">
+            <div class="end">
+              <ion-button (click)="editShipping(shipping)">edit</ion-button>
+              <div class="status" *ngIf="shipping.status == 'yes'">
+                <ion-text>default</ion-text>
+              </div>
+            </div>
           </div>
-          <div class="address-detail">
-            <h2>Britney Spears</h2>
-            <ion-text>(+66) 34 567 8999</ion-text>
-            <ion-text>18 อาคาร ทรู ทาวเวอร์ ถนนรัชดาภิเษก
-              แขวงห้วยขวาง เขตห้วยขวาง
-              จังหวัดกรุงเทพฯ 10310</ion-text>
-          </div>
-          <div class="end">
-            <ion-button>edit</ion-button>
-            <div class="status">
-              <ion-text>default</ion-text>
+          <div class="shipping" (click)="selectShipping(shipping)">
+            <div class="icon-address" *ngIf="!dataResolve">
+              <ion-icon [src]="iconLocation" class="icon-search"></ion-icon>
+            </div>
+            <div class="address-detail">
+              <h2>{{shipping.first_name}} {{shipping.last_name}}</h2>
+              <ion-text *ngIf="shipping.phone">(+66){{shipping.phone}}</ion-text>
+              <ion-text>
+                {{shipping.address_1}} {{shipping.address_2}}
+                {{shipping.districts}} {{shipping.amphures}} {{shipping.provinces}} {{shipping.postcode}}
+              </ion-text>
             </div>
           </div>
         </ion-list>
 
         <ion-list lines="none" class="address-add">
-          <ion-button routerLink="add-address">
+          <ion-button (click)="AddNewShipping()">
             <ion-icon name="add-outline"></ion-icon>
             เพิ่มที่อยู่ใหม่
           </ion-button>
@@ -60,7 +65,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center" *ngIf="dataResolve">
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center" *ngIf="dataResolve.statusCheck === 'select'">
   <ion-button class="btn-confirm" color="secondary" (click)="addOrderShipping()">
     confirm
   </ion-button>

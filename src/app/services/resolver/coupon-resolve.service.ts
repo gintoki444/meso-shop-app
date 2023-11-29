@@ -15,4 +15,24 @@ export class CouponResolveService implements Resolve<any> {
     }
     return data;
   }
+
+  addResolve() {
+    const data = {
+      titleName: 'โค้ดส่วนลด meso Code',
+      statusCheck:'add',
+      checkform: true,
+    }
+
+    return data;
+  }
+
+  selectResolve() {
+    const data = {
+      titleName: 'เลือกโค้ดส่วนลด meso Code',
+      statusCheck:'select',
+      checkform: true,
+    }
+
+    return data;
+  }
 }

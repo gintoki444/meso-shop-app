@@ -11,16 +11,28 @@ const routes: Routes = [
   },
   {
     path: 'add-address',
-    loadChildren: () => import('./add-address/add-address.module').then( m => m.AddAddressPageModule),
-    resolve: {
-      myarray :AddressResolveService,
-    }
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./add-address/add-address.module').then(m => m.AddAddressPageModule),
+        resolve: {
+          myarray: AddressResolveService.prototype.addResolve,
+        }
+      },
+      // {
+      //   path: 'add-address/city',
+      //   loadChildren: () => import('./add-address/city/city.module').then(m => m.CityPageModule),
+      //   resolve: {
+      //     myarray: AddressResolveService.prototype.editResolve,
+      //   }
+      // }
+    ]
   },
   {
-    path: 'edit-address/:id',
-    loadChildren: () => import('./add-address/add-address.module').then( m => m.AddAddressPageModule),
+    path: 'edit-address',
+    loadChildren: () => import('./add-address/add-address.module').then(m => m.AddAddressPageModule),
     resolve: {
-      myarray :AddressResolveService,
+      myarray: AddressResolveService.prototype.editResolve,
     }
   }
 ];
@@ -29,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AddressPageRoutingModule {}
+export class AddressPageRoutingModule { }

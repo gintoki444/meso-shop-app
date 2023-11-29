@@ -17,7 +17,7 @@
             <div id="circle">
               <div class="profile-image">
                 <ion-avatar>
-                  <img src="../../../../assets/imgs/user-profile/user-profile.png">
+                  <ion-img [src]="imgProfile"></ion-img>
                 </ion-avatar>
               </div>
             </div>
@@ -26,14 +26,15 @@
       </ion-col>
       <ion-col  size-md="12" size-xs="12" style="padding: 0 24px;">
         <ion-text class="ion-text-center">
-          <h4>ชัยยันต์ แจ้งกระจ่าง</h4>
-        </ion-text>
         
+          <h4>{{displayName}}</h4>
+        </ion-text>
+         
         <ion-text class="">
-          <h5>อีเมล์ : <strong>chaiyun@hotmail.com</strong></h5>
+          <h5>อีเมล์ : <strong>{{emailCustomer}}</strong></h5>
         </ion-text>
         <ion-text class="">
-          <h5>เบอร์โทรศัพท์ : <strong>061 235 4665</strong></h5>
+          <h5>เบอร์โทรศัพท์ : <strong>{{phoneCustomer}}</strong></h5>
         </ion-text>
       </ion-col>
       <ion-col class="ion-text-center">

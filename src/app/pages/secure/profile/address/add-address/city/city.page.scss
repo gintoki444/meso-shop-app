@@ -97,6 +97,7 @@ form ion-item ion-textarea {
     text-align: left;
     font-size: 14px !important;
     --inner-padding-end: 16px;
+    overflow: initial;
 }
 
 ion-input {

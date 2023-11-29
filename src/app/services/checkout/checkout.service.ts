@@ -16,8 +16,8 @@ export class CheckoutService {
 
 
   async checkoutOrders(order: any): Promise<any> {
-    console.log('checkout order ', order)
     this.orderData = await this.WC.postOrders(order).toPromise();
+    console.log('checkout order ', this.orderData)
     return this.orderData
   }
 
@@ -32,7 +32,7 @@ export class CheckoutService {
   }
 
   setCouponData(data: any) {
-    console.log('Set Shipping', data)
+    console.log('Set couponData', data)
     this.couponData = data;
   }
 

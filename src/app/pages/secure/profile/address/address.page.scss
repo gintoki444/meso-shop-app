@@ -12,7 +12,7 @@
         --ion-background-color: #D5D5D5;
     }
 
-    .address-titles{
+    .address-titles {
         padding: 24px;
     }
 
@@ -38,65 +38,84 @@
         padding: 15px 24px;
         margin-bottom: 10px;
 
-        h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0 0 10px;
-        }
+        div.edit {
+            width: 0%;
 
-        .icon-address {
-            width: 20%;
-        }
+            .end {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+                flex-direction: column;
+                margin-top: auto;
 
-        .address-detail {
-            width: 75%;
-            padding: 0 10px;
-            margin-right: auto;
+                ion-button {
+                    position: absolute;
+                    top: 10px;
+                    right: 14px;
+                    font-weight: bold;
+                    text-transform: lowercase;
+                    --background: transparent;
+                    --padding-top: 10px;
+                    --padding-start: 10px;
+                    --padding-end: 10px;
+                    --padding-bottom: 10px;
+                }
 
-            ion-text {
-                display: block;
-                font-size: 14px;
-                margin-bottom: 5px;
-                line-height: 1.2;
+                .status {
+                    margin-top: auto;
+                    margin-bottom: 10px;
+
+                    ion-text {
+                        text-transform: uppercase;
+                        font-size: 14px;
+                        color: #FF0000;
+                        font-weight: bold;
+                        padding: 5px;
+                        border: solid 2px;
+                        border-radius: 4px;
+                    }
+                }
             }
+
         }
 
-        .end {
+        div.shipping {
+            width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            align-content: center;
-            flex-direction: column;
-            margin-top: auto;
 
-            ion-button {
-                position: absolute;
-                top: 10px;
-                right: 14px;
+            h2 {
+                font-size: 24px;
                 font-weight: bold;
-                text-transform: lowercase;
-                --background: transparent;
-                --padding-top: 10px;
-                --padding-start: 10px;
-                --padding-end: 10px;
-                --padding-bottom: 10px;
+                margin: 0 0 10px;
             }
 
-            .status {
-                margin-top: auto;
-                margin-bottom: 10px;
+            .icon-address {
+                width: 20%;
+            }
+
+            .address-detail {
+                width: 75%;
+                padding: 0 10px;
+                margin-right: auto;
+
+                h2 {
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
 
                 ion-text {
-                    text-transform: uppercase;
+                    display: block;
                     font-size: 14px;
-                    color: #FF0000;
-                    font-weight: bold;
-                    padding: 5px;
-                    border: solid 2px;
-                    border-radius: 4px;
+                    margin-bottom: 5px;
+                    line-height: 1.2;
                 }
             }
         }
+
+
     }
 
     .address-add {

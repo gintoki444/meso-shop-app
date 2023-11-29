@@ -6,7 +6,7 @@
     </ion-buttons>
 
     <ion-buttons class="ion-text-center">
-      <ion-text class="header-title">ที่อยู่ใหม่</ion-text>
+      <ion-text class="header-title">{{dataResolve ? dataResolve.titleName : 'ที่อยู่ใหม่'}}</ion-text>
     </ion-buttons>
 
     <ion-buttons slot="primary">
@@ -32,7 +32,7 @@
 
         <!-- Add address -->
 
-        <form class="form-default">
+        <form class="form-default" [formGroup]="shipping_form" (submit)="addShipping()">
           <ion-list lines="none" class="address">
             <div class="form-address-detail">
               <h4>ช่องทางติดต่อ</h4>
@@ -41,15 +41,19 @@
               <!-- Login form -->
               <ion-item lines="none">
                 <ion-label>ชื่อ</ion-label>
-                <ion-input color="secondary" type="text"></ion-input>
+                <ion-input color="secondary" formControlName="first_name" type="text" aria-label="ชื่อ"></ion-input>
               </ion-item>
+              <ion-item *ngIf="shipping_form.controls.first_name?.hasError('required') && shipping_form.controls.first_name.valid">
+                <ion-text color="danger">First Name is required.</ion-text>
+              </ion-item>
+
               <ion-item lines="none">
                 <ion-label>นามสกุล</ion-label>
-                <ion-input color="secondary" type="text"></ion-input>
+                <ion-input color="secondary" formControlName="last_name" type="text" aria-label="นามสกุล"></ion-input>
               </ion-item>
               <ion-item lines="none">
                 <ion-label>หมายเลขโทรศัพท์</ion-label>
-                <ion-input color="secondary" type="number"></ion-input>
+                <ion-input color="secondary" formControlName="phone" type="text" aria-label="หมายเลขโทรศัพท์"></ion-input>
               </ion-item>
             </div>
           </ion-list>
@@ -58,18 +62,16 @@
             <div class="form-address-detail">
               <h4>ที่อยู่</h4>
             </div>
-            <div class="" routerLink="city">
+            <div class="" >
               <!-- Login form -->
-              <ion-item lines="none" routerLink="city">
-                <!-- <ion-label>จังหวัด, เขต/อำเภอม รหัสไปรษณีย์</ion-label>
-                 -->
-                <ion-input color="secondary" type="number" placeholder="จังหวัด, เขต/อำเภอ รหัสไปรษณีย์"></ion-input>
-                <!-- <ion-icon style="font-size: 15px;" name="chevron-forward-outline"></ion-icon> -->
+              <ion-item lines="none" (click)="selectAddress()">
+              <!-- <ion-item lines="none" routerLink="city"> -->
+                <ion-input color="secondary" type="text" formControlName="shipping" placeholder="จังหวัด, เขต/อำเภอ รหัสไปรษณีย์"></ion-input>
               </ion-item>
             </div>
             <div>
               <ion-item>
-                <ion-textarea placeholder="รายละเอียดที่อยู่"></ion-textarea>
+                <ion-textarea placeholder="รายละเอียดที่อยู่" formControlName="detail"></ion-textarea>
               </ion-item>
             </div>
           </ion-list>
@@ -81,7 +83,10 @@
 </ion-content>
 
 <ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center">
-  <ion-button class="btn-confirm" color="secondary">
+  <ion-button class="btn-confirm" color="secondary" [disabled]="shipping_form.invalid" *ngIf="dataResolve.statusCheck == 'add'" (click)="addShipping()">
     ยืนยัน
+  </ion-button>
+  <ion-button class="btn-confirm" color="secondary" [disabled]="shipping_form.invalid"  *ngIf="dataResolve.statusCheck == 'update'" (click)="updateShipping()">
+    แก้ไขข้อมูล
   </ion-button>
 </ion-footer>

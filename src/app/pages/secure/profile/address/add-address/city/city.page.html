@@ -26,7 +26,7 @@
 
         <!-- Add address -->
 
-        <form class="form-default" [formGroup]="address_form" (submit)="updateAddress()">
+        <form class="form-default" [formGroup]="address_form" (submit)="setAddress()">
 
           <ion-list lines="none" class="address">
             <div class="form-address-detail">
@@ -36,33 +36,41 @@
               <!-- address form -->
               <ion-item lines="none">
                 <ion-label>ที่อยู่</ion-label>
-                <ion-input color="secondary" formControlName="address_1"  name="address_1" type="text"></ion-input>
+                <ion-input color="secondary" formControlName="address_1"  name="address_1" type="text" aria-label="ที่อยู่"></ion-input>
               </ion-item>
-              <div *ngIf="!address_form.controls.address_1.valid && address_form.controls.address_1.dirty " class="validator-error">
+              <div *ngIf="address_form.get('address_1').touched && address_form.get('address_1').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มที่อยู่</ion-text>
               </div>
 
               <ion-item lines="none">
-                <ion-label>จังหวัด</ion-label>
-                <ion-input color="secondary" formControlName="city"  name="city" type="text"></ion-input>
+                <ion-label>ตำบล/แขวง</ion-label>
+                <ion-input color="secondary" formControlName="districts"  name="districts" type="text" aria-label="ตำบล/แขวง"></ion-input>
               </ion-item>
-              <div *ngIf="!address_form.controls.city.valid && address_form.controls.city.dirty" class="validator-error">
-                <ion-text color="danger">กรุณาเพิ่มจังหวัด</ion-text>
+              <div *ngIf="address_form.get('districts').touched && address_form.get('districts').invalid" class="validator-error">
+                <ion-text color="danger">กรุณาเพิ่มตำบล/แขวง</ion-text>
               </div>
 
               <ion-item lines="none">
                 <ion-label>อำเภอ</ion-label>
-                <ion-input color="secondary" formControlName="state"  name="state" type="text"></ion-input>
+                <ion-input color="secondary" formControlName="amphures"  name="amphures" type="text" aria-label="อำเภอ"></ion-input>
               </ion-item>
-              <div *ngIf="!address_form.controls.state.valid && address_form.controls.state.dirty" class="validator-error">
+              <div *ngIf="address_form.get('amphures').touched && address_form.get('amphures').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มอำเภอ</ion-text>
               </div>
 
               <ion-item lines="none">
-                <ion-label>รหัสไปรษณีย์</ion-label>
-                <ion-input color="secondary" formControlName="postcode"  name="postcode" type="number"></ion-input>
+                <ion-label>จังหวัด</ion-label>
+                <ion-input color="secondary" formControlName="provinces"  name="provinces" type="text" aria-label="จังหวัด"></ion-input>
               </ion-item>
-              <div *ngIf="!address_form.controls.postcode.valid && address_form.controls.state.dirty" class="validator-error">
+              <div *ngIf="address_form.get('provinces').touched && address_form.get('provinces').invalid" class="validator-error">
+                <ion-text color="danger">กรุณาเพิ่มจังหวัด</ion-text>
+              </div>
+
+              <ion-item lines="none">
+                <ion-label>รหัสไปรษณีย์</ion-label>
+                <ion-input color="secondary" formControlName="postcode"  name="postcode" type="number" aria-label="รหัสไปรษณีย์"></ion-input>
+              </ion-item>
+              <div *ngIf="address_form.get('postcode').touched && address_form.get('postcode').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มรหัสไปรษณีย์</ion-text>
               </div>
 
@@ -76,7 +84,7 @@
 </ion-content>
 
 <ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center">
-  <ion-button class="btn-confirm" color="secondary" (click)="updateAddress()">
+  <ion-button class="btn-confirm" [disabled]="address_form.invalid" color="secondary" (click)="setAddress()">
     ยืนยัน
   </ion-button>
 </ion-footer>

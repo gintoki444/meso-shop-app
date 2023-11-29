@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AddressResolveService } from 'src/app/services/resolver/address-resolve.service';
+import { CouponResolveService } from 'src/app/services/resolver/coupon-resolve.service';
 
 const routes: Routes = [
   {
@@ -77,11 +79,36 @@ const routes: Routes = [
   },
   {
     path: 'coupon',
-    loadChildren: () => import('./profile/coupon/coupon.module').then(m => m.CouponPageModule)
+    loadChildren: () => import('./profile/coupon/coupon.module').then(m => m.CouponPageModule),
+    resolve: {
+      myarray: CouponResolveService.prototype.addResolve,
+    }
   },
   {
     path: 'address',
-    loadChildren: () => import('./profile/address/address.module').then(m => m.AddressPageModule)
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./profile/address/address.module').then(m => m.AddressPageModule),
+        resolve: {
+          myarray: AddressResolveService.prototype.resolve,
+        }
+      },
+      // {
+      //   path: 'address/add-address',
+      //   loadChildren: () => import('./profile/address/add-address/add-address.module').then(m => m.AddAddressPageModule),
+      //   resolve: {
+      //     myarray: AddressResolveService.prototype.addResolve,
+      //   }
+      // },
+      // {
+      //   path: 'add-address/city',
+      //   loadChildren: () => import('./profile/address/add-address/city/city.module').then(m => m.CityPageModule),
+      //   resolve: {
+      //     myarray: AddressResolveService.prototype.editResolve,
+      //   }
+      // }
+    ]
   },
   {
     path: 'profile',

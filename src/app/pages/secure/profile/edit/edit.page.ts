@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { ActionSheetController, NavController } from '@ionic/angular';
 import { ToastService } from 'src/app/services/toast/toast.service';
+
+
+import { CustomerService } from 'src/app/services/customer/customerservice';
 
 @Component({
   selector: 'app-edit',
@@ -11,29 +15,39 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 })
 export class EditPage implements OnInit {
 
+  customer: any;
+  imgProfile: any;
   edit_profile_form: FormGroup;
   submit_attempt: boolean = false;
 
   constructor(
+    private route: Router,
+    private activeRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private toastService: ToastService,
     private navController: NavController,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private customerService: CustomerService,
+    private loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
+    this.getCustomer();
 
     // Setup form
     this.edit_profile_form = this.formBuilder.group({
-      full_name: ['', Validators.required],
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
       email: ['', Validators.required],
-      tel_phone: ['', Validators.required],
+      phone: ['', Validators.required],
     });
 
+
     // // DEBUG: Prefill inputs
-    this.edit_profile_form.get('full_name').setValue('ชัยยันต์ แจ้งกระจ่าง');
-    this.edit_profile_form.get('email').setValue('chaiyun@hotmail.com');
-    this.edit_profile_form.get('tel_phone').setValue('061 235 4665');
+    // this.edit_profile_form.get('full_name').setValue('ชัยยันต์ แจ้งกระจ่าง');
+    // this.edit_profile_form.get('full_name').setValue('ชัยยันต์ แจ้งกระจ่าง');
+    // this.edit_profile_form.get('email').setValue('chaiyun@hotmail.com');
+    // this.edit_profile_form.get('tel_phone').setValue('061 235 4665');
   }
 
   // Update profile picture
@@ -65,19 +79,60 @@ export class EditPage implements OnInit {
     await actionSheet.present();
   }
 
-  // Submit form
-  submit() {
+  async getCustomer() {
+    this.customer = JSON.parse(await this.customerService.getCustomer());
+    this.imgProfile = this.customer.avatar_url;
 
+    this.edit_profile_form.get('first_name').setValue(this.customer.first_name);
+    this.edit_profile_form.get('last_name').setValue(this.customer.last_name);
+    this.edit_profile_form.get('email').setValue(this.customer.email);
+    this.edit_profile_form.get('phone').setValue(this.customer.billing.phone);
+  }
+
+  // Submit form
+  async submit() {
+    // Proceed with loading overlay
+    const loading = await this.loadingController.create({
+      cssClass: 'default-loading',
+      message: 'Recording....',
+      spinner: 'crescent'
+    });
+    await loading.present();
     this.submit_attempt = true;
 
     // If form valid
     if (this.edit_profile_form.valid) {
 
-      // Save form ...
+      const profileData = {
+        first_name: this.edit_profile_form.value.first_name,
+        last_name: this.edit_profile_form.value.last_name,
+        email: this.edit_profile_form.value.email,
+        billing: {
+          first_name: this.customer.billing.first_name,
+          last_name: this.customer.billing.last_name,
+          company: this.customer.billing.company,
+          address_1: this.customer.billing.address_1,
+          address_2: this.customer.billing.address_2,
+          city: this.customer.billing.city,
+          postcode: this.customer.billing.postcode,
+          country: this.customer.billing.country,
+          state: this.customer.billing.state,
+          email: this.customer.billing.email,
+          phone: this.edit_profile_form.value.phone,
+        },
+      }
 
-      // Display success message and go back
-      this.toastService.presentToast('Success', 'Profile saved', 'middle', 'success', 2000);
-      this.navController.back();
+      // Save form ...
+      await this.customerService.updateProfile(this.customer.id, profileData).then(data => {
+
+        loading.dismiss();
+        // Display success message and go back
+        this.toastService.presentToast('Success', 'Profile saved', 'middle', 'success', 2000);
+        // this.navController.back();
+        this.route.navigate(['/settings/profile']);
+      }).catch(e => {
+        console.log(e)
+      });
 
     } else {
 

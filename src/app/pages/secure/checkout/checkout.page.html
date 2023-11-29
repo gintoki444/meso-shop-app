@@ -35,12 +35,15 @@
             </div>
             <div class="address-detail add" *ngIf="shippingData">
               <h2>{{shippingData.first_name}} {{shippingData.last_name}}</h2>
-              <ion-text>(+66) 34 567 8999</ion-text>
+              <ion-input type="hidden" style="display: none;" formControlName="shipping"></ion-input>
+              <ion-input type="hidden" style="display: none;"  formControlName="billing"></ion-input>
+              <ion-text class="phone">{{shippingData.phone}} </ion-text>
               <ion-text>
-                {{shippingData.address_1}} 
+                {{shippingData.address_1}}
                 {{shippingData.address_2}}
-                {{shippingData.city}}
                 {{shippingData.state}}
+                {{shippingData.city}}
+                {{shippingData.provinces}}
                 {{shippingData.postcode}}
               </ion-text>
             </div>
@@ -95,7 +98,7 @@
                 <ion-text>เลือกโค้ดส่วนลด</ion-text>
               </div>
               <div class="coupon-detail">
-                <b>- ฿2,115</b>
+                <b *ngIf="discount > 0">- ฿{{discount | number}}</b>
                 <ion-icon name="chevron-forward-sharp"></ion-icon>
               </div>
             </ion-list>
@@ -125,12 +128,7 @@
               <div class="row total-discount">
                 <div class="col">ส่วนลด</div>
                 <div class="col price">
-                  <ng-template [ngIf]="couponData" [ngIfElse]="couponDiscout">
-                    <span>฿ 2,115</span>
-                  </ng-template>
-                  <ng-template #couponDiscout>
-                    <span>0</span>
-                  </ng-template>
+                  <span>฿ {{discount | number}}</span>
                 </div>
               </div>
               <div class="row summary-price">
@@ -147,7 +145,7 @@
 </ion-content>
 
 <ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center">
-  <ion-button class="btn-checkout" (click)="checkoutOrders()" color="secondary">
+  <ion-button class="btn-checkout" [disabled]="orderData.invalid" (click)="checkoutOrders()" color="secondary">
     สั่งซื้อ
   </ion-button>
 </ion-footer>

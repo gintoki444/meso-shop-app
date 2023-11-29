@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { CustomerService } from 'src/app/services/customer/customerservice';
+import { CouponService } from 'src/app/services/coupon/coupon.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class CheckoutPage implements OnInit {
     private checkoutServices: CheckoutService,
     private customerService: CustomerService,
     private formbuilder: FormBuilder,
+    private couponService: CouponService,
     // private cdr: ChangeDetectorRef,
   ) {
   }
@@ -36,9 +38,12 @@ export class CheckoutPage implements OnInit {
   products: any[] = [];
   shippingData: any;
   paymentData: any;
+  totalPrice: any;
+  summaryPrice: any = 0;
+
   couponData: any;
-  totalPrice:any;
-  summaryPrice:any;
+  couponCode: any = [];
+  discount: any = 0;
 
 
   // orderData: any = {
@@ -83,12 +88,12 @@ export class CheckoutPage implements OnInit {
   ngOnInit() {
     this.orderData = this.formbuilder.group({
       customer_id: '',
-      payment_method: ['', Validators.compose([Validators.required])],
-      payment_method_title: ['', Validators.compose([Validators.required])],
+      payment_method: ['', [Validators.required]],
+      payment_method_title: ['', [Validators.required]],
       set_paid: true,
       status: "processing",
-      billing: ['', Validators.compose([Validators.required])],
-      shipping: ['', Validators.compose([Validators.required])],
+      billing: ['', [Validators.required]],
+      shipping: ['', [Validators.required]],
       line_items: [],
       coupon_lines: [],
       shipping_lines: []
@@ -99,13 +104,13 @@ export class CheckoutPage implements OnInit {
   ionViewWillEnter() {
     this.getCheckoutData();
     this.getShipping();
+    this.getCoupon();
+    this.calculatePrice();
   }
 
   async getCheckoutData() {
-
     const receivedData = await this.cartService.getSetCartData();
     const customerData = JSON.parse(await this.customerService.getCustomer());
-
 
     if (receivedData) {
 
@@ -122,13 +127,9 @@ export class CheckoutPage implements OnInit {
 
       this.totalPrice = receivedData.products.totalPrice;
       this.orderData.value.customer_id = customerData.id;
-      this.orderData.value.shipping = this.shippingData;
       this.orderData.value.line_items = lineProduct;
 
       this.calculatePrice();
-
-      // console.log(' totalPrice :',  this.totalPrice)
-      // console.log(' orderData :',  this.orderData)
     } else {
       this.router.navigate(['/home'])
     }
@@ -136,25 +137,71 @@ export class CheckoutPage implements OnInit {
 
   async getShipping() {
     // this.cdr.detectChanges();
-    this.shippingData = await this.checkoutServices.getShippingData();
+    let shipping = await this.checkoutServices.getShippingData();
+
+    if (shipping) {
+      let newShipping = {
+        "first_name": `${shipping.first_name}`,
+        "last_name": `${shipping.last_name}`,
+        "address_1": `${shipping.address_1}`,
+        "address_2": `${shipping.address_2}`,
+        "city": `${shipping.provinces}`,
+        "state": `${shipping.districts + ' ' + shipping.amphuresstate}`,
+        "postcode": `${shipping.postcode}`,
+        "country": `${shipping.country}`,
+        "phone": `${shipping.phone}`,
+      }
+
+      this.orderData.get('billing').setValue(newShipping);
+      this.orderData.get('shipping').setValue(newShipping);
+
+      this.orderData.value.billing = newShipping;
+      this.orderData.value.shipping = newShipping;
+      this.shippingData = newShipping;
+
+
+      // this.arrayValidator(newShipping);
+    }
+  }
+
+  async getCoupon() {
+    this.couponData = await this.couponService.getCouponData();
+    if (this.couponData) {
+      let couponCode = {
+        "code": `${this.couponData.code}`,
+      }
+      console.log('couponCode ', couponCode);
+
+      this.orderData.value.coupon = couponCode;
+      this.couponCode = couponCode;
+    }
+  }
+
+  
+  
+  calculatePrice() {
+    if (!this.couponData) {
+      this.summaryPrice = this.totalPrice - this.discount;
+    } else {
+      if (this.couponData.discount_type == 'percent') {
+        this.discount = this.totalPrice * this.couponData.amount / 100;
+        console.log('discount ', this.discount);
+        this.summaryPrice = this.totalPrice - this.discount;
+      } else {
+        this.discount = Number(this.couponData.amount);
+        this.summaryPrice = this.totalPrice - this.discount;
+      }
+    }
   }
 
   async checkoutOrders() {
-    await this.checkoutServices.checkoutOrders(this.orderData).then(data => {
+    await this.checkoutServices.checkoutOrders(this.orderData.value).then(data => {
       console.log(data);
     }).catch(e => {
       console.log(e)
     })
   }
 
-  calculatePrice(){
-    if(this.couponData){
-      console.log(' Have coupon :');
 
-    }else{
-      this.couponData = 0;
-      this.summaryPrice = this.totalPrice - this.couponData;
-    }
-  }
 
 }

@@ -10,16 +10,28 @@ const routes: Routes = [
     component: AddAddressPage
   },
   {
-    path: 'city',
-    loadChildren: () => import('./city/city.module').then( m => m.CityPageModule),
-    resolve: {
-      myarray :AddressResolveService,
-    }
-  }
+    path: '',
+    children: [
+      {
+        path: 'city',
+        loadChildren: () => import('./city/city.module').then(m => m.CityPageModule),
+        resolve: {
+          myarray: AddressResolveService.prototype.addResolve,
+        }
+      },
+      {
+        path: 'city/:id',
+        loadChildren: () => import('./city/city.module').then(m => m.CityPageModule),
+        resolve: {
+          myarray: AddressResolveService.prototype.editResolve,
+        }
+      }
+    ]
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AddAddressPageRoutingModule {}
+export class AddAddressPageRoutingModule { }

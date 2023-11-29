@@ -53,6 +53,13 @@ ion-col {
         width: 58%;
         padding: 0 10px;
         margin-right: auto;
+
+        
+        h2 {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
 
     p {

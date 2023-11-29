@@ -4,13 +4,13 @@
     <ion-card-content class="profile-detail">
       <div class="profile-image">
         <ion-avatar>
-          <img src="../../../../assets/imgs/user-profile/user-profile.png">
+          <ion-img [src]="imgProfile"></ion-img>
         </ion-avatar>
 
       </div>
       <div class="profile-name">
         <h1>
-          <ion-text color="secondary" *ngIf="customerName"><strong>{{customerName}}</strong></ion-text>
+          <ion-text color="secondary"><strong>{{displayName}}</strong></ion-text>
           <!-- <ion-text color="secondary"><strong>Britney Spears</strong></ion-text> -->
         </h1>
         <p>
