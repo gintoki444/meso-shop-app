@@ -1,26 +1,65 @@
 <ion-header collapse="fade" [translucent]="true">
-  <ion-toolbar color="dark">
-    <ion-title color="light">
-      Payments
+
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/home">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title color="dark">
+      ช่องทางการชำระเงิน
     </ion-title>
-    <ion-buttons slot="primary">
+    <!-- <ion-buttons slot="primary">
       <ion-button color="secondary" (click)="filter()">
         <ion-icon slot="icon-only" name="filter"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header>
+  <!-- <ion-header>
     <ion-toolbar class="toolbar-search">
       <ion-searchbar color="dark" showCancelButton="focus" placeholder="Company, category, expense ..."></ion-searchbar>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
-  <div class="ion-padding">
-    <!-- Skeletons -->
-    <ng-container *ngIf="!content_loaded">
+  <ion-list class="">
+    <div *ngFor="let payment of testData">
+      <ion-item color="primary" class="sub-title" (click)="togglePayment(payment)">
+        <ion-icon></ion-icon>
+        <ion-label>
+          <p>{{payment.title}}</p>
+          <p class="detial">{{payment.description}}</p>
+        </ion-label>
+        <ion-icon *ngIf="payment.checked === true" name="checkmark-circle-outline"></ion-icon>
+        <div *ngIf="payment.subPayment.length > 0">
+          <ion-icon name="chevron-down-outline" class="rotate-icon"></ion-icon>
+        </div>
+      </ion-item>
+
+      <ion-list *ngIf="payment.subPayment.length > 0  && expandedSubPayment === payment" [ngClass]="expandedSubPayment === payment ? 
+        'sub-payment animate__animated animate__fadeInDown' :
+        'animate__animated animate__fadeOutUp'" class="sublist " lines="none">
+        <ion-item color="primary" class="sub-title" *ngFor="let subPayment of payment.subPayment"
+          (click)="selectSubPayment(payment,subPayment)">
+          <ion-icon>{{subPayment.icon}}</ion-icon>
+          <ion-label>
+            <p>{{subPayment.title}}</p>
+            <p class="detial">{{subPayment.detail}}</p>
+          </ion-label>
+          <ion-icon *ngIf="subPayment.checked === true" name="checkmark-circle-outline"></ion-icon>
+        </ion-item>
+      </ion-list>
+      <div>
+
+      </div>
+    </div>
+  </ion-list>
+
+  <!-- <div class="ion-padding"> -->
+  <!-- Skeletons -->
+  <!-- <ng-container *ngIf="!content_loaded">
 
       <ion-list-header class="ion-list-header-small">
         <ion-label><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></ion-label>
@@ -134,6 +173,13 @@
 
     </ng-container>
 
-  </div>
+  </div> -->
 
 </ion-content>
+
+
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center" *ngIf="selectData">
+  <ion-button class="btn-checkout" color="secondary" (click)="addPayment()">
+    สั่งซื้อ
+  </ion-button>
+</ion-footer>

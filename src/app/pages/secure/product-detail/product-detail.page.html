@@ -27,8 +27,8 @@
 
   <!-- Swiper Slider -->
   <div class="bg-slider">
-    <ion-button class="btn-withlist">
-      <ion-icon [src]="iconWithList"></ion-icon>
+    <ion-button class="btn-withlist" (click)="addWishList()">
+      <ion-icon [src]="wishList"></ion-icon>
     </ion-button>
     <swiper-container id="mainProductSlider" [modules]="swiperModules" [loop]="true">
       <swiper-slide *ngFor="let Img of productImg; let i = index">

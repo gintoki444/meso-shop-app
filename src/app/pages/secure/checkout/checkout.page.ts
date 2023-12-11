@@ -10,6 +10,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { CustomerService } from 'src/app/services/customer/customerservice';
 import { CouponService } from 'src/app/services/coupon/coupon.service';
+import { PaymentService } from 'src/app/services/payment/payment.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class CheckoutPage implements OnInit {
     private customerService: CustomerService,
     private formbuilder: FormBuilder,
     private couponService: CouponService,
+    private paymentService: PaymentService,
     // private cdr: ChangeDetectorRef,
   ) {
   }
@@ -86,12 +88,14 @@ export class CheckoutPage implements OnInit {
   // }
 
   ngOnInit() {
+    this.getCheckoutData();
     this.orderData = this.formbuilder.group({
-      customer_id: '',
+      customer_id: null,
       payment_method: ['', [Validators.required]],
       payment_method_title: ['', [Validators.required]],
       set_paid: true,
-      status: "processing",
+      total: null,
+      status: "on-hold",
       billing: ['', [Validators.required]],
       shipping: ['', [Validators.required]],
       line_items: [],
@@ -106,6 +110,7 @@ export class CheckoutPage implements OnInit {
     this.getShipping();
     this.getCoupon();
     this.calculatePrice();
+    this.getPayment();
   }
 
   async getCheckoutData() {
@@ -126,10 +131,11 @@ export class CheckoutPage implements OnInit {
       })
 
       this.totalPrice = receivedData.products.totalPrice;
+      this.orderData.value.total = this.totalPrice;
       this.orderData.value.customer_id = customerData.id;
       this.orderData.value.line_items = lineProduct;
-
       this.calculatePrice();
+
     } else {
       this.router.navigate(['/home'])
     }
@@ -158,9 +164,6 @@ export class CheckoutPage implements OnInit {
       this.orderData.value.billing = newShipping;
       this.orderData.value.shipping = newShipping;
       this.shippingData = newShipping;
-
-
-      // this.arrayValidator(newShipping);
     }
   }
 
@@ -170,15 +173,42 @@ export class CheckoutPage implements OnInit {
       let couponCode = {
         "code": `${this.couponData.code}`,
       }
-      console.log('couponCode ', couponCode);
+      console.log('couponCode ', this.couponData);
 
       this.orderData.value.coupon = couponCode;
       this.couponCode = couponCode;
     }
   }
 
-  
-  
+  async getPayment() {
+    this.paymentData = await this.paymentService.getPaymentData();
+
+    if (this.paymentData) {
+
+      if (this.paymentData.subPayment.length > 0) {
+        console.log('Have subPayment')
+        this.paymentData.subPayment.forEach(data => {
+          if (data.checked === true) {
+            console.log('payment_method: ',data.type)
+            console.log('payment_method: ',data.title)
+            this.orderData.get('payment_method').setValue(data.type);
+            this.orderData.get('payment_method_title').setValue(data.title);
+            this.orderData.value.payment_method = data.type;
+            this.orderData.value.payment_method_title = data.title;
+          }
+        })
+      } else {
+        console.log('Not Have subPayment')
+        this.orderData.get('payment_method').setValue(this.paymentData.id);
+        this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+        this.orderData.value.payment_method = this.paymentData.id;
+        this.orderData.value.payment_method_title = this.paymentData.title;
+      }
+
+    }
+  }
+
+
   calculatePrice() {
     if (!this.couponData) {
       this.summaryPrice = this.totalPrice - this.discount;
@@ -197,6 +227,7 @@ export class CheckoutPage implements OnInit {
   async checkoutOrders() {
     await this.checkoutServices.checkoutOrders(this.orderData.value).then(data => {
       console.log(data);
+      this.router.navigate(['checkout', 'thank-you', data.id])
     }).catch(e => {
       console.log(e)
     })

@@ -11,7 +11,7 @@ const routes: Routes = [
     component: CheckoutPage
   },
   {
-    path: 'thank-you',
+    path: 'thank-you/:orderID',
     loadChildren: () => import('./thank-you/thank-you.module').then(m => m.ThankYouPageModule)
   },
   {
@@ -27,6 +27,14 @@ const routes: Routes = [
     resolve: {
       myarray :AddressResolveService.prototype.selectResolve,
     }
+  },
+  {
+    path: 'payments',
+    loadChildren: () => import('../payments/payments.module').then(m => m.PaymentsPageModule),
+  },
+  {
+    path: 'checkout-order',
+    loadChildren: () => import('./checkout-order/checkout-order.module').then( m => m.CheckoutOrderPageModule)
   },
 ];
 

@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 
 import { Preferences } from '@capacitor/preferences';
-
 import { CartService } from 'src/app/services/cart/cart.service';
 
 
@@ -25,6 +24,8 @@ export class ProductDetailPage implements OnInit {
   allProducts: any = [];
 
   // Add to cart and StoreData
+  wishList ='';
+  wishlistcheck: boolean = false;
   loadings: boolean = false;
   btnAddtocart: boolean = false;
   cartItem: any = {};
@@ -40,6 +41,7 @@ export class ProductDetailPage implements OnInit {
   iconCart = '../../../../assets/icon/i-cart.svg';
   iconStar = '../../../../assets/icon/i-star.svg';
   iconWithList = '../../../../assets/icon/i-with-list.svg';
+  iconWithListCheck = '../../../../assets/icon/i-with-list-active.svg';
 
   constructor(
     private WC: WoocommerceService,
@@ -52,6 +54,7 @@ export class ProductDetailPage implements OnInit {
   ngOnInit() {
     this.productDetail();
     this.homePageProducts();
+    this.wishList = this.iconWithList;
   }
 
   getCart() {
@@ -104,6 +107,16 @@ export class ProductDetailPage implements OnInit {
 
   async viewCart() {
     this.router.navigate(['/', 'cart']);
+  }
+
+  addWishList() {
+    if (this.wishlistcheck == false) {
+      this.wishlistcheck = true;
+      this.wishList = this.iconWithListCheck;
+    } else {
+      this.wishlistcheck = false;
+      this.wishList = this.iconWithList;
+    }
   }
 
 }

@@ -17,6 +17,53 @@
   ion-label {
     font-size: 16px;
     font-weight: 700;
+
+    p.detial {
+      font-size: 12px;
+      color: darkgrey;
+      font-weight: 200;
+    }
   }
+
+  ion-item {
+    // overflow: hidden;
+    overflow: hidden;
+  }
+
+  ion-item[hidden] {
+    display: none;
+  }
+
+  ion-icon {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(180deg);
+    }
+  }
+
+  .expanded {
+    animation: rotate 0.3s ease-in-out forwards;
+  }
+
+  .collapsed {
+    animation: rotate 0.3s ease-in-out reverse forwards;
+  }
+
+  // ion-item {
+  //   overflow: hidden;
+  //   transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  // }
+
+  // .expanded-item {
+  //   height: auto;
+  //   opacity: 1;
+  // }
 
 }

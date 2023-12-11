@@ -20,7 +20,7 @@ export class CouponResolveService implements Resolve<any> {
     const data = {
       titleName: 'โค้ดส่วนลด meso Code',
       statusCheck:'add',
-      checkform: true,
+      checkform: false,
     }
 
     return data;

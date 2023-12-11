@@ -94,20 +94,6 @@ const routes: Routes = [
           myarray: AddressResolveService.prototype.resolve,
         }
       },
-      // {
-      //   path: 'address/add-address',
-      //   loadChildren: () => import('./profile/address/add-address/add-address.module').then(m => m.AddAddressPageModule),
-      //   resolve: {
-      //     myarray: AddressResolveService.prototype.addResolve,
-      //   }
-      // },
-      // {
-      //   path: 'add-address/city',
-      //   loadChildren: () => import('./profile/address/add-address/city/city.module').then(m => m.CityPageModule),
-      //   resolve: {
-      //     myarray: AddressResolveService.prototype.editResolve,
-      //   }
-      // }
     ]
   },
   {

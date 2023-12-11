@@ -47,8 +47,8 @@
                 <div class="coupon-min-price"><ion-text>ขั้นต่ำ {{coupon.minimum_amount ? (coupon.minimum_amount | number): '-'}}฿</ion-text></div>
               </div>
               <div class="coupon-check">
-                <ion-checkbox *ngIf="dataResolve && dataResolve.checkbox == true"></ion-checkbox>
-                <ion-text *ngIf="!dataResolve">เงื่อนไข</ion-text>
+                <ion-checkbox *ngIf="dataResolve.checkform === true"></ion-checkbox>
+                <ion-text *ngIf="dataResolve.checkform === false">เงื่อนไข</ion-text>
               </div>
             </div>
 

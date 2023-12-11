@@ -105,13 +105,13 @@
           </div>
 
           <!-- add payment -->
-          <div class="payment">
+          <div class="payment" routerLink="payments">
             <ion-list lines="none" class="payment">
               <div class="payment-title">
                 <ion-text>วิธีการชำระเงิน</ion-text>
               </div>
               <div class="payment-detail">
-                <b>QR พร้อมเพย์</b>
+                <b *ngIf="paymentData">{{paymentData.title}}</b>
                 <ion-icon name="chevron-forward-sharp"></ion-icon>
               </div>
             </ion-list>

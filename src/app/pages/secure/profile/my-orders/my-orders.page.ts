@@ -120,8 +120,6 @@ export class MyOrdersPage implements AfterViewInit {
       this.activeID = this.orderStatus.filter(x => x.nameStatus == statusOrder);
 
       this.activeIndex = this.activeID[0].id;
-
-      console.log('Get activeID :', this.activeID);
       this.dataOrder = this.orderList.filter(x => x.statusOrder == statusOrder);
     });
   }

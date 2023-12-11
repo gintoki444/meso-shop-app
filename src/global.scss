@@ -28,6 +28,11 @@
 /* Swiper bundle */
 // @import 'swiper/css/bundle';
 
+
+
+.ion-activated {
+  --background-activated: transparent !important;
+}
 /* Animation */
 @import "~animate.css/animate.min.css";
 
