@@ -125,6 +125,21 @@ export class WoocommerceService {
     return this.userData;
   }
 
+  // get order data by customer ID
+  getOrderByCustomerID(id: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}orders?customer=${id}&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.userData = this.http.get(this.apiURL);
+    return this.userData;
+  }
+
+  
+  // get user data
+  getOrderByID(id: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}orders/${id}?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.userData = this.http.get(this.apiURL);
+    return this.userData;
+  }
+
   postOrders(orders: any) {
     console.log("WC orders", orders)
     this.apiURL = `${this.siteURL}${this.woocomPart}orders?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;

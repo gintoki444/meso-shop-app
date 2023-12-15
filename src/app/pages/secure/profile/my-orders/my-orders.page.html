@@ -34,23 +34,30 @@
 
 <ion-content>
   <ion-grid [fixed]="true" class="grid-notification">
-    <ion-row class="ion-justify-content-center" offset-md="2" *ngFor="let order of dataOrder" [routerLink]="['/','order' , order.orderID]">
+    <ion-row class="ion-justify-content-center" offset-md="2" *ngIf="!dataOrder || dataOrder.length === 0">
+      <ion-col size-md="12" size-xs="12" class="ion-text-center">
+        <div>
+          <ion-text class="title"><b>ไม่มีข้อมูลคำสั่งซื้อ</b> </ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" offset-md="2" *ngFor="let order of dataOrder" [routerLink]="['/','order' , order.id]">
       <ion-col size-md="3" size-xs="3" class="ion-text-center">
         <ion-icon [src]="activeID[0].icon" class="i-cart-order"></ion-icon>
       </ion-col>
       <ion-col size-md="8" size-xs="8" class="">
         <div>
-          <ion-text class="title">คำสั่งซื้อ : <b>#{{order.orderID}}</b> </ion-text>
+          <ion-text class="title">คำสั่งซื้อ : <b>#{{order.id}}</b> </ion-text>
         </div>
         <div>
           <ion-text class="sub-title">สถานะการจัดส่ง :
-            <b class="{{order.statusOrder}}" *ngIf="order.statusOrder == 'completed'">
+            <b class="{{order.status}}" *ngIf="order.status == 'completed'">
               สำเร็จแล้ว
             </b>
-            <b class="{{order.statusOrder}}" *ngIf="order.statusOrder == 'processing'">
+            <b class="{{order.status}}" *ngIf="order.status == 'processing'">
               กำลังดำเนินการจัดส่ง
             </b>
-            <b class="{{order.statusOrder}}" *ngIf="order.statusOrder == 'pending'">
+            <b class="{{order.status}}" *ngIf="order.status == 'pending'">
               รอการชำระเงิน
             </b>
           </ion-text>

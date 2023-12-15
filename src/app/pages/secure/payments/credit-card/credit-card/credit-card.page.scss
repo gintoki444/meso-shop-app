@@ -1,0 +1,113 @@
+:host {
+    .item-detail-icon {
+        --detail-icon-opacity: 1;
+    }
+
+    ion-header .header-title {
+        font-weight: normal;
+    }
+
+    ion-grid,
+    ion-row,
+    ion-col {
+        padding: 0;
+    }
+
+    ion-footer {
+        padding-top: 10px;
+        padding-bottom: 30px;
+        background: #fff;
+    }
+
+    .address-active {
+        background: #D5D5D5;
+        --ion-background-color: #D5D5D5;
+    }
+
+    .address-titles{
+        padding: 24px;
+    }
+
+    .address {
+        // display: flex;
+        // align-items: center;
+        // justify-content: space-around;
+        --ion-background-color: #D5D5D5;
+        border-radius: 0;
+        min-height: 155px;
+        padding: 20px 24px;
+        margin-bottom: 10px;
+
+        h4 {
+            font-size: 20px;
+            font-weight: normal;
+            margin: 0 0 20px;
+        }
+
+        .form-address-detail {
+            width: 100%;
+            padding: 0;
+
+            ion-text {
+                display: block;
+                font-size: 14px;
+                margin-bottom: 5px;
+                line-height: 1.2;
+            }
+        }
+    }
+
+    .address-add {
+        display: flex;
+        align-items: center;
+        border-radius: 0;
+        --ion-background-color: #F2F2F2;
+        padding: 5px 24px;
+        justify-content: center;
+
+        ion-icon {
+            padding: 5px;
+            border-radius: 50px;
+            background: #D5D5D5;
+            font-size: 22px;
+            margin-right: 10px;
+            --ionicon-stroke-width: 3em;
+        }
+
+        ion-button {
+            --padding-top: 10px;
+            --padding-end: 10px;
+            --padding-bottom: 10px;
+            --padding-start: 10px;
+            --background: transparent;
+            --box-shadow: 0;
+        }
+    }
+}
+
+
+form ion-item {
+    --inner-padding-end: 15px;
+    max-height: 100%;
+}
+
+form ion-item ion-label,
+form ion-item ion-textarea {
+    padding-left: 15px;
+    text-align: left;
+    font-size: 14px !important;
+    --inner-padding-end: 16px;
+    overflow: initial;
+}
+
+ion-input {
+    font-size: 14px !important;
+    text-align: left;
+    --padding-start: 15px !important;
+}
+
+.sc-ion-textarea-ios-h {
+    --padding-top: 15px;
+    --padding-start: 15px;
+    --padding-bottom: 5px;
+}

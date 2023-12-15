@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 // Form and Validation
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -33,6 +34,7 @@ export class CheckoutPage implements OnInit {
     private formbuilder: FormBuilder,
     private couponService: CouponService,
     private paymentService: PaymentService,
+    private loadingController: LoadingController,
     // private cdr: ChangeDetectorRef,
   ) {
   }
@@ -88,9 +90,9 @@ export class CheckoutPage implements OnInit {
   // }
 
   ngOnInit() {
-    this.getCheckoutData();
+    // this.getCheckoutData();
     this.orderData = this.formbuilder.group({
-      customer_id: null,
+      customer_id: ['', [Validators.required]],
       payment_method: ['', [Validators.required]],
       payment_method_title: ['', [Validators.required]],
       set_paid: true,
@@ -98,7 +100,7 @@ export class CheckoutPage implements OnInit {
       status: "on-hold",
       billing: ['', [Validators.required]],
       shipping: ['', [Validators.required]],
-      line_items: [],
+      line_items: ['', [Validators.required]],
       coupon_lines: [],
       shipping_lines: []
     })
@@ -134,6 +136,10 @@ export class CheckoutPage implements OnInit {
       this.orderData.value.total = this.totalPrice;
       this.orderData.value.customer_id = customerData.id;
       this.orderData.value.line_items = lineProduct;
+
+      
+      this.orderData.get('customer_id').setValue(customerData.id);
+      this.orderData.get('line_items').setValue(lineProduct);
       this.calculatePrice();
 
     } else {
@@ -173,7 +179,6 @@ export class CheckoutPage implements OnInit {
       let couponCode = {
         "code": `${this.couponData.code}`,
       }
-      console.log('couponCode ', this.couponData);
 
       this.orderData.value.coupon = couponCode;
       this.couponCode = couponCode;
@@ -185,12 +190,11 @@ export class CheckoutPage implements OnInit {
 
     if (this.paymentData) {
 
-      if (this.paymentData.subPayment.length > 0) {
+      if (this.paymentData.subPayment) {
         console.log('Have subPayment')
         this.paymentData.subPayment.forEach(data => {
           if (data.checked === true) {
-            console.log('payment_method: ',data.type)
-            console.log('payment_method: ',data.title)
+
             this.orderData.get('payment_method').setValue(data.type);
             this.orderData.get('payment_method_title').setValue(data.title);
             this.orderData.value.payment_method = data.type;
@@ -225,8 +229,15 @@ export class CheckoutPage implements OnInit {
   }
 
   async checkoutOrders() {
+    const loading = await this.loadingController.create({
+      cssClass: 'default-loading',
+      message: 'บันทึกข้อมูลคำสั่งซื้อ',
+      spinner: 'crescent'
+    });
+    await loading.present();
     await this.checkoutServices.checkoutOrders(this.orderData.value).then(data => {
       console.log(data);
+      loading.dismiss();
       this.router.navigate(['checkout', 'thank-you', data.id])
     }).catch(e => {
       console.log(e)

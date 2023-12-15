@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 
 import { CartService } from 'src/app/services/cart/cart.service';
+import { CustomerService } from 'src/app/services/customer/customerservice';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-my-orders',
@@ -53,33 +55,39 @@ export class MyOrdersPage implements AfterViewInit {
     }
   ]
 
-  orderList = [
-    {
-      orderID: 123477,
-      statusOrder: 'completed',
-    },
-    {
-      orderID: 456844,
-      statusOrder: 'completed',
-    },
-    {
-      orderID: 112233,
-      statusOrder: 'processing',
-    },
-    {
-      orderID: 123456,
-      statusOrder: 'processing',
-    },
-    {
-      orderID: 456812,
-      statusOrder: 'pending',
-    }
-  ]
+  orderList: any
+  // = [
+  //   {
+  //     id: 123477,
+  //     status: 'completed',
+  //   },
+  //   {
+  //     id: 456844,
+  //     status: 'completed',
+  //   },
+  //   {
+  //     id: 112233,
+  //     status: 'processing',
+  //   },
+  //   {
+  //     id: 123456,
+  //     status: 'processing',
+  //   },
+  //   {
+  //     id: 456812,
+  //     status: 'pending',
+  //   }
+  // ]
+  customer: any;
+
+
   constructor(
     private router: Router,
-    private WC: WoocommerceService,
     private activatedRoute: ActivatedRoute,
+    private WC: WoocommerceService,
     private cartServices: CartService,
+    private customerService: CustomerService,
+    private loadingController: LoadingController,
   ) { }
 
 
@@ -88,12 +96,13 @@ export class MyOrdersPage implements AfterViewInit {
 
 
   ngAfterViewInit() {
-    this.Cart();
     this.getOrderData();
+    // this.getOrdersList();
+    this.Cart();
   }
 
-  
-  async Cart(){
+
+  async Cart() {
     let cartData = JSON.parse(await this.cartServices.getCart());
     this.cartItem = cartData.totalItem
     console.log('cartItem :', this.cartItem)
@@ -108,20 +117,31 @@ export class MyOrdersPage implements AfterViewInit {
         this.activeID = this.orderStatus.filter(x => x.id == index);
 
         this.activeIndex = index;
-        this.dataOrder = this.orderList.filter(x => x.statusOrder == this.activeID[0].nameStatus);
+        this.dataOrder = this.orderList.filter(x => x.status == this.activeID[0].nameStatus);
+        console.log('test', this.dataOrder)
       }
     }
   }
 
-  getOrderData() {
-    this.activatedRoute.paramMap.subscribe((paramMap) => {
-      // get id by param path
-      let statusOrder = paramMap.get('status');
-      this.activeID = this.orderStatus.filter(x => x.nameStatus == statusOrder);
+  async getOrderData() {
+    
+    let status = this.activatedRoute.snapshot.paramMap.get('status');
+    this.activeID = this.orderStatus.filter(x => x.nameStatus == status);
+    this.activeIndex = this.activeID[0].id;
 
-      this.activeIndex = this.activeID[0].id;
-      this.dataOrder = this.orderList.filter(x => x.statusOrder == statusOrder);
+    const loading = await this.loadingController.create({
+      cssClass: 'default-loading',
+      message: 'ข้อมูลคำสั่งซื้อ',
+      spinner: 'crescent'
     });
+    await loading.present();
+    
+    this.customer = JSON.parse(await this.customerService.getCustomer());
+    this.orderList = await this.WC.getOrderByCustomerID(this.customer.id).toPromise();
+
+    this.dataOrder = this.orderList.filter(x => x.status == status);
+    
+    loading.dismiss();
   }
 
 }

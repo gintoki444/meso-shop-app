@@ -79,7 +79,12 @@ export class PaymentsPage implements OnInit {
       title: "Credit / Debit Card",
       description: '',
       checked: false,
-      subPayment: [],
+      subPayment: [
+        {
+          type: 'omise',
+          checked: false,
+        },
+      ],
     },
     {
       id: "omise_installment",
@@ -155,9 +160,8 @@ export class PaymentsPage implements OnInit {
 
   ngOnInit() {
     this.getPaymentGateWay();
-    this.paymentService.getOmiseSource();
-    console.log('testData:', this.testData);
-    // this.paymentService.createOmise();
+    // console.log('testData:', this.testData);
+    // this.paymentService.getOmiseSource();
 
     // Fake timeout
     setTimeout(() => {
@@ -171,19 +175,26 @@ export class PaymentsPage implements OnInit {
 
     let payment = this.paymentList.filter((gateway: any) => gateway.enabled == true);
 
-    payment.forEach((data:any) => {
-      if(data.id === "omise_mobilebanking"){
-        data.sub_payment = this.subPayment;
+    payment.forEach((data: any) => {
+      data.checked = false
+      if (data.id === "omise_mobilebanking") {
+        data.subPayment = this.subPayment;
+      } else if (data.id === "omise") {
+        data.subPayment =
+        {
+          type: 'omise',
+          checked: false,
+        }
       }
     })
-
+    this.paymentData = payment
     console.log('Enabled payment:', payment);
     // this.paymentData 
     // console.log('Enabled Payment Gateways:', this.paymentData);
   }
 
   togglePayment(payment: PaymentList) {
-    if (payment.subPayment.length > 0) {
+    if (payment.subPayment) {
       this.expandedSubPayment = this.expandedSubPayment === payment ? null : payment;
       let toggleCheck = this.expandedSubPayment ? true : false;
       console.log('select toggleCheck', toggleCheck)
@@ -202,7 +213,7 @@ export class PaymentsPage implements OnInit {
 
   selectPayment(payment: any) {
     console.log('select', payment)
-    this.testData.forEach((item: any) => {
+    this.paymentData.forEach((item: any) => {
       if (item.id !== payment.id) {
         item.checked = false;
       }
@@ -221,6 +232,10 @@ export class PaymentsPage implements OnInit {
     this.selectPayment(payment);
   }
 
+  AddCreditCard() {
+    this.rount.navigate(['checkout', 'payments', 'credit-card'])
+  }
+
   createRotationAnimation(isExpanded: boolean): Animation {
     const rotateValueIn = isExpanded == true ? '0deg' : '180deg';
     const rotateValueOut = isExpanded == true ? '180deg' : '0deg';
@@ -231,7 +246,7 @@ export class PaymentsPage implements OnInit {
       .fromTo('transform', `rotate(${rotateValueIn})`, `rotate(${rotateValueOut})`);
   }
 
-  addPayment(){
+  addPayment() {
     this.paymentService.setPaymentData(this.selectData);
     this.rount.navigate(['/checkout'])
   }

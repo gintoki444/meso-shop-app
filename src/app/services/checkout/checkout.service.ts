@@ -8,6 +8,7 @@ import { OmiseService } from '../omise/omise.service';
 export class CheckoutService {
 
   orderData: any;
+  checkoutOrderData: any;
   orderShipping: any;
   couponData: any;
 
@@ -18,11 +19,10 @@ export class CheckoutService {
 
 
   async checkoutOrders(order: any): Promise<any> {
-    // this.orderData = order;
-    // this.orderData.transaction_id = "";
     this.orderData = await this.WC.postOrders(order).toPromise();
     await console.log('checkout order ', this.orderData);
-    await this.createOmiseSource(this.orderData);
+    await this.createOmiseCharges(this.orderData);
+    await this.setCheckoutOrderData(this.orderData)
     return this.orderData
   }
 
@@ -45,42 +45,38 @@ export class CheckoutService {
     return this.couponData;
   }
 
-  async createOmiseSource(data: any) {
-    const orderData = {
-      "amount": data.total*100,
-      "currency": "THB",
-      "platform_type": "",
-      "type": data.payment_method,
-    }
-    console.log('createOmiseSource:', orderData);
-
-    await this.OPN.createSource(orderData).subscribe((opnsData: any) => {
-      console.log('Source created:', opnsData);
-      this.createOmiseCharges(data,opnsData.id);
-    },
-      (error) => {
-        console.error('Error creating charge:', error);
-      }
-    );
+  setCheckoutOrderData(data: any) {
+    console.log('Set Checkout Order', data)
+    this.checkoutOrderData = data;
+  }
+  getCheckoutOrderData() {
+    return this.checkoutOrderData;
   }
 
-  createOmiseCharges(data: any, source: any): void {
+
+
+  async createOmiseCharges(data: any) {
     const orderData = {
       "amount": data.total*100,
       "currency": "THB",
       "platform_type": "",
       "type": data.payment_method,
       "return_uri": "http://localhost:8100/order/" + data.id,
-      "source": source,
       "description": "WooCommerce Order id " + data.id,
       "metadata": {
         "order_id": `${data.id}`
+      },
+      "source": {
+        "type": data.payment_method,
+        "phone_number": data.billing.phone
       }
     }
     console.log('createOmiseCharges:', orderData);
 
-    this.OPN.createCharges(orderData).subscribe((opnsData: any) => {
-      console.log('Charge created:', opnsData);
+    await this.OPN.createCharges(orderData).subscribe((opnsData: any) => {
+      // console.log('Charge created:', opnsData);
+      console.log('window:', opnsData.source.authorize_uri);
+      window.open(opnsData.source.authorize_uri, '_blank');
     },
       (error) => {
         console.error('Error creating charge:', error);

@@ -25,20 +25,29 @@
   </ion-header> -->
 
   <ion-list class="">
-    <div *ngFor="let payment of testData">
+    <div *ngFor="let payment of paymentData">
       <ion-item color="primary" class="sub-title" (click)="togglePayment(payment)">
         <ion-icon></ion-icon>
         <ion-label>
           <p>{{payment.title}}</p>
-          <p class="detial">{{payment.description}}</p>
+          <!-- <p class="detial">{{payment.description}}</p> -->
         </ion-label>
         <ion-icon *ngIf="payment.checked === true" name="checkmark-circle-outline"></ion-icon>
-        <div *ngIf="payment.subPayment.length > 0">
+        <div *ngIf="payment.subPayment">
           <ion-icon name="chevron-down-outline" class="rotate-icon"></ion-icon>
         </div>
       </ion-item>
+      
+      <ion-list *ngIf="payment.id === 'omise'  && expandedSubPayment === payment" class="sublist ion-text-center"
+        lines="none" (click)="AddCreditCard()">
+        <ion-button>
+          <ion-icon name="add-outline"></ion-icon>
+          เพิ่มบัตรเครดิต
+        </ion-button>
+      </ion-list>
 
-      <ion-list *ngIf="payment.subPayment.length > 0  && expandedSubPayment === payment" [ngClass]="expandedSubPayment === payment ? 
+      <ion-list *ngIf="payment.id === 'omise_mobilebanking'  &&
+       expandedSubPayment === payment" [ngClass]="expandedSubPayment === payment ? 
         'sub-payment animate__animated animate__fadeInDown' :
         'animate__animated animate__fadeOutUp'" class="sublist " lines="none">
         <ion-item color="primary" class="sub-title" *ngFor="let subPayment of payment.subPayment"

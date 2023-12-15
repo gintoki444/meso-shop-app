@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid [fixed]="true" class="grid-checkout">
+  <ion-grid [fixed]="true" class="grid-checkout" *ngIf="orderData">
     <ion-row class="ion-justify-content-center" offset-md="2">
       <ion-col size-md="12" size-xs="12" class="">
 
@@ -18,8 +18,9 @@
             <div class="row order-number">
               <div class="col"><b>หมายเลขคำสั่งซื้อ</b></div>
               <div class="col price">
-                <ion-text color="medium">236846xx</ion-text>
-                <ion-buttons class="btn-copy">คัดลอก</ion-buttons>
+                <ion-text color="medium">{{orderID}}</ion-text>
+                <!-- <ion-text color="medium">{{orderID.substring(0,3)+"XX"}}</ion-text> -->
+                <!-- <ion-buttons class="btn-copy">คัดลอก</ion-buttons> -->
               </div>
             </div>
             <div class="row order-date">
@@ -27,13 +28,14 @@
                 <ion-text color="medium">วันที่สั่งซื้อ</ion-text>
               </div>
               <div class="col price">
-                <ion-text color="medium">21/06/2023</ion-text>
+                <ion-text color="medium">{{orderData.date_created | date}}</ion-text>
               </div>
             </div>
             <div class="row order-status">
               <div class="col"><b>สถานะการสั่งซื้อ</b></div>
               <div class="col price">
-                <ion-text color="processing"><b>กำลังดำเนินการจัดส่ง</b></ion-text>
+                <ion-text class="sub-title"><b
+                  class="{{this.orderNameStatus.nameStatus}}">{{this.orderNameStatus.title}}</b></ion-text>
               </div>
             </div>
           </div>
@@ -45,33 +47,33 @@
             <ion-icon [src]="iconLocation" class="icon-search"></ion-icon>
           </div>
           <div class="address-detail">
-            <h2>Britney Spears</h2>
-            <ion-text>(+66) 34 567 8999</ion-text>
-            <ion-text>18 อาคาร ทรู ทาวเวอร์ ถนนรัชดาภิเษก 
-              แขวงห้วยขวาง เขตห้วยขวาง 
-              จังหวัดกรุงเทพฯ 10310</ion-text>
+            <h2>{{shipping.first_name}} {{shipping.last_name}}</h2>
+            <ion-text>{{shipping.phone}}</ion-text>
+            <ion-text>{{shipping.address_1 + ' ' + shipping.state + ' ' + 
+            shipping.city + ' ' +
+              shipping.postcode}}</ion-text>
           </div>
         </ion-list>
 
         <!-- Product details -->
-        <div class="product">
+        <div class="product" *ngFor="let products of productData">
           <div class="product-image">
-            <ion-img src="https://dev-meso.com/wp-content/uploads/2023/10/product-ha.png"></ion-img>
+            <ion-img [src]="products.image.src"></ion-img>
           </div>
           <div class="product-detail">
             <div class="product-name">
               <ion-text>
-                ha densimatrix
+                {{products.name}}
               </ion-text>
             </div>
             <div class="product-price">
               <ion-text>
-                ฿ 2,820
+                ฿ {{products.price | number}}
               </ion-text>
             </div>
           </div>
           <div class="product-quantity">
-            x <span>3</span>
+            x <span>{{products.quantity}}</span>
           </div>
         </div>
 
@@ -82,7 +84,7 @@
               <ion-text>วิธีการชำระเงิน</ion-text>
             </div>
             <div class="payment-detail">
-              <b>QR พร้อมเพย์</b>
+              <b>{{orderData.payment_method_title}}</b>
               <ion-icon name="chevron-forward-sharp"></ion-icon>
             </div>
           </ion-list>
@@ -94,15 +96,15 @@
           <div class="table">
             <div class="row total-prices">
               <div class="col">รวมการจัดส่ง</div>
-              <div class="col price">฿ 8,460</div>
+              <div class="col price">฿ {{orderData.total | number}}</div>
             </div>
             <div class="row total-discount">
               <div class="col">ส่วนลด</div>
-              <div class="col price">฿ 2,115</div>
+              <div class="col price">฿ {{orderData.discount_total | number}}</div>
             </div>
             <div class="row summary-price">
               <div class="col"><b>ยอดชำระเงินทั้งหมด</b></div>
-              <div class="col price"><b>฿ 6,345</b></div>
+              <div class="col price"><b>฿ {{orderData.total-orderData.discount_total | number}}</b></div>
             </div>
           </div>
         </div>

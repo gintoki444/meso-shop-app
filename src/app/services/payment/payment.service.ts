@@ -59,37 +59,59 @@ export class PaymentService {
     return this.payment;
   }
 
-  async getOmiseSource(){
-    const testData = {
-      "amount": 1604000,
-      "currency": "THB",
-      "platform_type": "IOS",
-      "type":"mobile_banking_kbank"
-    }
-    let data = await this.OPN.createSource(testData).toPromise();
-    console.log( 'data getOmiseSource ',data);
+  // async getOmiseSource() {
+  //   const testData = {
+  //     "amount": 1604000,
+  //     "currency": "THB",
+  //     "platform_type": "IOS",
+  //     "type": "mobile_banking_kbank"
+  //   }
+  //   await this.OPN.createSourcetest(testData).subscribe((opnsData: any) => {
+  //     console.log('Charge created:', opnsData.id);
 
-    let dataCharge = await this.getOmiseCharge(data)
-    console.log( 'data getOmiseCharge ',dataCharge);
-    // return data;
-  }
-  
-  async getOmiseCharge(dataCharge:any){
-    const testData = {
-      "amount": 1604000,
-      "currency": "THB",
-      "platform_type": "IOS",
-      "type": "mobile_banking_kbank",
-      "return_uri": "http://localhost:8100/order/1433",
-      "source": dataCharge.id,
-      "description": "WooCommerce Order id 1433",
-      "metadata": {
-          "order_id": "1433"
-      }
-  }
-    let data = await this.OPN.createCharges(testData).toPromise();
-    console.log( 'data OPN',data);
-    // return data;
-  }
-  
+  //     let dataCharge = this.getOmiseCharge(opnsData.id);
+  //     // console.log('data getOmiseCharge ', dataCharge);
+  //     return dataCharge;
+  //   },
+  //     (error) => {
+  //       console.error('Error creating charge:', error);
+  //     }
+  //   );
+
+
+  // }
+
+  // async getOmiseCharge(dataCharge: any) {
+  //   const testData = {
+  //     "amount": 1604000,
+  //     "currency": "THB",
+  //     "platform_type": "IOS",
+  //     "type": "mobile_banking_kbank",
+  //     "return_uri": "http://localhost:8100/order/1433",
+  //     "source": dataCharge,
+  //     "description": "WooCommerce Order id 1433",
+  //     "metadata": {
+  //       "order_id": "1433"
+  //     }
+  //   }
+  //   console.log('Charge testData:', testData);
+
+  //   await this.OPN.createChargestest(testData).subscribe((opnsData: any) => {
+  //     console.log('Charge created:', opnsData);
+  //   },
+  //     (error) => {
+  //       console.error('Error creating charge:', error);
+  //     }
+  //   );
+  //   // console.log('data getOmiseCharge ', testData);
+
+  //   // await this.OPN.createCharges(testData).subscribe((opnsData: any) => {
+  //   //   console.log('Charge created:', opnsData);
+  //   // },
+  //   //   (error) => {
+  //   //     console.error('Error creating charge:', error);
+  //   //   }
+  //   // );
+  // }
+
 }

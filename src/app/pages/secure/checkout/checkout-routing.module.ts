@@ -25,16 +25,26 @@ const routes: Routes = [
     path: 'address',
     loadChildren: () => import('../profile/address/address.module').then(m => m.AddressPageModule),
     resolve: {
-      myarray :AddressResolveService.prototype.selectResolve,
+      myarray: AddressResolveService.prototype.selectResolve,
     }
   },
   {
     path: 'payments',
-    loadChildren: () => import('../payments/payments.module').then(m => m.PaymentsPageModule),
+    children:
+      [
+        {
+          path: '',
+          loadChildren: () => import('../payments/payments.module').then(m => m.PaymentsPageModule),
+        },
+        {
+          path: 'credit-card',
+          loadChildren: () => import('../payments/credit-card/credit-card/credit-card.module').then( m => m.CreditCardPageModule)
+        }
+      ]
   },
   {
     path: 'checkout-order',
-    loadChildren: () => import('./checkout-order/checkout-order.module').then( m => m.CheckoutOrderPageModule)
+    loadChildren: () => import('./checkout-order/checkout-order.module').then(m => m.CheckoutOrderPageModule)
   },
 ];
 

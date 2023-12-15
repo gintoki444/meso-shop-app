@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 
 //import woo
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,12 +14,14 @@ export class OrderPage implements OnInit {
   iconLocation = '../../../../assets/icon/i-location.svg';
   iconStar = '../../../../assets/icon/i-star.svg';
 
-  orderID: any;
+  orderID: string;
   orderNameStatus: any;
-  getData: any;
+  orderData: any;
+  shipping: any
+  productData: any;
 
 
-  
+
 
   orderStatus = [
     {
@@ -50,28 +53,28 @@ export class OrderPage implements OnInit {
 
   orderList = [
     {
-      orderID: 123477,
-      statusOrder: 'completed',
+      id: 123477,
+      status: 'completed',
     },
     {
-      orderID: 456844,
-      statusOrder: 'completed',
+      id: 456844,
+      status: 'completed',
     },
     {
-      orderID: 112233,
-      statusOrder: 'processing',
+      id: 112233,
+      status: 'processing',
     },
     {
-      orderID: 123456,
-      statusOrder: 'processing',
+      id: 123456,
+      status: 'processing',
     },
     {
-      orderID: 456812,
-      statusOrder: 'pending',
+      id: 456812,
+      status: 'pending',
     },
     {
-      orderID: 456879,
-      statusOrder: 'cancelled',
+      id: 456879,
+      status: 'cancelled',
     }
   ]
 
@@ -79,21 +82,18 @@ export class OrderPage implements OnInit {
     private router: Router,
     private WC: WoocommerceService,
     private activatedRoute: ActivatedRoute,
+    private loadingController: LoadingController,
   ) { }
 
   ngOnInit() {
 
-    this.orderID = this.activatedRoute.snapshot.paramMap.get('orderID');
+    // this.orderID = this.activatedRoute.snapshot.paramMap.get('orderID');
 
-    this.getData = this.orderList.filter(x => x.orderID == Number(this.orderID));
-    this.getData = this.getData[0]
+    // this.getData = this.orderList.filter(x => x.id == Number(this.orderID));
+    // this.getData = this.getData[0]
 
-    let statusName = this.orderStatus.filter(x => x.nameStatus == this.getData.statusOrder);
-    this.orderNameStatus = statusName[0]
-
-
-    console.log('getData :', this.getData)
-    console.log('orderNameStatus :', this.orderNameStatus)
+    // let statusName = this.orderStatus.filter(x => x.nameStatus == this.getData.status);
+    // this.orderNameStatus = statusName[0]
 
     // this.activatedRoute.paramMap.subscribe(params => {
     //   let statusOrder = params.get('orderID');
@@ -103,7 +103,30 @@ export class OrderPage implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    this.getOrderData();
+    // this.orderID = this.activatedRoute.snapshot.paramMap.get('orderID');
+  }
 
+  async getOrderData() {
+    const loading = await this.loadingController.create({
+      cssClass: 'default-loading',
+      message: 'ข้อมูลคำสั่งซื้อ',
+      spinner: 'crescent'
+    });
+    await loading.present();
 
+    let id = this.activatedRoute.snapshot.paramMap.get('orderID');
+    let order = await this.WC.getOrderByID(id).toPromise();
+
+    let statusName = this.orderStatus.filter(x => x.nameStatus == order.status);
+    this.orderData = order;
+    this.shipping = order.shipping;
+    this.orderID = id;
+    this.orderNameStatus = statusName[0];
+    this.productData = order.line_items;
+
+    loading.dismiss();
+  }
 
 }
