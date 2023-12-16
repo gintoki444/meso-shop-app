@@ -121,8 +121,14 @@ ion-col {
     padding: 0;
 }
 
-.check-all>label {
-    font-size: 18px;
-    margin-left: auto;
-    margin-right: 15px;
+
+.check-all{
+    label {
+        font-size: 18px;
+        margin-left: auto;
+        margin-right: 15px;
+    }
+    ion-checkbox{
+        width: auto;
+    }
 }

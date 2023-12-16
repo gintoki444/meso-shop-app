@@ -41,6 +41,20 @@ export class SettingsPage implements OnInit {
     }
   ]
 
+  menuItems = [
+    {
+      title: 'Home',
+      subItems: [
+        { title: 'Submenu 1', subItems: [{ title: 'Nested 1' }, { title: 'Nested 2' }] },
+        { title: 'Submenu 2', subItems: [{ title: 'Nested 3' }, { title: 'Nested 4' }] },
+      ],
+    },
+    { title: 'About Us' },
+    { title: 'Contact Us' },
+  ];
+
+  isSubMenuOpen: boolean[] = [];
+
   constructor(
     private authService: AuthService,
     private cartServices: CartService,
@@ -82,6 +96,10 @@ export class SettingsPage implements OnInit {
         this.displayName = this.customerData.username;
       }
     });
+  }
+
+  toggleSubMenu(index: number): void {
+    this.isSubMenuOpen[index] = !this.isSubMenuOpen[index];
   }
 
 }

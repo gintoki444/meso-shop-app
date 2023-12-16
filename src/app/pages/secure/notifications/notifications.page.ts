@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-notifications',
@@ -15,6 +16,7 @@ export class NotificationsPage implements OnInit {
 
   constructor(
     private cartServices: CartService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -23,7 +25,9 @@ export class NotificationsPage implements OnInit {
 
   async Cart(){
     let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+    if(cartData) {
+      this.cartItem = cartData.totalItem;
+      this.cdr.detectChanges(); // Manually trigger change detection
+    }
   }
 }

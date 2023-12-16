@@ -64,89 +64,6 @@ export class PaymentsPage implements OnInit {
     },
   ]
 
-
-  testData: any = [
-    {
-      id: "bacs",
-      title: 'โอน/ชำระผ่านบัญชีธนาคาร',
-      description: 'หลังจากชำระเงินเสร็จแล้ว กรุณาส่งสลิปและเลขที่ใบสั่งซื้อมาที่ หน้าแจ้งชำระเงิน (Confirm payment) หรือแจ้งกลับมาที่ Line@ : mesoestetic ได้เลยนะคะ Customer Service ( Tel: 097-043-3305,  Email: cus-meso@mesoestetic-th.com )',
-      checked: false,
-      subPayment: [],
-
-    },
-    {
-      id: "omise",
-      title: "Credit / Debit Card",
-      description: '',
-      checked: false,
-      subPayment: [
-        {
-          type: 'omise',
-          checked: false,
-        },
-      ],
-    },
-    {
-      id: "omise_installment",
-      title: "Installments",
-      description: '',
-      checked: false,
-      subPayment: [],
-
-    },
-    {
-      id: "omise_internetbanking",
-      title: "Internet Banking",
-      description: '',
-      checked: false,
-      subPayment: [],
-
-    },
-    {
-      id: "omise_mobilebanking",
-      title: "Mobile Banking",
-      description: '',
-      checked: false,
-      subPayment: [
-        {
-          type: 'mobile_banking_kbank',
-          title: 'K PLUS',
-          logo: 'kplus',
-          detail: 'รอยืนยัน 3 นาที ชำระเงิน',
-          checked: false,
-        },
-        {
-          type: 'mobile_banking_scb',
-          title: 'SCB EASY',
-          logo: 'scb',
-          detail: 'รอยืนยัน 3 นาที ชำระเงิน',
-          checked: false,
-        },
-        {
-          type: 'mobile_banking_bay',
-          title: 'KMA',
-          logo: 'bay',
-          detail: 'รอยืนยัน 3 นาที ชำระเงิน',
-          checked: false,
-        },
-        {
-          type: 'mobile_banking_bbl',
-          title: 'Bualuang mBanking',
-          logo: 'bbl',
-          detail: 'รอยืนยัน 3 นาที ชำระเงิน',
-          checked: false,
-        },
-        {
-          type: 'mobile_banking_ktb',
-          title: 'Krungthai NEXT',
-          logo: 'ktb',
-          detail: 'รอยืนยัน 3 นาที ชำระเงิน',
-          checked: false,
-        },
-      ],
-
-    },
-  ]
   expandedSubPayment: PaymentList | null = null;
 
 
@@ -160,8 +77,6 @@ export class PaymentsPage implements OnInit {
 
   ngOnInit() {
     this.getPaymentGateWay();
-    // console.log('testData:', this.testData);
-    // this.paymentService.getOmiseSource();
 
     // Fake timeout
     setTimeout(() => {
@@ -188,7 +103,6 @@ export class PaymentsPage implements OnInit {
       }
     })
     this.paymentData = payment
-    console.log('Enabled payment:', payment);
     // this.paymentData 
     // console.log('Enabled Payment Gateways:', this.paymentData);
   }
@@ -197,7 +111,6 @@ export class PaymentsPage implements OnInit {
     if (payment.subPayment) {
       this.expandedSubPayment = this.expandedSubPayment === payment ? null : payment;
       let toggleCheck = this.expandedSubPayment ? true : false;
-      console.log('select toggleCheck', toggleCheck)
 
       this.selectPayment(payment);
       const rotationAnimation = this.createRotationAnimation(toggleCheck);
@@ -212,7 +125,6 @@ export class PaymentsPage implements OnInit {
   }
 
   selectPayment(payment: any) {
-    console.log('select', payment)
     this.paymentData.forEach((item: any) => {
       if (item.id !== payment.id) {
         item.checked = false;
@@ -250,32 +162,4 @@ export class PaymentsPage implements OnInit {
     this.paymentService.setPaymentData(this.selectData);
     this.rount.navigate(['/checkout'])
   }
-
-  // Filter
-  // async filter() {
-
-  //   // Open filter modal
-  //   const modal = await this.modalController.create({
-  //     component: FilterPage,
-  //     // swipeToClose: true,
-  //     presentingElement: this.routerOutlet.nativeEl
-  //   });
-
-  //   await modal.present();
-
-  //   // Apply filter from modal
-  //   let { data } = await modal.onWillDismiss();
-
-  //   if (data) {
-
-  //     // Reload
-  //     this.content_loaded = false;
-
-  //     // Fake timeout
-  //     setTimeout(() => {
-  //       this.content_loaded = true;
-  //     }, 2000);
-  //   }
-  // }
-
 }

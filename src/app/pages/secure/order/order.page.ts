@@ -48,35 +48,24 @@ export class OrderPage implements OnInit {
       id: 4,
       title: 'ยกเลิกคำสั่งซือ',
       nameStatus: 'cancelled',
+    },
+    {
+      id: 5,
+      title: 'รอแจ้งชำระเงิน',
+      nameStatus: 'on-hold',
+    },
+    {
+      id: 6,
+      title: 'ไม่สำเร็จ',
+      nameStatus: 'failed',
+    },
+    {
+      id: 6,
+      title: 'คืนเงิน',
+      nameStatus: 'refunded',
     }
   ]
 
-  orderList = [
-    {
-      id: 123477,
-      status: 'completed',
-    },
-    {
-      id: 456844,
-      status: 'completed',
-    },
-    {
-      id: 112233,
-      status: 'processing',
-    },
-    {
-      id: 123456,
-      status: 'processing',
-    },
-    {
-      id: 456812,
-      status: 'pending',
-    },
-    {
-      id: 456879,
-      status: 'cancelled',
-    }
-  ]
 
   constructor(
     private router: Router,
@@ -86,21 +75,6 @@ export class OrderPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    // this.orderID = this.activatedRoute.snapshot.paramMap.get('orderID');
-
-    // this.getData = this.orderList.filter(x => x.id == Number(this.orderID));
-    // this.getData = this.getData[0]
-
-    // let statusName = this.orderStatus.filter(x => x.nameStatus == this.getData.status);
-    // this.orderNameStatus = statusName[0]
-
-    // this.activatedRoute.paramMap.subscribe(params => {
-    //   let statusOrder = params.get('orderID');
-    //   this.getData = statusOrder;
-    //   console.log('getData :', this.getData)
-    // });
-
   }
 
   ngAfterViewInit() {

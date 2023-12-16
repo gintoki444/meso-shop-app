@@ -21,7 +21,7 @@
 
 <ion-content>
 
-  <ion-grid [fixed]="true" class="grid-cart" *ngIf="cartData">
+  <ion-grid [fixed]="true" class="grid-cart" *ngIf="cartItem">
     <ion-row class="ion-justify-content-center" offset-md="2">
       <ion-col size-md="12" size-xs="12" class="">
         <ion-list lines="none" class="product-list">
@@ -60,7 +60,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid [fixed]="true" class="grid-cart" *ngIf="!cartData">
+  <ion-grid [fixed]="true" class="grid-cart" *ngIf="!cartItem">
     <ion-row class="ion-justify-content-center" offset-md="2">
       <ion-col class="ion-text-center">
         <p>ไม่มีสินค้าในตะกร้า</p>

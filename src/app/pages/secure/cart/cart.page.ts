@@ -32,7 +32,11 @@ export class CartPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.getCart();
+    console.log("getCart cartData :",this.cartData)
   }
 
   toggleAllCheckboxes() {
@@ -78,24 +82,26 @@ export class CartPage implements OnInit {
 
   async getCart() {
     this.cartData = JSON.parse(await this.cartServices.getCart());
-    this.productData = this.cartData.product
+    if(this.cartData){
+      this.productData = this.cartData.product
 
 
-    this.cartServices.cart.subscribe((cart) => {
-      if (cart) {
-        this.cartItem = cart.totalItem;
-        this.cdr.detectChanges();
-
-        this.checkboxes = []
-        cart.product.forEach(element => {
-          this.checkboxes.push({ id: element.id, checked: false, product: element })
-          // console.log('id data :',element.id)
-        })
-        // console.log('checkbox data :',this.checkboxes )
-        // console.log('checkbox productData :',this.productData )
-      }
-    });
-    this.cartServices.getCartData();
+      this.cartServices.cart.subscribe((cart) => {
+        if (cart) {
+          this.cartItem = cart.totalItem;
+          this.cdr.detectChanges();
+  
+          this.checkboxes = []
+          cart.product.forEach(element => {
+            this.checkboxes.push({ id: element.id, checked: false, product: element })
+            // console.log('id data :',element.id)
+          })
+          // console.log('checkbox data :',this.checkboxes )
+          // console.log('checkbox productData :',this.productData )
+        }
+      });
+      this.cartServices.getCartData();
+    }
   }
 
   caculateSelects(data: any) {

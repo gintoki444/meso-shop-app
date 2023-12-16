@@ -123,6 +123,10 @@ ion-content {
             background: white;
           }
 
+          span {
+            width: 83%;
+          }
+
           a {
             color: #000;
           }
@@ -133,6 +137,7 @@ ion-content {
 }
 
 @media(max-width:500px) {
+
   ion-button.btn-login {
 
     font-size: 16px;

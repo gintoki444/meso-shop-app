@@ -52,7 +52,16 @@
     </ion-grid>
 
     <ion-grid [fixed]="true" class="grid-notification">
-      <ion-row class="ion-justify-content-center" offset-md="2" [routerLink]="['/','order', '123456']" >
+      <ion-row class="ion-justify-content-center" offset-md="2" [routerLink]="['/','order', '123456']">
+        <ion-col size-md="12" size-xs="12" class="">
+          <div class="ion-text-center">
+            <ion-text class="title">ไม่พบข้อมูลคำสั่งซื้อ </ion-text>
+          </div>
+        </ion-col>
+
+      </ion-row>
+
+      <!-- <ion-row class="ion-justify-content-center" offset-md="2" [routerLink]="['/','order', '123456']" >
         <ion-col size-md="2" size-xs="2" class="ion-text-center">
           <ion-icon [src]="iconCartOrder" class="i-cart-order"></ion-icon>
         </ion-col>
@@ -107,7 +116,7 @@
             <ion-icon name="chevron-forward-outline"></ion-icon>
           </ion-buttons>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
     </ion-grid>
   </div>
 

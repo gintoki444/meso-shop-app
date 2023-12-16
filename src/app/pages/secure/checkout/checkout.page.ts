@@ -49,55 +49,15 @@ export class CheckoutPage implements OnInit {
   couponCode: any = [];
   discount: any = 0;
 
-
-  // orderData: any = {
-  //   customer_id: null,
-  //   payment_method: "bacs",
-  //   payment_method_title: "Direct Bank Transfer",
-  //   set_paid: true,
-  //   status: "processing",
-  //   billing: {
-  //     "first_name": "",
-  //     "last_name": "",
-  //     "address_1": "969 Market",
-  //     "address_2": "",
-  //     "city": "San Francisco",
-  //     "state": "CA",
-  //     "postcode": "94103",
-  //     "country": "US",
-  //     "email": "john.doe@example.com",
-  //     "phone": "(555) 555-5555"
-  //   },
-  //   shipping: {
-  //     "first_name": "John",
-  //     "last_name": "Doe",
-  //     "address_1": "969 Market",
-  //     "address_2": "",
-  //     "city": "San Francisco",
-  //     "state": "CA",
-  //     "postcode": "94103",
-  //     "country": "US"
-  //   },
-  //   line_items: [],
-  //   coupon_lines: [],
-  //   shipping_lines: [
-  //     {
-  //       "method_id": "flat_rate",
-  //       "method_title": "Flat Rate",
-  //       "total": "10.00"
-  //     }
-  //   ]
-  // }
-
   ngOnInit() {
     // this.getCheckoutData();
     this.orderData = this.formbuilder.group({
       customer_id: ['', [Validators.required]],
       payment_method: ['', [Validators.required]],
       payment_method_title: ['', [Validators.required]],
-      set_paid: true,
+      set_paid: false,
       total: null,
-      status: "on-hold",
+      status: "pending",
       billing: ['', [Validators.required]],
       shipping: ['', [Validators.required]],
       line_items: ['', [Validators.required]],
@@ -137,7 +97,7 @@ export class CheckoutPage implements OnInit {
       this.orderData.value.customer_id = customerData.id;
       this.orderData.value.line_items = lineProduct;
 
-      
+
       this.orderData.get('customer_id').setValue(customerData.id);
       this.orderData.get('line_items').setValue(lineProduct);
       this.calculatePrice();
@@ -150,6 +110,7 @@ export class CheckoutPage implements OnInit {
   async getShipping() {
     // this.cdr.detectChanges();
     let shipping = await this.checkoutServices.getShippingData();
+    // let defaultShipping = JSON.parse(await this.cartServices.getCart());
 
     if (shipping) {
       let newShipping = {
@@ -158,7 +119,7 @@ export class CheckoutPage implements OnInit {
         "address_1": `${shipping.address_1}`,
         "address_2": `${shipping.address_2}`,
         "city": `${shipping.provinces}`,
-        "state": `${shipping.districts + ' ' + shipping.amphuresstate}`,
+        "state": `${shipping.districts + ' ' + shipping.amphures}`,
         "postcode": `${shipping.postcode}`,
         "country": `${shipping.country}`,
         "phone": `${shipping.phone}`,
@@ -229,14 +190,24 @@ export class CheckoutPage implements OnInit {
   }
 
   async checkoutOrders() {
+    let clearProduct: any = [];
     const loading = await this.loadingController.create({
       cssClass: 'default-loading',
       message: 'บันทึกข้อมูลคำสั่งซื้อ',
       spinner: 'crescent'
     });
     await loading.present();
+
     await this.checkoutServices.checkoutOrders(this.orderData.value).then(data => {
-      console.log(data);
+      // console.log(data);
+      if (this.products.length > 1) {
+        clearProduct = this.products;
+      } else {
+        this.products.forEach(data => {
+          clearProduct = data.product;
+        })
+      }
+      this.cartService.removeProduct(clearProduct);
       loading.dismiss();
       this.router.navigate(['checkout', 'thank-you', data.id])
     }).catch(e => {

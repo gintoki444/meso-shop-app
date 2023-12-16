@@ -10,9 +10,9 @@ export class OmiseService {
 
   apiURL: string = '';
   private apiUrl = 'http://localhost:5001';
-  // private apiUrl = 'https://api.omise.co';
-  // PUBLIC_KEY: string = 'pkey_test_5xxw2i6hksl4xjq0114';
-  // SECRET_KEY: string = 'skey_test_5xxwd2bsfmfl4kn1pn7';
+  private apiUrltest = 'https://api.omise.co';
+  PUBLIC_KEY: string = 'pkey_test_5xxw2i6hksl4xjq0114';
+  SECRET_KEY: string = 'skey_test_5xxwd2bsfmfl4kn1pn7';
 
 
   dataPayment: any;
@@ -29,7 +29,7 @@ export class OmiseService {
   }
 
   createCharges(data: any) {
-    console.log('createCharges',data)
+    console.log('createCharges', data)
     this.dataPayment = this.http.post(
       `${this.apiUrl}/create-charge`, data);
     return this.dataPayment;
@@ -40,19 +40,16 @@ export class OmiseService {
     return this.dataPayment;
   }
 
-  // async getOPN() {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json; charset=utf-8',
-  //     'Authorization': 'Basic ' + btoa(this.SECRET_KEY + ':'),
-  //   });
+  getOPN() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Basic ' + btoa(this.SECRET_KEY + ':'),
+    });
 
-  //   const url = `https://api.omise.co/charges/chrg_test_5y288klnnzwwvqnyrl7`;
+    const url = `https://api.omise.co/charges/chrg_test_5y288klnnzwwvqnyrl7`;
+    console.log('url', url)
+    const response = this.http.get(`${url}`, { headers })
 
-  //   const response = await this.http.get(
-  //     url, { headers });
-
-  //   // const response: HttpResponse = await CapacitorHttp.get(testGet);
-
-  //   return response;
-  // }
+    return response;
+  }
 }

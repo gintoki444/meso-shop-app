@@ -43,6 +43,21 @@ export class ThankYouPage implements OnInit {
       id: 4,
       title: 'ยกเลิกคำสั่งซือ',
       nameStatus: 'cancelled',
+    },
+    {
+      id: 5,
+      title: 'รอแจ้งชำระเงิน',
+      nameStatus: 'on-hold',
+    },
+    {
+      id: 6,
+      title: 'ไม่สำเร็จ',
+      nameStatus: 'failed',
+    },
+    {
+      id: 6,
+      title: 'คืนเงิน',
+      nameStatus: 'refunded',
     }
   ]
   constructor(

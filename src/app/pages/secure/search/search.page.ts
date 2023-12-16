@@ -4,6 +4,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 
 //import woo
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-search',
@@ -23,6 +24,7 @@ export class SearchPage implements OnInit {
   constructor(
     private WC: WoocommerceService,
     private cartServices: CartService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -44,8 +46,10 @@ export class SearchPage implements OnInit {
 
   async Cart(){
     let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+    if(cartData) {
+      this.cartItem = cartData.totalItem;
+      this.cdr.detectChanges(); // Manually trigger change detection
+    }
   }
 
 }

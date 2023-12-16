@@ -38,8 +38,31 @@
           <h3>ตั้งค่าบัญชี</h3>
         </ion-label>
       </ion-item> -->
+      
+      <div *ngFor="let menuItem of pages; let i = index" class="profile">
+        <ion-item [class.sub-menu-open]="isSubMenuOpen[i]" (click)="toggleSubMenu(i)">
+          <ion-label>
+            <h3>{{menuItem.title}}</h3>
+          </ion-label>
+          <!-- <ion-icon slot="end" name="chevron-down-outline" *ngIf="menuItem.subItems"
+            (click)="toggleSubMenu(i)"></ion-icon> -->
+          <ion-icon slot="end" [name]="isSubMenuOpen[i] === true ? 'chevron-up-outline' : 'chevron-down-outline'"
+            *ngIf="menuItem.children"></ion-icon>
+        </ion-item>
+        <!-- Submenu -->
+        <ion-list *ngIf="menuItem.children && isSubMenuOpen[i]">
+          <ion-list *ngIf="menuItem.children && isSubMenuOpen[i]" class="sub-title-list">
+            <ion-item color="primary" class="sub-title" *ngFor="let sub of menuItem.children" routerLink="/{{sub.url}}"
+              routerDirection="root" routerLinkActive="active" detail="false">
+              <ion-label>
+                <h3>{{sub.title}}</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-list>
+      </div>
 
-      <div *ngFor="let p of pages" class="profile">
+      <!-- <div *ngFor="let p of pages" class="profile">
         <ion-item button *ngIf="p.children?.length > 0" (click)="p.open = !p.open" [class.active-parent]="p.open"
           detail="false">
           <ion-label>
@@ -57,7 +80,7 @@
             </ion-label>
           </ion-item>
         </ion-list>
-      </div>
+      </div> -->
 
       <ion-item color="primary" button detail="false" [routerLink]="['/','my-orders','completed']">
         <ion-label>

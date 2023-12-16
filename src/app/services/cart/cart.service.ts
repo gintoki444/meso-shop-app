@@ -23,7 +23,6 @@ export class CartService {
 
   }
 
-
   // Function get data storage by cart
   async getCart() {
     return (await this.storage.getStorage('cart')).value;
@@ -67,6 +66,8 @@ export class CartService {
       if (product.quantity > 1) {
         product.quantity -= 1
         await this.calculate(product);
+      } else {
+        this.removeProduct(product);
       }
     }
     catch (e) {
@@ -96,6 +97,32 @@ export class CartService {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async removeProduct(product: any) {
+    let item: any;
+    this.storeData = JSON.parse(await this.getCart());
+    if (product.length > 1) {
+      await product.forEach(data => {
+        this.storeData.product = this.storeData.product.filter(x => x.id !== data.id);
+      })
+      item = await  this.storeData.product;
+    } else {
+      item = await this.storeData.product.filter(x => x.id !== product.id);
+    }
+    this.storeData.product = item;
+    this.storeData.totalItem = 0;
+    this.storeData.totalPrice = 0;
+
+    // คำนวณจำนวนสินค้า และ ราคารวม
+    await this.storeData.product.forEach(element => {
+      this.storeData.totalItem += element.quantity;
+      this.storeData.totalPrice += parseFloat(element.price) * parseFloat(element.quantity);
+    });
+
+    this.cartData = this.storeData
+    await this.saveToCart();
+
   }
 
   // Function calculate total product and total price
@@ -135,18 +162,26 @@ export class CartService {
       this.cartData.totalItem = 0;
       this.cartData.totalPrice = 0;
     }
+
     await this.saveToCart();
   }
 
   // Function Save data of cart
   async saveToCart() {
     try {
-      // Set data of Capacitor storagev
-      await Preferences.set({
-        key: 'cart',
-        value: JSON.stringify(this.cartData)
-      });
-      this._cart.next(this.cartData); // Update the observable
+      if (this.cartData.totalItem === 0) {
+        console.log('cartData 2:', this.cartData);
+        this._cart.next(this.cartData); // Update the observable
+        this.clearCart()
+      } else {
+
+        // Set data of Capacitor storagev
+        await Preferences.set({
+          key: 'cart',
+          value: JSON.stringify(this.cartData)
+        });
+        this._cart.next(this.cartData); // Update the observable
+      }
 
     } catch (e) {
       console.log(e);
@@ -154,12 +189,16 @@ export class CartService {
   }
 
   // Function Shart data when select product to checkout
-  setCartData(data:any) {
+  setCartData(data: any) {
     this.selectProducts = data;
   }
 
-  getSetCartData(){
+  getSetCartData() {
     return this.selectProducts;
+  }
+
+  clearCart() {
+    this.storage.removeStorage('cart');
   }
 
 }

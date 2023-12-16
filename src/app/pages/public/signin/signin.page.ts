@@ -36,8 +36,8 @@ export class SigninPage implements OnInit {
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
 
-    this.signin_form.get('email').setValue('onlineuser@gmail.com');
-    this.signin_form.get('password').setValue('Der@12345');
+    // this.signin_form.get('email').setValue('onlineuser@gmail.com');
+    // this.signin_form.get('password').setValue('Der@12345');
     // this.signin_form.get('email').setValue('');
     // this.signin_form.get('password').setValue('');
   }
@@ -91,7 +91,7 @@ export class SigninPage implements OnInit {
 
       // TODO: Add your sign in logic
       this.authService.signIn(this.signin_form.value.email, this.signin_form.value.password).then(data => {
-        console.log("data", data)
+        // console.log("data", data)
         this.router.navigateByUrl('/home');
         loading.dismiss();
       }).catch(e => {

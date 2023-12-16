@@ -2,6 +2,7 @@ import { Component, AfterViewInit, OnInit, ViewChild, ElementRef } from '@angula
 
 //import woo
 import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 
 import { CartService } from 'src/app/services/cart/cart.service';
@@ -88,6 +89,7 @@ export class MyOrdersPage implements AfterViewInit {
     private cartServices: CartService,
     private customerService: CustomerService,
     private loadingController: LoadingController,
+    private cdr: ChangeDetectorRef,
   ) { }
 
 
@@ -104,8 +106,10 @@ export class MyOrdersPage implements AfterViewInit {
 
   async Cart() {
     let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+    if(cartData) {
+      this.cartItem = cartData.totalItem;
+      this.cdr.detectChanges(); // Manually trigger change detection
+    }
   }
 
   // Set line position
@@ -118,7 +122,6 @@ export class MyOrdersPage implements AfterViewInit {
 
         this.activeIndex = index;
         this.dataOrder = this.orderList.filter(x => x.status == this.activeID[0].nameStatus);
-        console.log('test', this.dataOrder)
       }
     }
   }
