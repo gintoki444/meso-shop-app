@@ -40,20 +40,17 @@
             <div class="">
               <!-- Login form -->
               <ion-item lines="none">
-                <ion-label>ชื่อ</ion-label>
-                <ion-input color="secondary" formControlName="first_name" type="text" aria-label="ชื่อ"></ion-input>
+                <ion-input color="secondary" formControlName="first_name" type="text" aria-label="ชื่อ" placeholder="ชื่อ"></ion-input>
               </ion-item>
               <ion-item *ngIf="shipping_form.controls.first_name?.hasError('required') && shipping_form.controls.first_name.valid">
                 <ion-text color="danger">First Name is required.</ion-text>
               </ion-item>
 
               <ion-item lines="none">
-                <ion-label>นามสกุล</ion-label>
-                <ion-input color="secondary" formControlName="last_name" type="text" aria-label="นามสกุล"></ion-input>
+                <ion-input color="secondary" formControlName="last_name" type="text" aria-label="นามสกุล" placeholder="นามสกุล"></ion-input>
               </ion-item>
               <ion-item lines="none">
-                <ion-label>หมายเลขโทรศัพท์</ion-label>
-                <ion-input color="secondary" formControlName="phone" type="text" aria-label="หมายเลขโทรศัพท์"></ion-input>
+                <ion-input color="secondary" formControlName="phone" type="text" aria-label="หมายเลขโทรศัพท์" placeholder="หมายเลขโทรศัพท์"></ion-input>
               </ion-item>
             </div>
           </ion-list>

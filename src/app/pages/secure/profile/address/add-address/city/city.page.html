@@ -35,40 +35,35 @@
             <div class="">
               <!-- address form -->
               <ion-item lines="none">
-                <ion-label>ที่อยู่</ion-label>
-                <ion-input color="secondary" formControlName="address_1"  name="address_1" type="text" aria-label="ที่อยู่"></ion-input>
+                <ion-input color="secondary" formControlName="address_1"  name="address_1" type="text" aria-label="ที่อยู่" placeholder="ที่อยู่"></ion-input>
               </ion-item>
               <div *ngIf="address_form.get('address_1').touched && address_form.get('address_1').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มที่อยู่</ion-text>
               </div>
 
               <ion-item lines="none">
-                <ion-label>ตำบล/แขวง</ion-label>
-                <ion-input color="secondary" formControlName="districts"  name="districts" type="text" aria-label="ตำบล/แขวง"></ion-input>
+                <ion-input color="secondary" formControlName="districts"  name="districts" type="text" aria-label="ตำบล/แขวง" placeholder="ตำบล/แขวง"></ion-input>
               </ion-item>
               <div *ngIf="address_form.get('districts').touched && address_form.get('districts').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มตำบล/แขวง</ion-text>
               </div>
 
               <ion-item lines="none">
-                <ion-label>อำเภอ</ion-label>
-                <ion-input color="secondary" formControlName="amphures"  name="amphures" type="text" aria-label="อำเภอ"></ion-input>
+                <ion-input color="secondary" formControlName="amphures"  name="amphures" type="text" aria-label="อำเภอ" placeholder="อำเภอ"></ion-input>
               </ion-item>
               <div *ngIf="address_form.get('amphures').touched && address_form.get('amphures').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มอำเภอ</ion-text>
               </div>
 
               <ion-item lines="none">
-                <ion-label>จังหวัด</ion-label>
-                <ion-input color="secondary" formControlName="provinces"  name="provinces" type="text" aria-label="จังหวัด"></ion-input>
+                <ion-input color="secondary" formControlName="provinces"  name="provinces" type="text" aria-label="จังหวัด" placeholder="จังหวัด"></ion-input>
               </ion-item>
               <div *ngIf="address_form.get('provinces').touched && address_form.get('provinces').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มจังหวัด</ion-text>
               </div>
 
               <ion-item lines="none">
-                <ion-label>รหัสไปรษณีย์</ion-label>
-                <ion-input color="secondary" formControlName="postcode"  name="postcode" type="number" aria-label="รหัสไปรษณีย์"></ion-input>
+                <ion-input color="secondary" formControlName="postcode"  name="postcode" type="number" aria-label="รหัสไปรษณีย์" placeholder="รหัสไปรษณีย์"></ion-input>
               </ion-item>
               <div *ngIf="address_form.get('postcode').touched && address_form.get('postcode').invalid" class="validator-error">
                 <ion-text color="danger">กรุณาเพิ่มรหัสไปรษณีย์</ion-text>

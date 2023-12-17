@@ -52,8 +52,8 @@ export class AddAddressPage implements OnInit {
       first_name: ['', Validators.compose([Validators.maxLength(200), Validators.required])],
       last_name: ['', Validators.compose([Validators.required])],
       shipping: ['', Validators.compose([Validators.required])],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      detail: ['', Validators.compose([Validators.required])],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'),Validators.minLength(10),Validators.maxLength(10)]],
+      detail: [''],
     });
 
 
@@ -161,7 +161,6 @@ export class AddAddressPage implements OnInit {
 
       await allShipping.push(this.shippingData);
       metaData.value = await allShipping;
-      console.log('metaData.value ', metaData.value);
 
       await this.customerService.addShipping(this.customerID, metaData).then(data => {
         loading.dismiss();
@@ -169,8 +168,6 @@ export class AddAddressPage implements OnInit {
       }).catch(e => {
         console.log(e)
       });
-    } else {
-      return console.log('กรุณากรอกข้อมูลที่อยู่ให้ครบถ้วน!');
     }
   }
 

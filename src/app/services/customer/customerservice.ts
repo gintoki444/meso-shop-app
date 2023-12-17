@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WoocommerceService } from '../woocommerces/woocommerce.service';
 import { StorageService } from '../storage/storage.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class CustomerService {
   constructor(
     private WC: WoocommerceService,
     private storage: StorageService,
+    private rout: Router,
   ) { }
 
   // Function refresh data when back to this page
@@ -25,6 +27,10 @@ export class CustomerService {
   async getCustomer() {
     // await this.updateCustomer();
     return (await this.storage.getStorage('userdata')).value;
+  }
+  async getCustomerUID() {
+    // await this.updateCustomer();
+    return await this.storage.getStorage('uid');
   }
 
   async updateProfile(id: any, profile: any): Promise<any> {
@@ -52,7 +58,7 @@ export class CustomerService {
   getShippingData() {
     return this.Shipping;
   }
-  
+
   // clear storage
   clearShippingData() {
     this.Shipping = '';
@@ -64,5 +70,16 @@ export class CustomerService {
     const user = JSON.parse((await this.storage.getStorage('userdata')).value)
     const userData = JSON.stringify(await this.WC.getUserDataByID(user.id).toPromise());
     return await this.storage.setStorage('userdata', userData);
+  }
+
+  // Update customer data to Storage
+  async changePassword(id: any, passwordData: any, uid: any) {
+    const changed = await this.WC.changePassword(id, passwordData, uid).toPromise();
+    return changed;
+  }
+
+  async signOut() {
+    await this.storage.clearStorage();
+    await this.rout.navigateByUrl('/welcome');
   }
 }

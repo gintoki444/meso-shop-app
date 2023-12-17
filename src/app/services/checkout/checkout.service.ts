@@ -23,8 +23,9 @@ export class CheckoutService {
   async checkoutOrders(order: any): Promise<any> {
     this.orderData = await this.WC.postOrders(order).toPromise();
     await this.createOmiseCharges(this.orderData);
-    await this.setCheckoutOrderData(this.orderData)
-    return this.orderData
+    this.setCheckoutOrderData(this.orderData)
+
+    return this.orderData;
   }
 
   setShippingData(data: any) {

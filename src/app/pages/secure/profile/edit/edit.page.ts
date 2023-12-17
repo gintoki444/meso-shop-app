@@ -38,8 +38,8 @@ export class EditPage implements OnInit {
     this.edit_profile_form = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
+      email: ['', { disabled: true }],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(10), Validators.maxLength(10)]],
     });
 
 
@@ -117,7 +117,7 @@ export class EditPage implements OnInit {
           postcode: this.customer.billing.postcode,
           country: this.customer.billing.country,
           state: this.customer.billing.state,
-          email: this.customer.billing.email,
+          email: this.edit_profile_form.value.email,
           phone: this.edit_profile_form.value.phone,
         },
       }

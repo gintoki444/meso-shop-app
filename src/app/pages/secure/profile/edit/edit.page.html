@@ -1,21 +1,19 @@
-<ion-header collapse="fade" [translucent]="true">
-  <ion-toolbar color="dark">
-    <ion-buttons slot="start">
-      <ion-back-button color="secondary" defaultHref="/profile">
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-buttons slot="start" class="btn-back">
+      <ion-back-button color="secondary" text="" defaultHref="/profile">
       </ion-back-button>
     </ion-buttons>
 
-    <!-- <ion-title color="light">
-      Profile
-    </ion-title>
+    <ion-buttons class="ion-text-center">
+      <ion-text class="header-title">แก้ไขข้อมูล</ion-text>
+    </ion-buttons>
 
-    <ion-buttons slot="end">
-      <form [formGroup]="edit_profile_form" (ngSubmit)="submit()">
-        <ion-button color="secondary" type="submit">
-          Done
-        </ion-button>
-      </form>
-    </ion-buttons> -->
+    <ion-buttons slot="primary">
+      <ion-button color="secondary">
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -41,32 +39,6 @@
     </ion-card-content>
   </ion-card>
 
-
-  <!-- <div class="ion-padding">
-    <form class="form-default" [formGroup]="edit_profile_form" (submit)="submit()">
-
-      <ion-item color="dark" class="animate__animated animate__fadeInUp">
-        <ion-label position="floating">
-          First name
-        </ion-label>
-        <ion-input color="secondary" formControlName="name_first" placeholder="First name"></ion-input>
-      </ion-item>
-
-      <ion-item color="dark" class="animate__animated animate__fadeInUp">
-        <ion-label position="floating">
-          Last name
-        </ion-label>
-        <ion-input color="secondary" formControlName="name_last" placeholder="Last name"></ion-input>
-      </ion-item>
-
-      <ion-button color="secondary" type="submit">
-        Done
-      </ion-button>
-
-    </form>
-
-  </div> -->
-
   <form class="form" [formGroup]="edit_profile_form">
     <ion-card class="ion-no-margin profile-card">
       <ion-card-content style="text-align: left;">
@@ -76,15 +48,15 @@
         <div class="form-content">
           <div class="form-input">
             <ion-label>ชื่อ</ion-label>
-            <ion-input placeholder="ชื่อ" type="text" formControlName="first_name"></ion-input>
+            <ion-input placeholder="ชื่อ" id="first_name" type="text" formControlName="first_name" aria-label="ชื่อ"></ion-input>
           </div>
           <div class="form-input">
             <ion-label>นามสกุล</ion-label>
-            <ion-input placeholder="นามสกุล" type="text" formControlName="last_name"></ion-input>
+            <ion-input placeholder="นามสกุล" id="last_name" type="text" formControlName="last_name" aria-label="นามสกุล"></ion-input>
           </div>
           <div class="form-input">
             <ion-label>อีเมล์</ion-label>
-            <ion-input placeholder="e-mail" type="email" formControlName="email"></ion-input>
+            <ion-input placeholder="e-mail" id="email" type="email" formControlName="email" aria-label="email"></ion-input>
           </div>
           <div class="form-input">
             <ion-label>เบอร์โทรศัพท์</ion-label>
