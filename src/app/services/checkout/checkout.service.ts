@@ -22,7 +22,8 @@ export class CheckoutService {
 
   async checkoutOrders(order: any): Promise<any> {
     this.orderData = await this.WC.postOrders(order).toPromise();
-    await this.createOmiseCharges(this.orderData);
+    this.orderData.payment_id = order.payment_id;
+    this.createOmiseCharges(this.orderData,);
     this.setCheckoutOrderData(this.orderData)
 
     return this.orderData;
@@ -61,20 +62,29 @@ export class CheckoutService {
       "amount": data.total * 100,
       "currency": "THB",
       "platform_type": "",
-      "type": data.payment_method,
       "return_uri": document.location.origin + "/order/" + data.id,
       "description": "WooCommerce Order id " + data.id,
       "metadata": {
         "order_id": `${data.id}`
       },
       "source": {
-        "type": data.payment_method,
+        "type": data.payment_id,
         "phone_number": data.billing.phone
       }
     }
 
     await this.OPN.createCharges(orderData).subscribe((opnsData: any) => {
-      window.open(opnsData.source.authorize_uri, '_blank');
+
+      let updateOrder = {
+        transaction_id: opnsData.source.id
+      }
+      let metaID = opnsData.source.metadata.order_id
+
+      const updataDone = this.WC.putOrders(metaID, updateOrder).toPromise();
+      
+      if (updataDone) {
+        window.open(opnsData.source.authorize_uri);
+      }
     },
       (error) => {
         console.error('Error creating charge:', error);

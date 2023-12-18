@@ -30,8 +30,7 @@
               <h4>ข้อมูลบัตรเครดิต</h4>
             </div>
             <ion-item lines="none">
-              <ion-label>ชื่อเจ้าของบัตร:</ion-label>
-              <ion-input color="secondary" id="nameCard" formControlName="nameCard" type="text"
+              <ion-input color="secondary" id="nameCard" placeholder="ชื่อเจ้าของบัตร" formControlName="nameCard" type="text"
                 aria-label="ชื่อเจ้าของบัตร :"></ion-input>
             </ion-item>
             <div *ngIf="creditCardForm.get('nameCard').touched && creditCardForm.get('nameCard').invalid"
@@ -40,8 +39,7 @@
             </div>
 
             <ion-item lines="none">
-              <ion-label>หมายเลขบัตร:</ion-label>
-              <ion-input color="secondary" id="cardNumber" formControlName="cardNumber" type="text"
+              <ion-input color="secondary" id="cardNumber" placeholder="หมายเลขบัตร" formControlName="cardNumber" type="text"
                 aria-label="Card Number:"></ion-input>
             </ion-item>
             <div *ngIf="creditCardForm.get('cardNumber').touched && creditCardForm.get('cardNumber').invalid"
@@ -50,8 +48,7 @@
             </div>
 
             <ion-item lines="none">
-              <ion-label>วันหมดอายุ (ดด/ปป):</ion-label>
-              <ion-input color="secondary" id="expiryDate" formControlName="expiryDate" type="text"
+              <ion-input color="secondary" id="expiryDate" placeholder="วันหมดอายุ (ดด/ปป)" formControlName="expiryDate" type="text"
                 aria-label="วันหมดอายุ (ดด/ปป):"></ion-input>
             </ion-item>
             <div *ngIf="creditCardForm.get('expiryDate').touched && creditCardForm.get('expiryDate').invalid"
@@ -60,8 +57,7 @@
             </div>
 
             <ion-item lines="none">
-              <ion-label>CVV:</ion-label>
-              <ion-input color="secondary" id="cvc" formControlName="cvc" type="text" aria-label="CVV:"></ion-input>
+              <ion-input color="secondary" id="cvc" placeholder="CVV" formControlName="cvc" type="text" aria-label="CVV:"></ion-input>
             </ion-item>
             <div *ngIf="creditCardForm.get('cvc').touched && creditCardForm.get('cvc').invalid" class="validator-error">
               <ion-text color="danger">กรุณากรอก CVV.</ion-text>

@@ -55,6 +55,7 @@ export class CheckoutPage implements OnInit {
       customer_id: ['', [Validators.required]],
       payment_method: ['', [Validators.required]],
       payment_method_title: ['', [Validators.required]],
+      payment_id: '',
       set_paid: false,
       total: null,
       status: "pending",
@@ -152,23 +153,22 @@ export class CheckoutPage implements OnInit {
     if (this.paymentData) {
 
       if (this.paymentData.subPayment) {
-        console.log('Have subPayment')
         this.paymentData.subPayment.forEach(data => {
           if (data.checked === true) {
-
-            this.orderData.get('payment_method').setValue(data.type);
-            this.orderData.get('payment_method_title').setValue(data.title);
-            this.orderData.value.payment_method = data.type;
-            this.orderData.value.payment_method_title = data.title;
+            this.orderData.get('payment_id').setValue(data.type);
+            this.orderData.value.payment_method_title = data.type;
           }
         })
+      } else if (this.paymentData.id === "omise_promptpay") {
+        this.orderData.get('payment_id').setValue("promptpay");
+        this.orderData.value.payment_method_title = "promptpay";
       } else {
-        console.log('Not Have subPayment')
-        this.orderData.get('payment_method').setValue(this.paymentData.id);
-        this.orderData.get('payment_method_title').setValue(this.paymentData.title);
-        this.orderData.value.payment_method = this.paymentData.id;
-        this.orderData.value.payment_method_title = this.paymentData.title;
+
       }
+      this.orderData.get('payment_method').setValue(this.paymentData.id);
+      this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+      this.orderData.value.payment_method = this.paymentData.id;
+      this.orderData.value.payment_method_title = this.paymentData.title;
 
     }
   }
@@ -180,7 +180,6 @@ export class CheckoutPage implements OnInit {
     } else {
       if (this.couponData.discount_type == 'percent') {
         this.discount = this.totalPrice * this.couponData.amount / 100;
-        console.log('discount ', this.discount);
         this.summaryPrice = this.totalPrice - this.discount;
       } else {
         this.discount = Number(this.couponData.amount);
@@ -199,7 +198,6 @@ export class CheckoutPage implements OnInit {
     await loading.present();
 
     await this.checkoutServices.checkoutOrders(this.orderData.value).then(data => {
-      // console.log(data);
       if (this.products.length > 1) {
         clearProduct = this.products;
       } else {

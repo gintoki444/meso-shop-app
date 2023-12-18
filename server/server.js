@@ -26,48 +26,6 @@ app.use(
   })
 );
 
-// const connection = mysql.createConnection({
-//   host: process.env.MYSQL_HOST,
-//   user: process.env.MYSQL_USER,
-//   password: process.env.MYSQL_PASSWORD,
-//   database: process.env.MYSQL_DATABASE,
-// });
-
-
-
-// config for your database
-// const config = {
-//   server: process.env.MSSQL_SERVER,
-//   authentication: {
-//     type: 'default',
-//     options: {
-//       userName: process.env.MSSQL_USERNAME, // update me
-//       password: process.env.MSSQL_PASSWORD // update me
-//     }
-//   },
-//   options: {
-//     database: process.env.MSSQL_DATABASE,
-//     validateBulkLoadParameters: false,
-//     encrypt: false,
-//   }
-// };
-// connection.connect((err) => {
-//   if (err) {
-//     console.log('Error connecting to MySQL Database = ', err)
-//     return;
-//   }
-//   console.log("MySQL successfully connected.");
-// })
-
-// mssql.connect(config, function (err) {
-//   if (err) {
-//     console.log('Error connecting to MSSQL Database = ', err)
-//     return;
-//   }
-//   console.log("MSSQL successfully connected.");
-// });
-
-
 const omiseApiUrl = process.env.OPN_API;
 const omiseSecretKey = process.env.OPN_SKEY;
 const omisePublicKey = process.env.OPN_PKEY;
@@ -77,11 +35,9 @@ const Omise = require('omise')({
   secretKey: omiseSecretKey,
 });
 
-app.get('/testgetopn', async (req, res) => {
+app.get('', async (req, res) => {
   try {
-
-    const charge = 'charge';
-   
+    const charge = 'Welcome API';
     res.status(200).json(charge);
   } catch (error) {
     console.error('Error creating charge:', error);
@@ -89,77 +45,26 @@ app.get('/testgetopn', async (req, res) => {
   }
 });
 
-app.get('/testgetopn', async (req, res) => {
+app.get('/getstatus-charge/:id', async (req, res) => {
   try {
-
-    console.log('omiseApiUrl :', omiseApiUrl)
-    console.log('omiseSecretKey :', omiseSecretKey)
-    const charge = await getChargeID();
-
+    const chargeId = req.params.id;
+    const charge = await getChargeID(chargeId);
     res.status(200).json(charge);
   } catch (error) {
     console.error('Error creating charge:', error);
     res.status(500).json({ error: 'Error creating charge' });
   }
 });
-
-
-// app.post('/get-token', async (req, res) => {
-//   try {
-//     const data = req.body;
-
-//     // console.log('omiseApiUrl :',omiseApiUrl)
-//     // console.log('omiseSecretKey :',omisePublicKey)
-//     const charge = await createSource(data);
-
-//     res.status(200).json(charge);
-//   } catch (error) {
-//     console.error('Error creating charge:', error);
-//     res.status(500).json({ error: 'Error creating charge' });
-//   }
-// });
-
-
-// app.post('/create-charges', async (req, res) => {
-//   try {
-//     const data = req.body;
-//     const charge = await createCharge(data);
-
-//     console.log('create-charges', charge)
-
-//     res.status(200).json(charge);
-//   } catch (error) {
-//     console.error('Error creating charge:', error);
-//     res.status(500).json({ error: 'Error creating charge' });
-//   }
-// });
-
-// app.post('/test-charges', async (req, res) => {
-//   try {
-//     const data = req.body;
-//     const source = await createCharge(data);
-
-//     console.log('create-source', charge)
-
-//     data.source = source;
-//         const charge = await createCharge(data);
-
-//     res.json({ status: 'success', charge });
-//   } catch (error) {
-//     console.error('Error creating source:', error);
-//     res.status(500).json({ error: 'Error creating charge' });
-//   }
-// });
 
 app.post('/create-source', async (req, res) => {
-  const {data}= req.body;
+  const { data } = req.body;
   console.log(data);
 
   try {
     const source = await Omise.sources.create({
-      amount:150000,
-      currency:'THB',
-      type:'mobile_banking_kbank',
+      amount: 150000,
+      currency: 'THB',
+      type: 'mobile_banking_kbank',
     });
 
     res.json({ success: true, source });
@@ -172,8 +77,6 @@ app.post('/create-source', async (req, res) => {
 
 app.post('/create-charge', async (req, res) => {
   const data = req.body;
-  console.log(data);
-
   try {
     const source = await Omise.charges.create(data);
 
@@ -183,22 +86,6 @@ app.post('/create-charge', async (req, res) => {
     res.status(500).json({ success: false, error: 'Source creation failed' });
   }
 });
-// app.post('/testcreatecharge', async (req, res) => {
-//   try {
-//     const data = req.body;
-
-
-//     const source = await createSource(data);
-
-//     data.source = source;
-//     const charge = await createCharge(data);
-
-//     res.json({ status: 'success', charge });
-//   } catch (error) {
-//     console.error('Error creating charge:', error.message);
-//     res.status(500).json({ error: 'Error creating charge' });
-//   }
-// });
 
 async function createSource(data) {
   const omiseHeaders = {
@@ -251,13 +138,13 @@ async function createCharge(data) {
 }
 
 
-async function getChargeID() {
+async function getChargeID(chargeId) {
   const omiseHeaders = {
     'Content-Type': 'application/json',
     'Authorization': `Basic ${Buffer.from(omiseSecretKey + ':').toString('base64')}`,
   };
   try {
-    const response = await axios.get(`${omiseApiUrl}/charges/chrg_test_5y288klnnzwwvqnyrl7`, {
+    const response = await axios.get(`${omiseApiUrl}/charges/${chargeId}`, {
       headers: omiseHeaders,
     });
 

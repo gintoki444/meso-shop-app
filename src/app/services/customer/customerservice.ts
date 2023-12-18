@@ -25,26 +25,20 @@ export class CustomerService {
 
   // get data customer of storage
   async getCustomer() {
-    // await this.updateCustomer();
     return (await this.storage.getStorage('userdata')).value;
   }
-  async getCustomerUID() {
-    // await this.updateCustomer();
-    return await this.storage.getStorage('uid');
-  }
+
 
   async updateProfile(id: any, profile: any): Promise<any> {
 
     const data = await this.WC.putCustomerProfile(id, profile).toPromise();
     await this.updateCustomer();
-    // console.log('addShipping :', data);
     return data;
   }
 
   async addShipping(id: any, shippingData: any): Promise<any> {
     const data = await this.WC.putCustomer(id, shippingData).toPromise();
     await this.updateCustomer();
-    // console.log('addShipping :', data);
     return data;
   }
 
@@ -73,13 +67,13 @@ export class CustomerService {
   }
 
   // Update customer data to Storage
-  async changePassword(id: any, passwordData: any, uid: any) {
-    const changed = await this.WC.changePassword(id, passwordData, uid).toPromise();
+  async changePassword(id: any, passwordData: any) {
+    const changed = await this.WC.changePassword(id, passwordData).toPromise();
     return changed;
   }
 
   async signOut() {
-    await this.storage.clearStorage();
-    await this.rout.navigateByUrl('/welcome');
+    this.storage.clearStorage();
+    this.rout.navigateByUrl('/welcome');
   }
 }

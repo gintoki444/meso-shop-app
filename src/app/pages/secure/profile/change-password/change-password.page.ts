@@ -46,9 +46,7 @@ export class ChangePasswordPage implements OnInit {
 
   async getUserID() {
     const userData = JSON.parse(await this.customerService.getCustomer());
-    const cusUid = await this.customerService.getCustomerUID()
     this.cusID = userData.id;
-    this.uid = cusUid.value;
   }
 
 
@@ -67,12 +65,11 @@ export class ChangePasswordPage implements OnInit {
     // If form valid
     if (this.edit_profile_form.valid) {
       const data = {
-        password: this.edit_profile_form.value.password,
-        new_password: this.edit_profile_form.value.new_password,
+        password: this.edit_profile_form.value.new_password,
       };
 
       // Save form ...
-      await this.customerService.changePassword(this.cusID, data, this.uid).then(data => {
+      await this.customerService.changePassword(this.cusID, data).then(() => {
         // Display success message and go back
         this.toastService.presentToast('your password was changed', 'successfully', 'middle', 'success', 2000, 'none');
         loading.dismiss();

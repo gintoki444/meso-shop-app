@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 //import woo
 import { ActivatedRoute, Router } from '@angular/router';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
+import { OrderService } from 'src/app/services/order/order.service';
 
 @Component({
   selector: 'app-order',
@@ -19,6 +20,7 @@ export class OrderPage implements OnInit {
   orderData: any;
   shipping: any
   productData: any;
+  statusOrder: any;
 
 
 
@@ -72,6 +74,7 @@ export class OrderPage implements OnInit {
     private WC: WoocommerceService,
     private activatedRoute: ActivatedRoute,
     private loadingController: LoadingController,
+    private orderService: OrderService,
   ) { }
 
   ngOnInit() {
@@ -92,8 +95,22 @@ export class OrderPage implements OnInit {
 
     let id = this.activatedRoute.snapshot.paramMap.get('orderID');
     let order = await this.WC.getOrderByID(id).toPromise();
+    let paymentData = await this.orderService.getOpnStatus(order.transaction_id);
+    this.statusOrder = {
+      status: ""
+    }
 
-    let statusName = this.orderStatus.filter(x => x.nameStatus == order.status);
+    if (paymentData.status === 'successful') {
+      this.statusOrder.status = "processing";
+      await this.orderService.updateOrder(id, this.statusOrder).then();
+    } else {
+      this.statusOrder = {
+        status: order.status
+      }
+    }
+
+
+    let statusName = this.orderStatus.filter(x => x.nameStatus == this.statusOrder.status);
     this.orderData = order;
     this.shipping = order.shipping;
     this.orderID = id;

@@ -140,6 +140,13 @@ export class WoocommerceService {
     return this.OrderrData;
   }
 
+  putOrders(id: any, status: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}orders/${id}?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    this.OrderrData = this.http.post(
+      this.apiURL, status);
+    return this.OrderrData;
+  }
+
   getcouponList() {
     this.apiURL = `${this.siteURL}${this.woocomPart}coupons?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
     this.couponData = this.http.get(this.apiURL);
@@ -155,14 +162,10 @@ export class WoocommerceService {
   }
 
   // get user data
-  changePassword(id: any, data: any, token: any) {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
-    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}/change_password?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+  changePassword(id: any, data: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}customers/${id}?&consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
     this.customerData = this.http.post(
-      this.apiURL, data, { headers });
+      this.apiURL, data);
     return this.customerData;
   }
 

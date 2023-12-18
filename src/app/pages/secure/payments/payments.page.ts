@@ -64,8 +64,6 @@ export class PaymentsPage implements OnInit {
     },
   ]
 
-  expandedSubPayment: PaymentList | null = null;
-
 
   constructor(
     private routerOutlet: IonRouterOutlet,
@@ -91,35 +89,25 @@ export class PaymentsPage implements OnInit {
     let payment = this.paymentList.filter((gateway: any) => gateway.enabled == true);
 
     payment.forEach((data: any) => {
-      data.checked = false
+      data.checked = false;
+      data.selectData = false;
       if (data.id === "omise_mobilebanking") {
         data.subPayment = this.subPayment;
       } else if (data.id === "omise") {
-        data.subPayment =
-        {
+        data.subPayment = [{
           type: 'omise',
           checked: false,
-        }
+        }]
+
       }
     })
-    this.paymentData = payment
-    // this.paymentData 
-    // console.log('Enabled Payment Gateways:', this.paymentData);
+    this.paymentData = payment;
   }
 
-  togglePayment(payment: PaymentList) {
-    if (payment.subPayment) {
-      this.expandedSubPayment = this.expandedSubPayment === payment ? null : payment;
-      let toggleCheck = this.expandedSubPayment ? true : false;
-
-      this.selectPayment(payment);
-      const rotationAnimation = this.createRotationAnimation(toggleCheck);
-      rotationAnimation.play();
-
+  togglePayment(payment: any): void {
+    if (payment.subPayment && payment.subPayment.length > 0) {
+      payment.checked = !payment.checked;
     } else {
-      payment.checked = true;
-      this.expandedSubPayment = null;
-      this.createRotationAnimation(true);
       this.selectPayment(payment);
     }
   }
@@ -127,7 +115,9 @@ export class PaymentsPage implements OnInit {
   selectPayment(payment: any) {
     this.paymentData.forEach((item: any) => {
       if (item.id !== payment.id) {
-        item.checked = false;
+        item.selectData = false;
+      }else{
+        item.selectData = true;
       }
     })
     this.selectData = payment;
