@@ -56,6 +56,7 @@ export class CheckoutPage implements OnInit {
       payment_method: ['', [Validators.required]],
       payment_method_title: ['', [Validators.required]],
       payment_id: '',
+      token: '',
       set_paid: false,
       total: null,
       status: "pending",
@@ -109,9 +110,8 @@ export class CheckoutPage implements OnInit {
   }
 
   async getShipping() {
-    // this.cdr.detectChanges();
+    
     let shipping = await this.checkoutServices.getShippingData();
-    // let defaultShipping = JSON.parse(await this.cartServices.getCart());
 
     if (shipping) {
       let newShipping = {
@@ -151,8 +151,10 @@ export class CheckoutPage implements OnInit {
     this.paymentData = await this.paymentService.getPaymentData();
 
     if (this.paymentData) {
+      this.paymentService.setPaymentData(null);
 
-      if (this.paymentData.subPayment) {
+      if (this.paymentData.id === "omise_mobilebanking") {
+
         this.paymentData.subPayment.forEach(data => {
           if (data.checked === true) {
             this.orderData.get('payment_id').setValue(data.type);
@@ -160,11 +162,15 @@ export class CheckoutPage implements OnInit {
           }
         })
       } else if (this.paymentData.id === "omise_promptpay") {
-        this.orderData.get('payment_id').setValue("promptpay");
-        this.orderData.value.payment_method_title = "promptpay";
-      } else {
 
+        this.orderData.get('payment_id').setValue("promptpay");
+        this.orderData.value.payment_method_title = "Promptpay";
+      } else  if (this.paymentData.id === "omise") {
+
+        this.orderData.get('token').setValue(this.paymentData.token);
+        this.orderData.value.token = this.paymentData.token;
       }
+
       this.orderData.get('payment_method').setValue(this.paymentData.id);
       this.orderData.get('payment_method_title').setValue(this.paymentData.title);
       this.orderData.value.payment_method = this.paymentData.id;
@@ -176,12 +182,15 @@ export class CheckoutPage implements OnInit {
 
   calculatePrice() {
     if (!this.couponData) {
+
       this.summaryPrice = this.totalPrice - this.discount;
     } else {
       if (this.couponData.discount_type == 'percent') {
+
         this.discount = this.totalPrice * this.couponData.amount / 100;
         this.summaryPrice = this.totalPrice - this.discount;
       } else {
+
         this.discount = Number(this.couponData.amount);
         this.summaryPrice = this.totalPrice - this.discount;
       }

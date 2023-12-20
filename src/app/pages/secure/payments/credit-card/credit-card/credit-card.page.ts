@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaymentService } from 'src/app/services/payment/payment.service';
+import { Router,ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-credit-card',
@@ -13,6 +14,9 @@ export class CreditCardPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private paymentService: PaymentService,
+    private route: Router,
+    private activatedRoute :ActivatedRoute,
   ) {
   }
 
@@ -24,7 +28,7 @@ export class CreditCardPage implements OnInit {
       cvc: ['', [Validators.required, Validators.pattern(/^\d{3,4}$/)]],
     });
 
-    
+
     this.creditCardForm.get('nameCard').setValue('Cardholder Name');
     this.creditCardForm.get('cardNumber').setValue('4242424242424242');
     this.creditCardForm.get('expiryDate').setValue('12/23');
@@ -33,44 +37,35 @@ export class CreditCardPage implements OnInit {
 
 
   async submitForm() {
-    
+    let paymentData = await this.paymentService.getPaymentData();
+
     this.markFormGroupTouched(this.creditCardForm);
 
     if (this.creditCardForm.invalid) {
-      // Form is invalid, handle accordingly
       return this.creditCardForm;
     }
 
-    // Your payment processing logic here
     const cardDetails = {
+      name: this.creditCardForm.value.nameCard,
       number: this.creditCardForm.value.cardNumber,
       expiryMonth: this.creditCardForm.value.expiryDate.split('/')[0],
       expiryYear: this.creditCardForm.value.expiryDate.split('/')[1],
-      cvc: this.creditCardForm.value.cvc,
+      security_code: this.creditCardForm.value.cvc,
     };
 
-    console.log('cardDetails :',cardDetails)
+    await this.paymentService.createCardToken(cardDetails).then(data => {
+      if (data) {
+        paymentData.token = data.id;
 
-    // Simulate tokenization (replace with actual Omise service)
-    const cardToken = await this.tokenizeCard(cardDetails);
 
-    // Save the token for future use
-    // this.paymentService.saveCardToken(userId, cardToken);
-
-    // Use the token for the current transaction
-    // this.chargeCard(userId);
-  }
-
-  private async tokenizeCard(card): Promise<string> {
-    // Simulate tokenization (replace with actual Omise service)
-    return Promise.resolve('simulated_card_token');
-  }
-
-  private chargeCard(userId: string) {
-    // const cardToken = this.paymentService.getCardToken(userId);
-
-    // Use the token to create a charge (replace with actual payment service)
-    // console.log('Charge user', userId, 'with token', cardToken);
+        let id = this.activatedRoute.snapshot.paramMap.get('orderID');
+        if (!id) {
+          this.route.navigate(['checkout']);
+        } else {
+          this.route.navigate(['confirm-order']);
+        }
+      }
+    });
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

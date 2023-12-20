@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CheckoutOrderPageRoutingModule } from './checkout-order-routing.module';
+import { ConfirmOrderPageRoutingModule } from './confirm-order-routing.module';
 
-import { CheckoutOrderPage } from './checkout-order.page';
+import { ConfirmOrderPage } from './confirm-order.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CheckoutOrderPageRoutingModule
+    ConfirmOrderPageRoutingModule
   ],
-  declarations: [CheckoutOrderPage]
+  declarations: [ConfirmOrderPage]
 })
-export class CheckoutOrderPageModule {}
+export class ConfirmOrderPageModule {}

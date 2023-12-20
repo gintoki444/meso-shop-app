@@ -6,7 +6,7 @@
     </ion-buttons>
 
     <ion-buttons class="ion-text-center">
-      <ion-text class="header-title">รายละเอียดคำสั่งซื้อ</ion-text>
+      <ion-text class="header-title">ยืนยันการชำระเงิน</ion-text>
     </ion-buttons>
 
     <ion-buttons slot="primary">
@@ -18,6 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
 
   <ion-grid [fixed]="true" class="grid-order">
@@ -25,12 +26,12 @@
       <ion-col size-md="12" size-xs="12" class="">
 
         <!-- order title -->
-        <div class="order order-title grid-notification" *ngIf="orderID">
+        <div class="order order-title grid-notification" *ngIf="productData">
           <div class="table">
             <div class="row order-number">
               <div class="col"><b>หมายเลขคำสั่งซื้อ</b></div>
               <div class="col price">
-                <ion-text color="medium"><strong>{{orderID.substring(0,3)+"XX"}}</strong></ion-text>
+                <ion-text color="medium"><strong>{{orderID}}</strong></ion-text>
                 <!-- <ion-buttons class="btn-copy">คัดลอก</ion-buttons> -->
               </div>
             </div>
@@ -53,118 +54,77 @@
         </div>
 
         <!-- address detail -->
-        <div class="order address" *ngIf="orderID && this.orderNameStatus.nameStatus !== 'completed'">
-          <h3><strong>ที่อยู่การจัดส่ง</strong></h3>
-          <div class="table">
-            <div class="row order-number" style=" margin-bottom: 10px;">
-              <div class="col"><ion-text>{{shipping.first_name}} {{shipping.last_name}}</ion-text></div>
-              <div class="col price">
-                <ion-text color="secondary">{{shipping.phone}}</ion-text>
-              </div>
-            </div>
-            <div class="row order-date">
-              <div class="">
-                <ion-text>{{shipping.address_1 + ' ' + shipping.state + ' ' + shipping.city + ' ' +
-                  shipping.postcode}}</ion-text>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product details -->
-        <div class="products" *ngIf="orderID && this.orderNameStatus.nameStatus !== 'completed'">
-          <div class="title">
-            <ion-text><strong>รายละเอียดการสั่งซื้อ</strong></ion-text>
+        <div class="order address" *ngIf="shipping" [routerLink]="['address/'+orderID]">
+          <div class="address-title">
+            <h3><strong>ที่อยู่การจัดส่ง</strong></h3>
+            <ion-label><ion-icon name="create-outline"></ion-icon> แก้ไข</ion-label>
           </div>
 
-          <div class="product" *ngFor="let products of productData">
-            <div class="product-image">
-              <ion-img [src]="products.image.src"></ion-img>
+          <div class="address-content">
+            <div class="address-icon">
+              <ion-icon [src]="iconLocation" class="icon-search"></ion-icon>
             </div>
-            <div class="product-detail">
-              <div class="product-name">
-                <ion-text>
-                  {{products.name}}
-                </ion-text>
+            <div class="table">
+              <div class="row order-number" style=" margin-bottom: 10px;">
+                <div class="col"><ion-text>{{shipping.first_name}} {{shipping.last_name}}</ion-text></div>
+                <div class="col price">
+                  <ion-text color="secondary">{{shipping.phone}}</ion-text>
+                </div>
               </div>
-              <div class="product-price">
-                <ion-text>
-                  ฿ {{products.price | number}}
-                </ion-text>
-              </div>
-            </div>
-            <div class="product-quantity">
-              x <span>{{products.quantity}}</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Product details -->
-        <div class="products products-active" *ngIf="orderID && this.orderNameStatus.nameStatus === 'completed'">
-          <div class="title">
-            <ion-text><strong>รายละเอียดการสั่งซื้อ</strong></ion-text>
-          </div>
-          <div class="product" *ngFor="let products of productData">
-            <div class="product-image">
-              <ion-img [src]="products.image.src"></ion-img>
-            </div>
-            <div class="product-detail">
-              <div class="product-name">
-                <ion-text>
-                  {{products.name}}
-                </ion-text>
-              </div>
-              <div class="product-price">
-                <ion-text>
-                  ฿ {{products.price | number}}
-                </ion-text>
-              </div>
-            </div>
-            <div class="product-quantity">
-              x <span>{{products.quantity}}</span>
-            </div>
-          </div>
-          <div class="summary-price">
-            <ion-text><strong>฿ 8,460</strong></ion-text>
-          </div>
-          <div class="product-review">
-            <div class="review-left">
-              <div class="review-title">
-                <ion-label>รวมการสั่งซื้อ</ion-label>
-              </div>
-              <div class="review-point">
-                <ion-text>คะแนน</ion-text>
-                <div class="star" slot="primary">
-                  <ion-icon [src]="iconStar"></ion-icon>
-                  <ion-icon [src]="iconStar"></ion-icon>
-                  <ion-icon [src]="iconStar"></ion-icon>
-                  <ion-icon [src]="iconStar"></ion-icon>
-                  <ion-icon [src]="iconStar"></ion-icon>
+              <div class="row order-date">
+                <div class="">
+                  <ion-text>{{shipping.address_1 + ' ' + shipping.state + ' ' + shipping.city + ' ' +
+                    shipping.postcode}}</ion-text>
                 </div>
               </div>
             </div>
-            <div class="btn">
-              <ion-button>ซื้ออีกครั้ง</ion-button>
-            </div>
           </div>
         </div>
 
+        <!-- Product details -->
+        <div class="products">
+          <div class="title">
+            <ion-text><strong>รายละเอียดการสั่งซื้อ</strong></ion-text>
+          </div>
+
+          <div class="product" *ngFor="let products of productData">
+            <div class="product-image">
+              <ion-img [src]="products.image.src"></ion-img>
+            </div>
+            <div class="product-detail">
+              <div class="product-name">
+                <ion-text>
+                  {{products.name}}
+                </ion-text>
+              </div>
+              <div class="product-price">
+                <ion-text>
+                  ฿ {{products.price | number}}
+                </ion-text>
+              </div>
+            </div>
+            <div class="product-quantity">
+              x <span>{{products.quantity}}</span>
+            </div>
+          </div>
+
+        </div>
+
         <!-- add payment -->
-        <div class="payment" *ngIf="orderID && this.orderNameStatus.nameStatus !== 'completed'">
-          <ion-list lines="none" class="payment">
+        <div class="payment" *ngIf="productData">
+          <ion-list lines="none" class="payment" [routerLink]="['payment/'+orderID]">
             <div class="payment-title">
               <ion-text>วิธีการชำระเงิน</ion-text>
             </div>
             <div class="payment-detail">
               <b>{{orderData.payment_method_title}}</b>
-              <!-- <ion-icon name="chevron-forward-sharp"></ion-icon> -->
+              <ion-icon name="chevron-forward-sharp"></ion-icon>
             </div>
           </ion-list>
         </div>
 
         <!-- Summary order -->
-        <div class="order" *ngIf="orderID && this.orderNameStatus.nameStatus !== 'completed'">
+        <div class="order" *ngIf="shipping">
 
           <h3>ข้อมูลการชำระเงิน</h3>
           <div class="table">
@@ -185,18 +145,6 @@
               </div>
             </div>
           </div>
-          <div class="ion-text-center" *ngIf="orderData.status !== 'completed' && orderData.status === 'pending' ">
-            <ion-button class="" color="secondary" (click)="confirmOrder()">
-              ชำระเงิน
-            </ion-button>
-            
-            <ion-button class="" color="danger" (click)="cancleOrder()">
-              ยกเลิกคำสั่งซื้อ
-            </ion-button>
-            <!-- <ion-button class="btn-checkout" [routerLink]="['/','home']" color="secondary">
-              Homepage
-            </ion-button> -->
-          </div>
         </div>
 
       </ion-col>
@@ -204,3 +152,9 @@
   </ion-grid>
 
 </ion-content>
+
+<ion-footer class="footrt-cart animate__animated animate__fadeInUp ion-text-center">
+  <ion-button class="btn-checkout" (click)="payOrder()" color="secondary">
+    ชำระเงิน
+  </ion-button>
+</ion-footer>

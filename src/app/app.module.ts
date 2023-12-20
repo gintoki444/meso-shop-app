@@ -24,6 +24,9 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 
+// InAppBrowser
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+
 
 // Import AngularFire and the Firebase module
 
@@ -40,10 +43,11 @@ register();
     AppRoutingModule,
     NgChartsModule,
     HttpClientModule,
+    
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },InAppBrowser,],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

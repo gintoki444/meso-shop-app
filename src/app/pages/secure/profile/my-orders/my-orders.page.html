@@ -25,6 +25,8 @@
       <div class="item" *ngFor="let item of orderStatus  let i = index" (click)="setActiveItem(i)"
         [ngClass]="{ 'active': i === activeIndex }">
         <ion-label>{{ item.title }}</ion-label>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="item.nameStatus ==='pending' && orderPending">{{orderPending}}</ion-badge>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="item.nameStatus ==='processing' && orderProcessing">{{orderProcessing}}</ion-badge>
       </div>
       <div class="line" [ngStyle]="lineStyles"></div>
     </div>

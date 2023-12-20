@@ -3,6 +3,9 @@ import { WoocommerceService } from '../woocommerces/woocommerce.service';
 import { OmiseService } from '../omise/omise.service';
 import { StorageService } from '../storage/storage.service';
 
+// InAppBrowser
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,13 +20,17 @@ export class CheckoutService {
     private WC: WoocommerceService,
     private OPN: OmiseService,
     private storage: StorageService,
+    private iab: InAppBrowser,
   ) { }
 
 
   async checkoutOrders(order: any): Promise<any> {
     this.orderData = await this.WC.postOrders(order).toPromise();
+
     this.orderData.payment_id = order.payment_id;
-    this.createOmiseCharges(this.orderData,);
+    this.orderData.token = order.token;
+
+    this.createOmiseCharges(this.orderData);
     this.setCheckoutOrderData(this.orderData)
 
     return this.orderData;
@@ -42,6 +49,9 @@ export class CheckoutService {
     return this.orderShipping;
   }
 
+  async getUpdateShippingData() {
+    return this.orderShipping;
+  }
   setCouponData(data: any) {
     this.couponData = data;
   }
@@ -53,25 +63,35 @@ export class CheckoutService {
   setCheckoutOrderData(data: any) {
     this.checkoutOrderData = data;
   }
+  
   getCheckoutOrderData() {
     return this.checkoutOrderData;
   }
 
   async createOmiseCharges(data: any) {
     const orderData = {
-      "amount": data.total * 100,
-      "currency": "THB",
-      "platform_type": "",
-      "return_uri": document.location.origin + "/order/" + data.id,
-      "description": "WooCommerce Order id " + data.id,
-      "metadata": {
-        "order_id": `${data.id}`
+      amount: data.total * 100,
+      currency: "THB",
+      platform_type: "",
+      return_uri: document.location.origin + "/order/" + data.id,
+      description: "WooCommerce Order id " + data.id,
+      metadata: {
+        order_id: `${data.id}`
       },
-      "source": {
-        "type": data.payment_id,
-        "phone_number": data.billing.phone
-      }
+      source: {},
+      card: "",
     }
+
+    if (data.payment_method === "omise_mobilebanking") {
+      orderData.source = {
+        type: data.payment_id,
+        phone_number: data.billing.phone
+      }
+    }else if(data.payment_method === "omise") {
+      orderData.card = data.token
+    }
+
+    console.log(orderData)
 
     await this.OPN.createCharges(orderData).subscribe((opnsData: any) => {
 
@@ -80,14 +100,31 @@ export class CheckoutService {
       }
       let metaID = opnsData.source.metadata.order_id
 
-      const updataDone = this.WC.putOrders(metaID, updateOrder).toPromise();
-      
-      if (updataDone) {
-        window.open(opnsData.source.authorize_uri);
-      }
+      this.WC.putOrders(metaID, updateOrder).subscribe(updaterder => {
+        if (updaterder) {
+          setTimeout(() => {
+            this.openInAppBrowser(opnsData.source.authorize_uri);
+          }, 1000);
+        }
+      });
     },
       (error) => {
         console.error('Error creating charge:', error);
+      }
+    );
+  }
+
+  openInAppBrowser(url: any) {
+    const browser = this.iab.create(
+      url,
+      '_self',
+      {
+        location: 'no',
+        hidden: 'no',
+        hardwareback: 'yes',
+        toolbar: 'no',
+        // toolbarposition: 'top',
+        fullscreen: 'no'
       }
     );
   }

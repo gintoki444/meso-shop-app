@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 import { OmiseService } from '../omise/omise.service';
+import { CustomerService } from '../customer/customerservice';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,11 @@ export class PaymentService {
   constructor(
     private WC: WoocommerceService,
     private OPN: OmiseService,
+    private customerService: CustomerService,
   ) { }
 
   payment: any;
+  cardToken: any;
   paymentMobileBank: [
     {
       type: 'mobile_banking_kbank',
@@ -59,6 +62,30 @@ export class PaymentService {
     return this.payment;
   }
 
+  async createCardToken(data: any) {
+
+    const cardData = {
+      expiration_month: data.expiryMonth,
+      expiration_year: data.expiryYear,
+      name: data.name,
+      number: data.number,
+      security_code: data.security_code,
+    }
+
+    const tokenData = await this.OPN.getCardToken(cardData).toPromise();
+    
+    return tokenData
+  }
+
+  setCardToken(data: any) {
+    this.cardToken = data;
+    return this.payment;
+  }
+
+  getCardToken(data: any) {
+    this.cardToken = data;
+    return this.payment;
+  }
 
   // async getOmiseSource() {
   //   const testData = {

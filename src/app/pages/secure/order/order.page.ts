@@ -21,53 +21,8 @@ export class OrderPage implements OnInit {
   shipping: any
   productData: any;
   statusOrder: any;
-
-
-
-
-  orderStatus = [
-    {
-      id: 0,
-      title: 'รอการชำระเงิน',
-      nameStatus: 'pending',
-    },
-    {
-      id: 1,
-      title: 'กำลังดำเนินการจัดส่ง',
-      nameStatus: 'processing',
-    },
-    {
-      id: 2,
-      title: 'สำเร็จแล้ว',
-      nameStatus: 'completed',
-    },
-    {
-      id: 3,
-      title: 'ให้คะแนน',
-      nameStatus: 'reviews',
-    },
-    {
-      id: 4,
-      title: 'ยกเลิกคำสั่งซือ',
-      nameStatus: 'cancelled',
-    },
-    {
-      id: 5,
-      title: 'รอแจ้งชำระเงิน',
-      nameStatus: 'on-hold',
-    },
-    {
-      id: 6,
-      title: 'ไม่สำเร็จ',
-      nameStatus: 'failed',
-    },
-    {
-      id: 6,
-      title: 'คืนเงิน',
-      nameStatus: 'refunded',
-    }
-  ]
-
+  private interval: any;
+  private iteration: number = 0;
 
   constructor(
     private router: Router,
@@ -78,11 +33,15 @@ export class OrderPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getOrderData();
   }
 
   ngAfterViewInit() {
-    this.getOrderData();
-    // this.orderID = this.activatedRoute.snapshot.paramMap.get('orderID');
+    // this.getOrderData();
+  }
+
+  ngOnDestroy() {
+    this.stopReloadStatusOrder();
   }
 
   async getOrderData() {
@@ -95,22 +54,16 @@ export class OrderPage implements OnInit {
 
     let id = this.activatedRoute.snapshot.paramMap.get('orderID');
     let order = await this.WC.getOrderByID(id).toPromise();
-    let paymentData = await this.orderService.getOpnStatus(order.transaction_id);
+
     this.statusOrder = {
-      status: ""
+      status: order.status
     }
 
-    if (paymentData.status === 'successful') {
-      this.statusOrder.status = "processing";
-      await this.orderService.updateOrder(id, this.statusOrder).then();
-    } else {
-      this.statusOrder = {
-        status: order.status
-      }
+    if (this.statusOrder.status === 'pending' || this.statusOrder.status === 'on-hold') {
+      this.startReloadStatusOrder();
     }
 
-
-    let statusName = this.orderStatus.filter(x => x.nameStatus == this.statusOrder.status);
+    let statusName = this.orderService.orderStatus.filter(x => x.nameStatus == this.statusOrder.status);
     this.orderData = order;
     this.shipping = order.shipping;
     this.orderID = id;
@@ -119,5 +72,109 @@ export class OrderPage implements OnInit {
 
     loading.dismiss();
   }
+
+  async confirmOrder() {
+    await this.orderService.setOrderData(this.orderData);
+    console.log(this.orderData)
+    this.router.navigate(['/', 'confirm-order']);
+  }
+
+  async cancleOrder() {
+    const loading = await this.loadingController.create({
+      cssClass: 'default-loading',
+      message: 'ยกเลิกคำสั่งซื้อ',
+      spinner: 'crescent'
+    });
+
+    await loading.present();
+    this.statusOrder = {
+      status: "cancelled"
+    }
+
+    await this.orderService.updateOrder(this.orderID, this.statusOrder).then((data) => {
+
+      loading.dismiss();
+      this.router.navigate(['/my-orders/pending'])
+      console.log(data)
+    });
+  }
+
+  startReloadStatusOrder() {
+    this.interval = setInterval(() => {
+
+      this.iteration++;
+
+      this.reloadStatusOrder();
+
+      this.adjustInterval();
+    }, 1000); // Initial interval (1 second)
+
+    // setTimeout(() => this.stopReloadStatusOrder(), 10000);
+  }
+
+  stopReloadStatusOrder() {
+    clearInterval(this.interval);
+  }
+
+  async reloadStatusOrder() {
+
+    let paymentData = await this.orderService.getOpnStatus(this.orderData.transaction_id);
+
+    if (paymentData.status !== "pending") {
+
+      if (paymentData.status === 'successful') {
+
+        const loading = await this.loadingController.create({
+          cssClass: 'default-loading',
+          message: 'สั่งซื้อสินค้าสำเร็จ',
+          spinner: 'crescent'
+        });
+        await loading.present();
+
+        this.statusOrder = {
+          status: "processing"
+        }
+        let statusName = this.orderService.orderStatus.filter(x => x.nameStatus == this.statusOrder.status);
+        this.orderNameStatus = statusName[0];
+
+        this.orderData.status = this.statusOrder.status
+
+        await this.orderService.updateOrder(this.orderID, this.statusOrder).then((data) => {
+          this.stopReloadStatusOrder();
+          loading.dismiss();
+        });
+      } else {
+        this.stopReloadStatusOrder();
+      }
+
+    }
+
+    return paymentData.status
+  }
+
+  adjustInterval() {
+    switch (this.iteration) {
+      case 3:
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.reloadStatusOrder(), 5000);
+        break;
+      case 5:
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.reloadStatusOrder(), 10000);
+        break;
+      case 10:
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.reloadStatusOrder(), 30000);
+        break;
+
+      default:
+        this.iteration = 0;
+        clearInterval(this.interval);
+        this.interval = setInterval(() => this.reloadStatusOrder(), 3000); // 3 seconds
+        break;
+    }
+  }
+
+
 
 }

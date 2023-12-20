@@ -36,7 +36,7 @@
       </ion-item>
 
       <ion-list *ngIf="payment.id === 'omise' &&
-      payment.checked" class="sublist ion-text-center" lines="none" (click)="AddCreditCard()">
+      payment.checked" class="sublist ion-text-center" lines="none" (click)="AddCreditCard(payment)">
         <ion-button>
           <ion-icon name="add-outline"></ion-icon>
           เพิ่มบัตรเครดิต

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { CustomerService } from 'src/app/services/customer/customerservice';
@@ -40,7 +41,6 @@ export class AddressPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
     this.dataResolve = this.activeRoute.snapshot.data.myarray;
     this.activeRoute.params.subscribe(params => {
       this.getShipping();
@@ -72,7 +72,13 @@ export class AddressPage implements OnInit {
 
   async addOrderShipping() {
     this.checkoutService.setShippingData(this.selectShippingData);
-    this.route.navigate(['checkout'])
+    
+    let id = this.activeRoute.snapshot.paramMap.get('orderID');
+    if(!id){
+      this.route.navigate(['checkout'])
+    }else{
+      this.route.navigate(['/confirm-order'])
+    }
   }
 
   async AddNewShipping(){
@@ -82,7 +88,6 @@ export class AddressPage implements OnInit {
 
   async editShipping(shipping: any){
     await this.customerService.setShippingData(shipping);
-    // console.log('shipping.id ',shipping.shipping_id)
     this.route.navigate(['/','address','edit-address'])
   }
 }

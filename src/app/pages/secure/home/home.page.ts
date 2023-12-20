@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
 
 
   ngOnInit() {
+
     this.getCart();
     this.homePageProducts();
     // Fake timeout

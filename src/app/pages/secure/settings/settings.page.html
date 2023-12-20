@@ -109,6 +109,7 @@
       <div>
 
         <ion-icon [src]="iconOrderPay" [routerLink]="['/','my-orders','pending']"></ion-icon>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="orderPending">{{orderPending}}</ion-badge>
         <ion-item color="primary">
           <ion-label>
             <h3>ที่ต้องชำระ</h3>
@@ -118,6 +119,7 @@
 
       <div>
         <ion-icon [src]="iconOrderSend" [routerLink]="['/','my-orders','processing']"></ion-icon>
+        <ion-badge class="animate__animated animate__fadeInUp" *ngIf="orderProcessing">{{orderProcessing}}</ion-badge>
         <ion-item color="primary">
           <ion-label>
             <h3>ที่ต้องได้รับ</h3>

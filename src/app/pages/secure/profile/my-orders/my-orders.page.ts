@@ -26,6 +26,8 @@ export class MyOrdersPage implements AfterViewInit {
   activeIndex: number = 0;
   lineStyles: { [key: string]: string } = {};
 
+  orderPending: any;
+  orderProcessing:any;
 
   dataOrder: any;
 
@@ -56,29 +58,7 @@ export class MyOrdersPage implements AfterViewInit {
     }
   ]
 
-  orderList: any
-  // = [
-  //   {
-  //     id: 123477,
-  //     status: 'completed',
-  //   },
-  //   {
-  //     id: 456844,
-  //     status: 'completed',
-  //   },
-  //   {
-  //     id: 112233,
-  //     status: 'processing',
-  //   },
-  //   {
-  //     id: 123456,
-  //     status: 'processing',
-  //   },
-  //   {
-  //     id: 456812,
-  //     status: 'pending',
-  //   }
-  // ]
+  orderList: any;
   customer: any;
 
 
@@ -96,10 +76,14 @@ export class MyOrdersPage implements AfterViewInit {
   @ViewChild('line') lineElement: ElementRef;
   @ViewChild('items') itemsElement: ElementRef;
 
+  ngOnInit() { 
+    this.activatedRoute.params.subscribe(() => {
+    this.getOrderData();
+  });
+  }
+
 
   ngAfterViewInit() {
-    this.getOrderData();
-    // this.getOrdersList();
     this.Cart();
   }
 
@@ -143,8 +127,15 @@ export class MyOrdersPage implements AfterViewInit {
     this.orderList = await this.WC.getOrderByCustomerID(this.customer.id).toPromise();
 
     this.dataOrder = this.orderList.filter(x => x.status == status);
+    this.orderPending = this.countOrderByStatus(this.orderList,"pending");
+    this.orderProcessing = this.countOrderByStatus(this.orderList,"processing");
     
     loading.dismiss();
+  }
+
+  countOrderByStatus(orders: any, status: any) {
+    const filteredOrders = orders.filter(order => order.status === status);
+    return filteredOrders.length;
   }
 
 }

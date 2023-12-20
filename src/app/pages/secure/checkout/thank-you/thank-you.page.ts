@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
-import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 
 @Component({
   selector: 'app-thank-you',
@@ -17,6 +16,7 @@ export class ThankYouPage implements OnInit {
   orderData: any;
   shipping: any
   productData: any;
+  t: any;
 
   orderStatus = [
     {
@@ -62,26 +62,30 @@ export class ThankYouPage implements OnInit {
   ]
   constructor(
     private rout: Router,
-    private activeRoute: ActivatedRoute,
     private checkoutService: CheckoutService,
     private loadingController: LoadingController,
-    private WC: WoocommerceService,
   ) { }
 
   ngOnInit() {
   }
+
   ngAfterViewInit() {
-    this.getOrderData();
+   this.t = this.getOrderData();
     // this.orderID = this.activatedRoute.snapshot.paramMap.get('orderID');
   }
 
+  //Clear interval เมื่อออกจาก page
+  ionViewWillLeave() {
+    clearInterval(this.t);
+  }
+
   async getOrderData() {
-    // const loading = await this.loadingController.create({
-    //   cssClass: 'default-loading',
-    //   message: 'ข้อมูลคำสั่งซื้อ',
-    //   spinner: 'crescent'
-    // });
-    // await loading.present();
+    const loading = await this.loadingController.create({
+      cssClass: 'default-loading',
+      message: 'ข้อมูลคำสั่งซื้อ รอการชำระเงิน',
+      spinner: 'crescent'
+    });
+    await loading.present();
 
     this.orderData = await this.checkoutService.getCheckoutOrderData();
     if (this.orderData) {
@@ -92,25 +96,9 @@ export class ThankYouPage implements OnInit {
       this.orderNameStatus = statusName[0];
       this.productData = this.orderData.line_items;
 
-      console.log('orderID ', this.orderID)
-      console.log('orderData ', this.orderData)
-      console.log('shipping ', this.shipping)
-      console.log('orderNameStatus ', this.orderNameStatus)
-      console.log('productData ', this.productData)
     } else {
+      loading.dismiss();
       this.rout.navigateByUrl('/home')
     }
-
-
-    // loading.dismiss();
   }
-
-  // async getOrder() {
-  //   let orderID = await this.activeRoute.paramMap.subscribe(data => {
-  //     let id = data.get('orderID')
-  //     return id
-  //   })
-  //   console.log('orderID :', orderID)
-  // }
-
 }

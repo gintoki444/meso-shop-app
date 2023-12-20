@@ -22,6 +22,12 @@ export class CustomerService {
   ionViewWillEnter() {
     this.updateCustomer();
   }
+  
+  // get data customer of storage
+  async getCustomerID() {
+    const customer = JSON.parse((await this.storage.getStorage('userdata')).value);
+    return customer.id;
+  }
 
   // get data customer of storage
   async getCustomer() {

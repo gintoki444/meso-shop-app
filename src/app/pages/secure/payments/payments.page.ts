@@ -1,16 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
-import { IonRouterOutlet, ModalController } from '@ionic/angular';
 // import { FilterPage } from './filter/filter.page';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 
 import { PaymentService } from 'src/app/services/payment/payment.service';
 
-interface PaymentList {
-  id: string;
-  subPayment?: string[]; // Sublist of items
-  checked: boolean;
-}
 
 
 @Component({
@@ -66,11 +60,10 @@ export class PaymentsPage implements OnInit {
 
 
   constructor(
-    private routerOutlet: IonRouterOutlet,
-    private modalController: ModalController,
+    private activatedRoute: ActivatedRoute,
     private rount: Router,
     private paymentService: PaymentService,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
   ) { }
 
   ngOnInit() {
@@ -134,8 +127,16 @@ export class PaymentsPage implements OnInit {
     this.selectPayment(payment);
   }
 
-  AddCreditCard() {
-    this.rount.navigate(['checkout', 'payments', 'credit-card'])
+  AddCreditCard(payment: any) {
+    this.selectData = payment;
+    this.paymentService.setPaymentData(this.selectData);
+
+    let id = this.activatedRoute.snapshot.paramMap.get('orderID');
+    if(!id){
+      this.rount.navigate(['checkout', 'payments', 'credit-card'])
+    }else{
+      this.rount.navigate(['confirm-order', 'payment', 'credit-card', id])
+    }
   }
 
   createRotationAnimation(isExpanded: boolean): Animation {
@@ -150,6 +151,13 @@ export class PaymentsPage implements OnInit {
 
   addPayment() {
     this.paymentService.setPaymentData(this.selectData);
-    this.rount.navigate(['/checkout'])
+    
+    let id = this.activatedRoute.snapshot.paramMap.get('orderID');
+    if(!id){
+      this.rount.navigate(['/checkout'])
+    }else{
+      console.log(this.selectData)
+      this.rount.navigate(['/confirm-order'])
+    }
   }
 }

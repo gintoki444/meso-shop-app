@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController,NavController } from '@ionic/angular';
 import { Router, ActivatedRoute, Route } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 import { CustomerService } from 'src/app/services/customer/customerservice';
 
@@ -19,6 +20,7 @@ export class AddAddressPage implements OnInit {
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
     private loadingController: LoadingController,
+    private navCtrl: NavController,
   ) { }
 
   txtTitle: any = '';
@@ -55,13 +57,6 @@ export class AddAddressPage implements OnInit {
       phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'),Validators.minLength(10),Validators.maxLength(10)]],
       detail: [''],
     });
-
-
-    // demo add data
-    // this.shipping_form.get('first_name').setValue('test');
-    // this.shipping_form.get('last_name').setValue('admin');
-    // this.shipping_form.get('phone').setValue('0851456321');
-    // this.shipping_form.get('detail').setValue('test add address');
 
 
     this.dataResolve = this.activeRoute.snapshot.data.myarray;
@@ -164,7 +159,7 @@ export class AddAddressPage implements OnInit {
 
       await this.customerService.addShipping(this.customerID, metaData).then(data => {
         loading.dismiss();
-        this.route.navigate(['/address']);
+        this.navCtrl.pop();
       }).catch(e => {
         console.log(e)
       });
@@ -207,8 +202,7 @@ export class AddAddressPage implements OnInit {
       await this.customerService.addShipping(this.customerID, metaData).then(data => {
 
         loading.dismiss();
-        this.route.navigateByUrl('/address');
-        console.log('data ', data);
+        this.navCtrl.pop();
       }).catch(e => {
         console.log(e)
       });

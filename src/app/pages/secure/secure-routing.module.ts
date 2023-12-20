@@ -136,6 +136,31 @@ const routes: Routes = [
     path: 'thank-you',
     loadChildren: () => import('./checkout/thank-you/thank-you.module').then(m => m.ThankYouPageModule)
   },
+  {
+    path: 'confirm-order',
+    children:
+      [
+        {
+          path: '',
+          loadChildren: () => import('./order/confirm-order/confirm-order/confirm-order.module').then(m => m.ConfirmOrderPageModule)
+        },
+        {
+          path: 'payment/:orderID',
+          loadChildren: () => import('./payments/payments.module').then(m => m.PaymentsPageModule)
+        },
+        {
+          path: 'address/:orderID',
+          loadChildren: () => import('./profile/address/address.module').then(m => m.AddressPageModule),
+          resolve: {
+            myarray: AddressResolveService.prototype.selectResolve,
+          }
+        },
+        {
+          path: 'payment/credit-card/:orderID',
+          loadChildren: () => import('./payments/credit-card/credit-card/credit-card.module').then(m => m.CreditCardPageModule)
+        },
+      ]
+  },
 ];
 
 @NgModule({

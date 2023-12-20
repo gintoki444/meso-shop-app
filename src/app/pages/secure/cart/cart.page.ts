@@ -36,7 +36,6 @@ export class CartPage implements OnInit {
 
   ionViewWillEnter() {
     this.getCart();
-    console.log("getCart cartData :",this.cartData)
   }
 
   toggleAllCheckboxes() {
@@ -47,7 +46,6 @@ export class CartPage implements OnInit {
     });
 
     let selectData = this.checkboxes.filter((checkbox) => checkbox.checked);
-    console.log(selectData)
     
     this.caculateSelects(selectData)
   }
@@ -57,7 +55,6 @@ export class CartPage implements OnInit {
     this.selectAll = this.checkboxes.every((checkbox) => checkbox.checked);
 
     let selectData = this.checkboxes.filter((checkbox) => checkbox.checked);
-    console.log(selectData)
     
     this.caculateSelects(selectData)
   }
@@ -94,10 +91,7 @@ export class CartPage implements OnInit {
           this.checkboxes = []
           cart.product.forEach(element => {
             this.checkboxes.push({ id: element.id, checked: false, product: element })
-            // console.log('id data :',element.id)
-          })
-          // console.log('checkbox data :',this.checkboxes )
-          // console.log('checkbox productData :',this.productData )
+          });
         }
       });
       this.cartServices.getCartData();
@@ -108,22 +102,16 @@ export class CartPage implements OnInit {
     this.totalProducts = 0;
     this.totalPrice = 0;
 
-    console.log('data',data);
     // คำนวณจำนวนสินค้า และ ราคารวม
     data.forEach(element => {
-      // console.log('data', element.product.quantity)
-      // console.log('data', element.product.price)
       this.totalProducts += element.product.quantity;
       this.totalPrice += parseFloat(element.product.price) * parseFloat(element.product.quantity);
     });
-    // this.cartData.totalPrice = parseFloat(this.cartData.totalPrice).toFixed(2);
-    // console.log('data',data)
     
     data.totalProduct = this.totalProducts;
     data.totalPrice = this.totalPrice;
 
     this.selectedProducts = data;
-    console.log('selectedProducts',this.selectedProducts);
   }
 
   checkout() {

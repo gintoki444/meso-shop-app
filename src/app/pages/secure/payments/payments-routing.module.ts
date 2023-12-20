@@ -9,10 +9,6 @@ const routes: Routes = [
     component: PaymentsPage
   },
   {
-    path: 'filter',
-    loadChildren: () => import('./filter/filter.module').then( m => m.FilterPageModule)
-  },
-  {
     path: 'credit-card',
     loadChildren: () => import('./credit-card/credit-card/credit-card.module').then( m => m.CreditCardPageModule)
   }

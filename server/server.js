@@ -74,6 +74,26 @@ app.post('/create-source', async (req, res) => {
   }
 });
 
+// Endpoint to generate an Omise token
+app.post('/generate-token', (req, res) => {
+  const cardDetails = {
+    expiration_month: req.body.expiration_month,
+    expiration_year: req.body.expiration_year,
+    name: req.body.name,
+    number: req.body.number,
+    security_code: req.body.security_code,
+  };
+
+  Omise.tokens.create({ card: cardDetails }, (err, token) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Token creation failed' });
+    }
+
+    res.json(token);
+  });
+});
+
 
 app.post('/create-charge', async (req, res) => {
   const data = req.body;
