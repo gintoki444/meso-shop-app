@@ -47,7 +47,6 @@ export class CartService {
   // Function plus product
   async quantityPlus(product: any) {
     try {
-      console.log('index', product.stock_quantity)
       if (product.stock_quantity === null) {
         product.quantity += 1;
       } else if (product.quantity < product.stock_quantity) {
@@ -88,7 +87,6 @@ export class CartService {
 
         product.quantity = 1;
       } else {
-        console.log('item ', item[0].quantity)
         item[0].quantity += 1;
         product.quantity = item[0].quantity;
       }
@@ -170,7 +168,6 @@ export class CartService {
   async saveToCart() {
     try {
       if (this.cartData.totalItem === 0) {
-        console.log('cartData 2:', this.cartData);
         this._cart.next(this.cartData); // Update the observable
         this.clearCart()
       } else {

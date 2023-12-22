@@ -20,21 +20,12 @@
           <!-- Login form -->
           <form class="form-signin" [formGroup]="signin_form" (submit)="signIn()">
             <ion-item class="" lines="none">
-              <ion-label position="floating">
-                mail
-              </ion-label>
-              <ion-input color="secondary" type="email" formControlName="email"></ion-input>
+              <ion-input color="secondary" type="email" formControlName="email" placeholder="email" aria-label="password"></ion-input>
             </ion-item>
-            <!-- <div *ngIf="!signin_form.controls.email.valid && signin_form.controls.email.dirty" class="validator-error">
-              <ion-text color="danger">Please enter a valid email.</ion-text>
-            </div> -->
 
             <ion-item class="" lines="none">
-              <ion-label position="floating">
-                password
-              </ion-label>
               <ion-input color="secondary" formControlName="password" type="password"
-                placeholder="Your password"></ion-input>
+                placeholder="password" aria-label="password"></ion-input>
             </ion-item>
 
             <ion-button class="ion-margin-top width-75" type="submit" expand="block" size="large" color="secondary">

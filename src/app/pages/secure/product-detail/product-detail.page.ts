@@ -4,8 +4,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 
-import { Preferences } from '@capacitor/preferences';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { WishlistsService } from 'src/app/services/wishlists/wishlists.service';
 
 
 
@@ -49,6 +49,7 @@ export class ProductDetailPage implements OnInit {
     private router: Router,
     private cartServices: CartService,
     private cdr: ChangeDetectorRef,
+    private wishlistServices: WishlistsService,
   ) { }
 
   ngOnInit() {
@@ -110,6 +111,15 @@ export class ProductDetailPage implements OnInit {
   }
 
   addWishList() {
+    const Wishtlist = this.wishlistServices.getWishlists();
+    // const pruductWishlist = Wishtlist.filter
+
+    // if(Wishtlist){
+    //   console.log(Wishtlist);
+    // }else {
+    //   console.log("Not have and Add")
+    //   this.wishlistServices.setWishlists(this.product);
+    // }
     if (this.wishlistcheck == false) {
       this.wishlistcheck = true;
       this.wishList = this.iconWithListCheck;

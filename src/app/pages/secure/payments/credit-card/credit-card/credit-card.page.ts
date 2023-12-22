@@ -12,6 +12,11 @@ export class CreditCardPage implements OnInit {
 
   creditCardForm: FormGroup;
 
+  visaIcon = '../../../../assets/icon/visa-payment.svg';
+  scbIcon = '../../../../assets/icon/scb-payment.svg';
+  unionIcon = '../../../../assets/icon/union-payment.svg';
+  mastercardIcon = '../../../../assets/icon/master-card-payment.svg';
+
   constructor(
     private fb: FormBuilder,
     private paymentService: PaymentService,
@@ -29,10 +34,10 @@ export class CreditCardPage implements OnInit {
     });
 
 
-    this.creditCardForm.get('nameCard').setValue('Cardholder Name');
-    this.creditCardForm.get('cardNumber').setValue('4242424242424242');
-    this.creditCardForm.get('expiryDate').setValue('12/23');
-    this.creditCardForm.get('cvc').setValue('123');
+    // this.creditCardForm.get('nameCard').setValue('Cardholder Name');
+    // this.creditCardForm.get('cardNumber').setValue('4242424242424242');
+    // this.creditCardForm.get('expiryDate').setValue('12/23');
+    // this.creditCardForm.get('cvc').setValue('123');
   }
 
 

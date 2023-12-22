@@ -22,24 +22,15 @@
           <!-- Signup form -->
           <form class="form-signup" [formGroup]="signup_form" (submit)="signUp()">
             <ion-item class="" lines="none">
-              <ion-label position="floating">
-                email
-              </ion-label>
-              <ion-input type="email" formControlName="email" placeholder="Your email"></ion-input>
+              <ion-input type="email" formControlName="email" placeholder="email" aria-label="email"></ion-input>
             </ion-item>
             
             <ion-item class="" lines="none">
-              <ion-label position="floating">
-                password
-              </ion-label>
-              <ion-input formControlName="password" type="password" placeholder="Your password"></ion-input>
+              <ion-input formControlName="password" type="password" placeholder="password" aria-label="password"></ion-input>
             </ion-item>
 
             <ion-item class="" lines="none">
-              <ion-label position="floating">
-                confirm password
-              </ion-label>
-              <ion-input formControlName="password_repeat" type="password" placeholder="Confirm password"></ion-input>
+              <ion-input formControlName="password_repeat" type="password" placeholder="Confirm password" aria-label="password"></ion-input>
             </ion-item>
 
             <ion-button class="ion-margin-top width-75 btn-signup" type="submit" expand="block" color="secondary">

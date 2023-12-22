@@ -110,7 +110,7 @@ export class CheckoutPage implements OnInit {
   }
 
   async getShipping() {
-    
+
     let shipping = await this.checkoutServices.getShippingData();
 
     if (shipping) {
@@ -161,20 +161,33 @@ export class CheckoutPage implements OnInit {
             this.orderData.value.payment_method_title = data.type;
           }
         })
+
+        this.orderData.get('payment_method').setValue(this.paymentData.id);
+        this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+        this.orderData.value.payment_method = this.paymentData.id;
+        this.orderData.value.payment_method_title = this.paymentData.title;
       } else if (this.paymentData.id === "omise_promptpay") {
 
         this.orderData.get('payment_id').setValue("promptpay");
         this.orderData.value.payment_method_title = "Promptpay";
-      } else  if (this.paymentData.id === "omise") {
+        this.orderData.get('payment_method').setValue(this.paymentData.id);
+        this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+        this.orderData.value.payment_method = this.paymentData.id;
+        this.orderData.value.payment_method_title = this.paymentData.title;
+      } else if (this.paymentData.id === "omise") {
 
-        this.orderData.get('token').setValue(this.paymentData.token);
-        this.orderData.value.token = this.paymentData.token;
+        if (this.paymentData.token) {
+
+          this.orderData.get('token').setValue(this.paymentData.token);
+          this.orderData.value.token = this.paymentData.token;
+
+          this.orderData.get('payment_method').setValue(this.paymentData.id);
+          this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+          this.orderData.value.payment_method = this.paymentData.id;
+          this.orderData.value.payment_method_title = this.paymentData.title;
+        }
       }
 
-      this.orderData.get('payment_method').setValue(this.paymentData.id);
-      this.orderData.get('payment_method_title').setValue(this.paymentData.title);
-      this.orderData.value.payment_method = this.paymentData.id;
-      this.orderData.value.payment_method_title = this.paymentData.title;
 
     }
   }

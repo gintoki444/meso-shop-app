@@ -33,6 +33,7 @@
 .ion-activated {
   --background-activated: transparent !important;
 }
+
 /* Animation */
 @import "~animate.css/animate.min.css";
 
@@ -299,8 +300,12 @@ ion-content.container {
 }
 
 // All Form 
-form {
+form.form-signin,
+form.form-signup,
+form.form-reset-password,
+form.form-address{
   min-width: 274px;
+
 
   ion-item {
     --padding-start: 0;
@@ -325,23 +330,25 @@ form {
 
     ion-input {
       font-size: 15px !important;
+      --placeholder-color: #979797;
+      --highlight-color-focused: #000;
     }
   }
 
 }
 
-.form-signin,
-.form-signup,
-.form-reset-password {
+// .form-signin,
+// .form-signup,
+// .form-reset-password {
 
-  ion-item.item-has-focus,
-  ion-item.item-has-value {
+//   ion-item.item-has-focus,
+//   ion-item.item-has-value {
 
-    ion-label {
-      display: none !important;
-    }
-  }
-}
+//     ion-label {
+//       display: none !important;
+//     }
+//   }
+// }
 
 .form-reset-password ion-label {
   display: flex !important;
@@ -681,13 +688,6 @@ ion-toast {
     width: 30%;
     margin: 20px auto;
   }
-
-
-
-  // form {
-  //   width: 75%;
-  //   margin: 0 auto;
-  // }
 }
 
 @media(max-width:500px) {

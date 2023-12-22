@@ -21,48 +21,65 @@
 
   <ion-grid [fixed]="true" class="grid-address">
     <ion-row class="ion-justify-content-center" offset-md="2">
-      <ion-col size-md="12" size-xs="12" class="">
+      <ion-col size-md="6" size-xs="12" class="">
 
         <!-- credit-card-payment.page.html -->
         <form class="form-default" [formGroup]="creditCardForm">
           <ion-list lines="none" class="address">
             <div class="form-address-detail">
-              <h4>ข้อมูลบัตรเครดิต</h4>
+              <h4>ข้อมูลบัตร</h4>
+              <div>
+                <ion-icon [src]="visaIcon"></ion-icon>
+                <ion-icon [src]="mastercardIcon"></ion-icon>
+                <ion-icon [src]="scbIcon"></ion-icon>
+                <ion-icon [src]="unionIcon"></ion-icon>
+              </div>
             </div>
-            <ion-item lines="none">
-              <ion-input color="secondary" id="nameCard" placeholder="ชื่อเจ้าของบัตร" formControlName="nameCard" type="text"
-                aria-label="ชื่อเจ้าของบัตร :"></ion-input>
-            </ion-item>
-            <div *ngIf="creditCardForm.get('nameCard').touched && creditCardForm.get('nameCard').invalid"
-              class="validator-error">
-              <ion-text color="danger">กรุณากรอกชื่อเจ้าของบัตร.</ion-text>
+            <div>
+
+              <ion-item lines="none">
+                <label position="fixed">หมายเลขบัตร</label>
+                <ion-input color="secondary" type="text" formControlName="cardNumber" placeholder="หมายเลขบัตร"
+                  aria-label="หมายเลขบัตร:"></ion-input>
+              </ion-item>
+              <div *ngIf="creditCardForm.get('cardNumber').touched && creditCardForm.get('cardNumber').invalid"
+                class="validator-error">
+                <ion-text color="danger">กรุณากรอกหมายเลขบัตร (16 ตัว).</ion-text>
+              </div>
+
+              <ion-item lines="none" class="card-expiry-date">
+                <label position="fixed">วันหมดอายุ (ดด/ปป)</label>
+                <ion-input color="secondary" id="expiryDate" placeholder="ดด/ปป" formControlName="expiryDate"
+                  type="text" aria-label="วันหมดอายุ (ดด/ปป):"></ion-input>
+              </ion-item>
+              <div *ngIf="creditCardForm.get('expiryDate').touched && creditCardForm.get('expiryDate').invalid"
+                class="validator-error">
+                <ion-text color="danger">กรุณากรอกวันหมดอายุ (ดด/ปป).</ion-text>
+              </div>
+
+              <ion-item lines="none" class="card-cvc">
+                <label position="fixed">CVV</label>
+                <ion-input color="secondary" id="cvc" placeholder="CVV" formControlName="cvc" type="text"
+                  aria-label="CVV:"></ion-input>
+              </ion-item>
+              <div *ngIf="creditCardForm.get('cvc').touched && creditCardForm.get('cvc').invalid"
+                class="validator-error">
+                <ion-text color="danger">กรุณากรอก CVV.</ion-text>
+              </div>
+
+              <ion-item lines="none">
+                <label position="fixed">ชื่อเจ้าของบัตร</label>
+                <ion-input color="secondary" id="nameCard" placeholder="ชื่อเจ้าของบัตร" formControlName="nameCard"
+                  type="text" aria-label="nameCard"></ion-input>
+              </ion-item>
+              <div *ngIf="creditCardForm.get('nameCard').touched && creditCardForm.get('nameCard').invalid"
+                class="validator-error">
+                <ion-text color="danger">กรุณากรอกชื่อเจ้าของบัตร.</ion-text>
+              </div>
             </div>
 
-            <ion-item lines="none">
-              <ion-input color="secondary" id="cardNumber" placeholder="หมายเลขบัตร" formControlName="cardNumber" type="text"
-                aria-label="Card Number:"></ion-input>
-            </ion-item>
-            <div *ngIf="creditCardForm.get('cardNumber').touched && creditCardForm.get('cardNumber').invalid"
-              class="validator-error">
-              <ion-text color="danger">กรุณากรอกหมายเลขบัตร (16 ตัว).</ion-text>
-            </div>
-
-            <ion-item lines="none">
-              <ion-input color="secondary" id="expiryDate" placeholder="วันหมดอายุ (ดด/ปป)" formControlName="expiryDate" type="text"
-                aria-label="วันหมดอายุ (ดด/ปป):"></ion-input>
-            </ion-item>
-            <div *ngIf="creditCardForm.get('expiryDate').touched && creditCardForm.get('expiryDate').invalid"
-              class="validator-error">
-              <ion-text color="danger">กรุณากรอกวันหมดอายุ (ดด/ปป).</ion-text>
-            </div>
-
-            <ion-item lines="none">
-              <ion-input color="secondary" id="cvc" placeholder="CVV" formControlName="cvc" type="text" aria-label="CVV:"></ion-input>
-            </ion-item>
-            <div *ngIf="creditCardForm.get('cvc').touched && creditCardForm.get('cvc').invalid" class="validator-error">
-              <ion-text color="danger">กรุณากรอก CVV.</ion-text>
-            </div>
           </ion-list>
+
         </form>
 
       </ion-col>

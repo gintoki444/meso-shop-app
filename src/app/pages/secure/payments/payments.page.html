@@ -18,166 +18,53 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-grid [fixed]="true" class="grid-address">
+    <ion-row class="ion-justify-content-center" offset-md="2">
+      <ion-col size-md="6" size-xs="12" class="">
+        <ion-list class="">
+          <div *ngFor="let payment of paymentData">
+            <ion-item color="primary" class="sub-title" (click)="togglePayment(payment)">
+              <ion-icon></ion-icon>
+              <ion-label>
+                <p>{{payment.title}}</p>
+                <!-- <p class="detial">{{payment.description}}</p> -->
+              </ion-label>
+              <ion-icon *ngIf="payment.selectData === true" name="checkmark-circle-outline"></ion-icon>
+              <div *ngIf="payment.subPayment">
+                <ion-icon *ngIf="payment.subPayment && payment.subPayment.length > 0"
+                  [name]="payment.checked ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"></ion-icon>
+                <!-- <ion-icon name="chevron-down-outline" class="rotate-icon"></ion-icon> -->
+              </div>
+            </ion-item>
 
-  <ion-list class="">
-    <div *ngFor="let payment of paymentData">
-      <ion-item color="primary" class="sub-title" (click)="togglePayment(payment)">
-        <ion-icon></ion-icon>
-        <ion-label>
-          <p>{{payment.title}}</p>
-          <!-- <p class="detial">{{payment.description}}</p> -->
-        </ion-label>
-        <ion-icon *ngIf="payment.selectData === true" name="checkmark-circle-outline"></ion-icon>
-        <div *ngIf="payment.subPayment">
-          <ion-icon *ngIf="payment.subPayment && payment.subPayment.length > 0"
-            [name]="payment.checked ? 'chevron-up-outline' : 'chevron-down-outline'" slot="end"></ion-icon>
-          <!-- <ion-icon name="chevron-down-outline" class="rotate-icon"></ion-icon> -->
-        </div>
-      </ion-item>
+            <ion-list *ngIf="payment.id === 'omise' && payment.checked" class="sublist ion-text-center" lines="none"
+              (click)="AddCreditCard(payment)">
+              <ion-button>
+                <ion-icon name="add-outline"></ion-icon>
+                เพิ่มบัตรเครดิต
+              </ion-button>
+            </ion-list>
 
-      <ion-list *ngIf="payment.id === 'omise' &&
-      payment.checked" class="sublist ion-text-center" lines="none" (click)="AddCreditCard(payment)">
-        <ion-button>
-          <ion-icon name="add-outline"></ion-icon>
-          เพิ่มบัตรเครดิต
-        </ion-button>
-      </ion-list>
+            <ion-list *ngIf="payment.id === 'omise_mobilebanking' && payment.checked" class="sublist mobile-bank" lines="none">
+              <ion-item color="primary" class="sub-title" *ngFor="let subPayment of payment.subPayment"
+                (click)="selectSubPayment(payment,subPayment)">
+                <ion-icon [src]="subPayment.logo"></ion-icon>
+                <ion-label>
+                  <p>{{subPayment.title}}</p>
+                  <p class="detial">{{subPayment.detail}}</p>
+                </ion-label>
+                <ion-icon *ngIf="subPayment.checked === true" name="checkmark-circle-outline"></ion-icon>
+              </ion-item>
+            </ion-list>
+            <div>
 
-      <ion-list *ngIf="payment.id === 'omise_mobilebanking' &&
-       payment.checked" class="sublist " lines="none">
-        <ion-item color="primary" class="sub-title" *ngFor="let subPayment of payment.subPayment"
-          (click)="selectSubPayment(payment,subPayment)">
-          <ion-icon>{{subPayment.icon}}</ion-icon>
-          <ion-label>
-            <p>{{subPayment.title}}</p>
-            <p class="detial">{{subPayment.detail}}</p>
-          </ion-label>
-          <ion-icon *ngIf="subPayment.checked === true" name="checkmark-circle-outline"></ion-icon>
-        </ion-item>
-      </ion-list>
-      <div>
+            </div>
+          </div>
+        </ion-list>
 
-      </div>
-    </div>
-  </ion-list>
-
-  <!-- <div class="ion-padding"> -->
-  <!-- Skeletons -->
-  <!-- <ng-container *ngIf="!content_loaded">
-
-      <ion-list-header class="ion-list-header-small">
-        <ion-label><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></ion-label>
-        <ion-note color="tertiary" class="ion-note-small">
-          <ion-skeleton-text animated style="width: 40px"></ion-skeleton-text>
-        </ion-note>
-      </ion-list-header>
-
-      <ion-list class="list-custom animate__animated animate__fadeIn" lines="full">
-        <ion-item color="primary" button detail="false" *ngFor="let i of [].constructor(12);">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </ion-avatar>
-          <ion-label>
-            <h3><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></h3>
-            <p><ion-skeleton-text animated style="width: 75%"></ion-skeleton-text></p>
-          </ion-label>
-          <ion-skeleton-text slot="end" animated style="width: 15%"></ion-skeleton-text>
-        </ion-item>
-      </ion-list>
-
-    </ng-container>
-
-    <ng-container *ngIf="content_loaded">
-
-      <ion-list-header class="ion-list-header-small">
-        <ion-label color="tertiary">February, 2023</ion-label>
-      </ion-list-header>
-
-      <ion-list class="list-custom animate__animated animate__fadeIn" lines="full" *ngIf="content_loaded">
-        <ion-item color="primary" button routerLink="detail" detail="false">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-icon color="tertiary" size="large" name="cafe-outline"></ion-icon>
-          </ion-avatar>
-
-          <ion-label>
-            <h3>Coffee</h3>
-            <p>Lorem Ipsum &middot; 09.04.2023</p>
-          </ion-label>
-          <ion-badge color="dark" slot="end">Detail</ion-badge>
-        </ion-item>
-
-        <ion-item color="primary" button routerLink="detail" detail="false">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-icon color="tertiary" size="large" name="cash-outline"></ion-icon>
-          </ion-avatar>
-
-          <ion-label>
-            <h3>Salary</h3>
-            <p>Lorem Ipsum Inc. &middot; 06.03.2023</p>
-          </ion-label>
-          <ion-badge color="dark" slot="end">Detail</ion-badge>
-        </ion-item>
-
-        <ion-item color="primary" button routerLink="detail" detail="false">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-icon color="tertiary" size="large" name="home-outline"></ion-icon>
-          </ion-avatar>
-
-          <ion-label>
-            <h3>Rent</h3>
-            <p>Lorem Inc. &middot; 03.02.2023</p>
-          </ion-label>
-          <ion-badge color="dark" slot="end">Detail</ion-badge>
-        </ion-item>
-      </ion-list>
-
-      <hr class="hr-medium">
-
-      <ion-list-header class="ion-list-header-small">
-        <ion-label color="tertiary">January, 2023</ion-label>
-      </ion-list-header>
-
-      <ion-list class="list-custom animate__animated animate__fadeIn" lines="full" *ngIf="content_loaded">
-        <ion-item color="primary" button routerLink="detail" detail="false">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-icon color="tertiary" size="large" name="cafe-outline"></ion-icon>
-          </ion-avatar>
-
-          <ion-label>
-            <h3>Coffee</h3>
-            <p>Lorem Ipsum &middot; 09.04.2023</p>
-          </ion-label>
-          <ion-badge color="dark" slot="end">Detail</ion-badge>
-        </ion-item>
-
-        <ion-item color="primary" button routerLink="detail" detail="false">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-icon color="tertiary" size="large" name="cash-outline"></ion-icon>
-          </ion-avatar>
-
-          <ion-label>
-            <h3>Salary</h3>
-            <p>Lorem Ipsum Inc. &middot; 06.03.2023</p>
-          </ion-label>
-          <ion-badge color="dark" slot="end">Detail</ion-badge>
-        </ion-item>
-
-        <ion-item color="primary" button routerLink="detail" detail="false">
-          <ion-avatar slot="start" class="ion-avatar-default-icon">
-            <ion-icon color="tertiary" size="large" name="home-outline"></ion-icon>
-          </ion-avatar>
-
-          <ion-label>
-            <h3>Rent</h3>
-            <p>Lorem Inc. &middot; 03.02.2023</p>
-          </ion-label>
-          <ion-badge color="dark" slot="end">Detail</ion-badge>
-        </ion-item>
-      </ion-list>
-
-    </ng-container>
-
-  </div> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
 

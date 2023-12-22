@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Animation, AnimationController } from '@ionic/angular';
 // import { FilterPage } from './filter/filter.page';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { PaymentService } from 'src/app/services/payment/payment.service';
 
@@ -19,40 +19,45 @@ export class PaymentsPage implements OnInit {
   paymentList: any;
   paymentData: any;
   selectData: any;
+  kmaIconBank = '../../../../assets/icon/kma-bank.svg';
+  kplusIconBank = '../../../../assets/icon/kplus-bank.svg';
+  ktbIconBank = '../../../../assets/icon/ktb-bank.svg';
+  bblIconBank = '../../../../assets/icon/bbl-bank.svg';
+  scbIconBank = '../../../../assets/icon/scb-bank.svg';
 
   subPayment: any = [
     {
       type: 'mobile_banking_kbank',
       title: 'K PLUS',
-      logo: 'kplus',
+      logo: this.kplusIconBank,
       detail: 'รอยืนยัน 3 นาที ชำระเงิน',
       checked: false,
     },
     {
       type: 'mobile_banking_scb',
       title: 'SCB EASY',
-      logo: 'scb',
+      logo: this.scbIconBank,
       detail: 'รอยืนยัน 3 นาที ชำระเงิน',
       checked: false,
     },
     {
       type: 'mobile_banking_bay',
       title: 'KMA',
-      logo: 'bay',
+      logo: this.kmaIconBank,
       detail: 'รอยืนยัน 3 นาที ชำระเงิน',
       checked: false,
     },
     {
       type: 'mobile_banking_bbl',
       title: 'Bualuang mBanking',
-      logo: 'bbl',
+      logo:  this.bblIconBank,
       detail: 'รอยืนยัน 3 นาที ชำระเงิน',
       checked: false,
     },
     {
       type: 'mobile_banking_ktb',
       title: 'Krungthai NEXT',
-      logo: 'ktb',
+      logo: this.ktbIconBank,
       detail: 'รอยืนยัน 3 นาที ชำระเงิน',
       checked: false,
     },
@@ -86,15 +91,17 @@ export class PaymentsPage implements OnInit {
       data.selectData = false;
       if (data.id === "omise_mobilebanking") {
         data.subPayment = this.subPayment;
-      } else if (data.id === "omise") {
-        data.subPayment = [{
-          type: 'omise',
-          checked: false,
-        }]
-
       }
+      //  else if (data.id === "omise") {
+      //   data.subPayment = [{
+      //     type: 'omise',
+      //     checked: false,
+      //   }]
+
+      // }
     })
     this.paymentData = payment;
+    console.log(this.paymentData)
   }
 
   togglePayment(payment: any): void {
@@ -106,14 +113,19 @@ export class PaymentsPage implements OnInit {
   }
 
   selectPayment(payment: any) {
-    this.paymentData.forEach((item: any) => {
-      if (item.id !== payment.id) {
-        item.selectData = false;
-      }else{
-        item.selectData = true;
-      }
-    })
-    this.selectData = payment;
+    if (payment.id === 'omise') {
+      this.AddCreditCard(payment);
+    } else {
+
+      this.paymentData.forEach((item: any) => {
+        if (item.id !== payment.id) {
+          item.selectData = false;
+        } else {
+          item.selectData = true;
+        }
+      })
+      this.selectData = payment;
+    }
   }
 
   selectSubPayment(payment: any, subPayment: any) {
@@ -124,17 +136,18 @@ export class PaymentsPage implements OnInit {
         item.checked = false;
       }
     })
+
     this.selectPayment(payment);
   }
 
   AddCreditCard(payment: any) {
-    this.selectData = payment;
-    this.paymentService.setPaymentData(this.selectData);
+
+    this.paymentService.setPaymentData(payment);
 
     let id = this.activatedRoute.snapshot.paramMap.get('orderID');
-    if(!id){
+    if (!id) {
       this.rount.navigate(['checkout', 'payments', 'credit-card'])
-    }else{
+    } else {
       this.rount.navigate(['confirm-order', 'payment', 'credit-card', id])
     }
   }
@@ -151,11 +164,11 @@ export class PaymentsPage implements OnInit {
 
   addPayment() {
     this.paymentService.setPaymentData(this.selectData);
-    
+
     let id = this.activatedRoute.snapshot.paramMap.get('orderID');
-    if(!id){
+    if (!id) {
       this.rount.navigate(['/checkout'])
-    }else{
+    } else {
       console.log(this.selectData)
       this.rount.navigate(['/confirm-order'])
     }

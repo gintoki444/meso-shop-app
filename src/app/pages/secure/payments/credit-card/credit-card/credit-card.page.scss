@@ -3,8 +3,13 @@
         --detail-icon-opacity: 1;
     }
 
+
     ion-header .header-title {
         font-weight: normal;
+    }
+
+    ion-toolbar {
+        background: #f6f6f6;
     }
 
     ion-grid,
@@ -19,12 +24,7 @@
         background: #fff;
     }
 
-    .address-active {
-        background: #D5D5D5;
-        --ion-background-color: #D5D5D5;
-    }
-
-    .address-titles{
+    .address-titles {
         padding: 24px;
     }
 
@@ -32,7 +32,6 @@
         // display: flex;
         // align-items: center;
         // justify-content: space-around;
-        --ion-background-color: #D5D5D5;
         border-radius: 0;
         min-height: 155px;
         padding: 20px 24px;
@@ -41,26 +40,30 @@
         h4 {
             font-size: 20px;
             font-weight: normal;
-            margin: 0 0 20px;
+            margin: 0;
         }
 
         .form-address-detail {
-            width: 100%;
-            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+             margin-bottom: 20px;
 
-            ion-text {
-                display: block;
-                font-size: 14px;
-                margin-bottom: 5px;
-                line-height: 1.2;
+            ion-icon{
+                font-size: 32px;
+                margin: 0 5px;
             }
+        }
+
+        .validator-error {
+            margin-top: 0px;
         }
     }
 
     .address-add {
         display: flex;
         align-items: center;
-        border-radius: 0;
+        border-radius: 5px;
         --ion-background-color: #F2F2F2;
         padding: 5px 24px;
         justify-content: center;
@@ -87,23 +90,26 @@
 
 
 form ion-item {
+    --padding-start: 0;
     --inner-padding-end: 15px;
     max-height: 100%;
 }
 
-form ion-item ion-label,
-form ion-item ion-textarea {
-    padding-left: 15px;
+form ion-item label {
     text-align: left;
-    font-size: 14px !important;
+    font-size: 16px !important;
+    margin-bottom: 10px;
     --inner-padding-end: 16px;
     overflow: initial;
 }
 
 ion-input {
-    font-size: 14px !important;
+    background: #fff;
     text-align: left;
     --padding-start: 15px !important;
+    border: solid 1px #D5D5D5;
+    border-radius: 5px;
+    margin-bottom: 15px;
 }
 
 .sc-ion-textarea-ios-h {

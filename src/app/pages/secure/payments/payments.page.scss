@@ -56,6 +56,20 @@
     animation: rotate 0.3s ease-in-out reverse forwards;
   }
 
+  ion-footer {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    background: #fff;
+  }
+
+  .sublist.mobile-bank {
+    ion-icon {
+
+      padding: 10px;
+      margin-left: 10px;
+    }
+  }
+
   // ion-item {
   //   overflow: hidden;
   //   transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
