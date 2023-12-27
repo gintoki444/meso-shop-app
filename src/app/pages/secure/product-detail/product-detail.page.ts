@@ -24,7 +24,7 @@ export class ProductDetailPage implements OnInit {
   allProducts: any = [];
 
   // Add to cart and StoreData
-  wishList ='';
+  wishList = '';
   wishlistcheck: boolean = false;
   loadings: boolean = false;
   btnAddtocart: boolean = false;
@@ -83,6 +83,8 @@ export class ProductDetailPage implements OnInit {
       this.WC.getProductDetail(productId).subscribe((data: any) => {
         this.product = data;
         this.productImg = data.images;
+
+        this.getWishlist();
       });
     });
 
@@ -95,7 +97,7 @@ export class ProductDetailPage implements OnInit {
     });
   }
 
-  addToCart(product) {
+  addToCart(product: any) {
     try {
       if (this.loadings === true) {
         this.cartServices.addToCart(product);
@@ -110,23 +112,28 @@ export class ProductDetailPage implements OnInit {
     this.router.navigate(['/', 'cart']);
   }
 
-  addWishList() {
-    const Wishtlist = this.wishlistServices.getWishlists();
-    // const pruductWishlist = Wishtlist.filter
+  getWishlist() {
+    this.wishlistServices.getWishlist().then((wishlist: any) => {
+      if (wishlist) {
+        const checkWishlist = wishlist.filter((products: any) => products.id === this.product.id);
+        if (checkWishlist.length > 0 && checkWishlist) {
+          this.wishlistcheck = true;
+          this.wishList = this.iconWithListCheck;
+        }
+      }
+    });
+  }
 
-    // if(Wishtlist){
-    //   console.log(Wishtlist);
-    // }else {
-    //   console.log("Not have and Add")
-    //   this.wishlistServices.setWishlists(this.product);
-    // }
-    if (this.wishlistcheck == false) {
-      this.wishlistcheck = true;
-      this.wishList = this.iconWithListCheck;
-    } else {
-      this.wishlistcheck = false;
-      this.wishList = this.iconWithList;
-    }
+  addWishList() {
+    this.wishlistServices.addToWishlist(this.product).then(() => {
+      if (this.wishlistcheck === true) {
+        this.wishlistcheck = false;
+        this.wishList = this.iconWithList;
+      } else {
+        this.wishlistcheck = true;
+        this.wishList = this.iconWithListCheck;
+      }
+    });
   }
 
 }

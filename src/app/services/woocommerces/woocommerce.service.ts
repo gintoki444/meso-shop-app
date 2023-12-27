@@ -34,6 +34,14 @@ export class WoocommerceService {
     return this.allProducts;
   }
 
+  // search product
+  getSearchProduct(data: any) {
+    this.apiURL = `${this.siteURL}${this.woocomPart}products/?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;
+    const params = { search: data }
+    this.allProducts = this.http.get(this.apiURL, { params });
+    return this.allProducts;
+  }
+
   // get 1 product by id
   getProductDetail(productId: any) {
     this.apiURL = `${this.siteURL}${this.woocomPart}products/${productId}?consumer_key=${this.consumerKey}&consumer_secret=${this.consumerSecret}`;

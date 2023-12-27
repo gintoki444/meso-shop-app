@@ -152,16 +152,6 @@ export class PaymentsPage implements OnInit {
     }
   }
 
-  createRotationAnimation(isExpanded: boolean): Animation {
-    const rotateValueIn = isExpanded == true ? '0deg' : '180deg';
-    const rotateValueOut = isExpanded == true ? '180deg' : '0deg';
-    return this.animationCtrl.create()
-      .addElement(document.querySelector('.rotate-icon'))
-      .duration(400)
-      .easing('ease-in-out')
-      .fromTo('transform', `rotate(${rotateValueIn})`, `rotate(${rotateValueOut})`);
-  }
-
   addPayment() {
     this.paymentService.setPaymentData(this.selectData);
 

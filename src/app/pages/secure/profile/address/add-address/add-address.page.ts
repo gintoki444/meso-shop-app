@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController,NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { Router, ActivatedRoute, Route } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -27,7 +27,7 @@ export class AddAddressPage implements OnInit {
 
 
   customerID: any;
-  shipping_form: FormGroup;
+  shipping_form: any = FormGroup;
   shippingData: any = {
 
     shipping_id: '',
@@ -54,13 +54,12 @@ export class AddAddressPage implements OnInit {
       first_name: ['', Validators.compose([Validators.maxLength(200), Validators.required])],
       last_name: ['', Validators.compose([Validators.required])],
       shipping: ['', Validators.compose([Validators.required])],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'),Validators.minLength(10),Validators.maxLength(10)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(10), Validators.maxLength(10)]],
       detail: [''],
     });
 
-
-    this.dataResolve = this.activeRoute.snapshot.data.myarray;
-    console.log('dataResolve :', this.dataResolve)
+    const getDataResolve: any = this.activeRoute.snapshot.data;
+    this.dataResolve = getDataResolve.myarray;
   }
 
   // Function refresh data when back to this page
@@ -123,6 +122,7 @@ export class AddAddressPage implements OnInit {
   }
 
 
+
   async addShipping() {
     // Proceed with loading overlay
     const loading = await this.loadingController.create({
@@ -132,15 +132,19 @@ export class AddAddressPage implements OnInit {
     });
     await loading.present();
 
-    const customer = JSON.parse(await this.customerService.getCustomer());
-    const DataShip = customer.meta_data.find(data => data.key == 'shipping');
+    const getCustomer = await this.customerService.getCustomer();
+    let customer: any = "";
+    let DataShip: any = '';
     let allShipping = [];
     let metaData = {
       key: "shipping",
       value: {}
     }
 
-    console.log('testDataShip ', DataShip);
+    if (getCustomer) {
+      customer = JSON.parse(getCustomer);
+      DataShip = customer.meta_data.find((data: any) => data.key == 'shipping');
+    }
     if (DataShip) {
       allShipping = DataShip.value;
     }
@@ -154,8 +158,8 @@ export class AddAddressPage implements OnInit {
       this.shippingData.phone = this.shipping_form.value.phone;
       this.shippingData.detail = this.shipping_form.value.detail;
 
-      await allShipping.push(this.shippingData);
-      metaData.value = await allShipping;
+      allShipping.push(this.shippingData);
+      metaData.value = allShipping;
 
       await this.customerService.addShipping(this.customerID, metaData).then(data => {
         loading.dismiss();
@@ -177,13 +181,20 @@ export class AddAddressPage implements OnInit {
     await loading.present();
     if (this.shipping_form.valid) {
 
-      const customer = JSON.parse(await this.customerService.getCustomer());
-      const DataShip = customer.meta_data.find(data => data.key == 'shipping');
+      const getCustomer = await this.customerService.getCustomer();
+      let customer: any = "";
+      let DataShip: any = "";
       let allShipping = [];
       let metaData = {
         key: "shipping",
         value: {}
       }
+
+      if (getCustomer) {
+        customer = JSON.parse(getCustomer);
+        DataShip = customer.meta_data.find((data: any) => data.key == 'shipping');
+      }
+
 
       if (DataShip) {
         allShipping = DataShip.value;
@@ -212,7 +223,7 @@ export class AddAddressPage implements OnInit {
   async updateDataById(dataArray: any, idToUpdate: any, updatedData: any) {
     let newData = []
 
-    newData = await dataArray.map((item) => {
+    newData = await dataArray.map((item: any) => {
 
       if (item.shipping_id === idToUpdate) {
 
@@ -226,7 +237,7 @@ export class AddAddressPage implements OnInit {
 
   async selectAddress() {
     if (this.dataResolve.statusCheck === 'update') {
-      await this.setShipping();
+      this.setShipping();
       await this.customerService.setShippingData(this.shippingData);
       this.route.navigate(['address', 'edit-address', 'city', this.shippingData.shipping_id])
     } else {
@@ -234,7 +245,7 @@ export class AddAddressPage implements OnInit {
     }
   }
 
-  setShipping(){
+  setShipping() {
     this.shippingData.first_name = this.shipping_form.value.first_name;
     this.shippingData.last_name = this.shipping_form.value.last_name;
     this.shippingData.phone = this.shipping_form.value.phone;

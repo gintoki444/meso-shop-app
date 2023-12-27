@@ -100,7 +100,7 @@ export class CheckoutService {
       }
       let metaID = opnsData.source.metadata.order_id
 
-      this.WC.putOrders(metaID, updateOrder).subscribe(updaterder => {
+      this.WC.putOrders(metaID, updateOrder).subscribe((updaterder:any) => {
         if (updaterder) {
           setTimeout(() => {
             this.openInAppBrowser(opnsData.source.authorize_uri);
@@ -108,7 +108,7 @@ export class CheckoutService {
         }
       });
     },
-      (error) => {
+      (error:any) => {
         console.error('Error creating charge:', error);
       }
     );

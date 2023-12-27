@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-//import woo
-import { WoocommerceService } from 'src/app/services/woocommerces/woocommerce.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { WishlistsService } from 'src/app/services/wishlists/wishlists.service';
 
 @Component({
   selector: 'app-wishlists',
@@ -14,44 +14,36 @@ export class WishlistsPage implements OnInit {
   allProducts: any = [];
   products: any = [];
 
-  wishLists = [
-    {
-      id: 76,
-    },
-    {
-      id: 73,
-    },
-    {
-      id: 54,
-    },
-  ];
-
   iconWithList = '../../../../assets/icon/i-with-list-active.svg';
   iconCart = '../../../../assets/icon/i-cart.svg';
 
   cartItem: any;
 
   constructor(
-    private WC: WoocommerceService,
     private cartServices: CartService,
+    private cdr: ChangeDetectorRef,
+    private wishlistService: WishlistsService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
 
+  ionViewWillEnter() {
     this.Cart();
     this.wishlistProducts();
   }
 
-  async Cart(){
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    this.cartItem = cartData.totalItem
-    console.log('cartItem :', this.cartItem)
+  async Cart() {
+    let getCartData = await this.cartServices.getCart();
+    if (getCartData) {
+      let cartData = JSON.parse(getCartData);
+      this.cartItem = cartData.totalItem;
+      this.cdr.detectChanges(); // Manually trigger change detection
+    }
   }
 
   wishlistProducts() {
-    this.WC.getAllProducts().subscribe((data: any) => {
-      this.products = data;
-      // console.log('All Products: ', this.allProducts);
+    this.wishlistService.getWishlist().then((wishlist: any) => {
+      this.products = wishlist
     });
   }
 }

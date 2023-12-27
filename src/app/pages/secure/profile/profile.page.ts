@@ -29,22 +29,28 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  
   async getCustomer() {
 
     this.customerService.updateCustomer();
-    this.customer = JSON.parse(await this.customerService.getCustomer());
-    this.imgProfile = this.customer.avatar_url;
-    this.emailCustomer = this.customer.email;
-    this.phoneCustomer = this.customer.billing.phone;
+    const getcustomer = await this.customerService.getCustomer();
 
-    if (this.customer.first_name && this.customer.last_name) {
-      this.displayName = this.customer.first_name + ' ' + this.customer.last_name;
-    } else {
-      this.displayName = this.customer.username;
+    if (getcustomer) {
+      this.customer = JSON.parse(getcustomer);
+
+      this.imgProfile = this.customer.avatar_url;
+      this.emailCustomer = this.customer.email;
+      this.phoneCustomer = this.customer.billing.phone;
+
+      if (this.customer.first_name && this.customer.last_name) {
+        this.displayName = this.customer.first_name + ' ' + this.customer.last_name;
+      } else {
+        this.displayName = this.customer.username;
+      }
+
+      this.phoneCustomer == '' ? this.phoneCustomer : '-';
     }
 
-    this.phoneCustomer == '' ? this.phoneCustomer : '-';
-    console.log('customer :', this.customer)
   }
 
 }

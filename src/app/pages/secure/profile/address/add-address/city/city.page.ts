@@ -12,7 +12,7 @@ import { CustomerService } from 'src/app/services/customer/customerservice';
 export class CityPage implements OnInit {
 
   dataResolve: any;
-  address_form: FormGroup;
+  address_form:any = FormGroup;
   submit_attempt: boolean = false;
 
   shipping: any = {

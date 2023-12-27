@@ -27,7 +27,7 @@ export class MyOrdersPage implements AfterViewInit {
   lineStyles: { [key: string]: string } = {};
 
   orderPending: any;
-  orderProcessing:any;
+  orderProcessing: any;
 
   dataOrder: any;
 
@@ -72,14 +72,13 @@ export class MyOrdersPage implements AfterViewInit {
     private cdr: ChangeDetectorRef,
   ) { }
 
+  @ViewChild('line') lineElement!: ElementRef;
+  @ViewChild('items') itemsElement!: ElementRef;
 
-  @ViewChild('line') lineElement: ElementRef;
-  @ViewChild('items') itemsElement: ElementRef;
-
-  ngOnInit() { 
+  ngOnInit() {
     this.activatedRoute.params.subscribe(() => {
-    this.getOrderData();
-  });
+      this.getOrderData();
+    });
   }
 
 
@@ -87,10 +86,10 @@ export class MyOrdersPage implements AfterViewInit {
     this.Cart();
   }
 
-
   async Cart() {
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    if(cartData) {
+    let getCartData = await this.cartServices.getCart();
+    if (getCartData) {
+      let cartData = JSON.parse(getCartData);
       this.cartItem = cartData.totalItem;
       this.cdr.detectChanges(); // Manually trigger change detection
     }
@@ -102,18 +101,18 @@ export class MyOrdersPage implements AfterViewInit {
       if (index === 3) {
         this.router.navigate(['/', 'reviews']);
       } else {
-        this.activeID = this.orderStatus.filter(x => x.id == index);
+        this.activeID = this.orderStatus.filter((x:any) => x.id == index);
 
         this.activeIndex = index;
-        this.dataOrder = this.orderList.filter(x => x.status == this.activeID[0].nameStatus);
+        this.dataOrder = this.orderList.filter((x:any) => x.status == this.activeID[0].nameStatus);
       }
     }
   }
 
   async getOrderData() {
-    
+
     let status = this.activatedRoute.snapshot.paramMap.get('status');
-    this.activeID = this.orderStatus.filter(x => x.nameStatus == status);
+    this.activeID = this.orderStatus.filter((x: any) => x.nameStatus == status);
     this.activeIndex = this.activeID[0].id;
 
     const loading = await this.loadingController.create({
@@ -122,19 +121,22 @@ export class MyOrdersPage implements AfterViewInit {
       spinner: 'crescent'
     });
     await loading.present();
-    
-    this.customer = JSON.parse(await this.customerService.getCustomer());
-    this.orderList = await this.WC.getOrderByCustomerID(this.customer.id).toPromise();
 
-    this.dataOrder = this.orderList.filter(x => x.status == status);
-    this.orderPending = this.countOrderByStatus(this.orderList,"pending");
-    this.orderProcessing = this.countOrderByStatus(this.orderList,"processing");
-    
+    const getCustomer = await this.customerService.getCustomer();
+    if(getCustomer){
+      this.customer = JSON.parse(getCustomer);
+      this.orderList = await this.WC.getOrderByCustomerID(this.customer.id).toPromise();
+  
+      this.dataOrder = this.orderList.filter((x: any) => x.status == status);
+      this.orderPending = this.countOrderByStatus(this.orderList, "pending");
+      this.orderProcessing = this.countOrderByStatus(this.orderList, "processing");
+    }
+
     loading.dismiss();
   }
 
   countOrderByStatus(orders: any, status: any) {
-    const filteredOrders = orders.filter(order => order.status === status);
+    const filteredOrders = orders.filter((order: any) => order.status === status);
     return filteredOrders.length;
   }
 

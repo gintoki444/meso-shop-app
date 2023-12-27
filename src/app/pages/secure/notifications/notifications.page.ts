@@ -23,9 +23,10 @@ export class NotificationsPage implements OnInit {
     this.Cart();
   }
 
-  async Cart(){
-    let cartData = JSON.parse(await this.cartServices.getCart());
-    if(cartData) {
+  async Cart() {
+    let getCartData = await this.cartServices.getCart();
+    if (getCartData) {
+      let cartData = JSON.parse(getCartData);
       this.cartItem = cartData.totalItem;
       this.cdr.detectChanges(); // Manually trigger change detection
     }

@@ -25,8 +25,11 @@ export class CustomerService {
   
   // get data customer of storage
   async getCustomerID() {
-    const customer = JSON.parse((await this.storage.getStorage('userdata')).value);
-    return customer.id;
+    const customerData = (await this.storage.getStorage('userdata')).value;
+    if(customerData) {
+      const customer = JSON.parse(customerData)
+      return customer.id;
+    }
   }
 
   // get data customer of storage
@@ -67,9 +70,12 @@ export class CustomerService {
 
   // Update customer data to Storage
   async updateCustomer() {
-    const user = JSON.parse((await this.storage.getStorage('userdata')).value)
-    const userData = JSON.stringify(await this.WC.getUserDataByID(user.id).toPromise());
-    return await this.storage.setStorage('userdata', userData);
+    const getUser = (await this.storage.getStorage('userdata')).value
+    if(getUser){
+      const user = JSON.parse(getUser);
+      const userData = JSON.stringify(await this.WC.getUserDataByID(user.id).toPromise());
+      return  this.storage.setStorage('userdata', userData);
+    }
   }
 
   // Update customer data to Storage

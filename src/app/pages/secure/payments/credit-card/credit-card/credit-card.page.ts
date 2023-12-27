@@ -10,7 +10,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 })
 export class CreditCardPage implements OnInit {
 
-  creditCardForm: FormGroup;
+  creditCardForm: any = FormGroup;
 
   visaIcon = '../../../../assets/icon/visa-payment.svg';
   scbIcon = '../../../../assets/icon/scb-payment.svg';

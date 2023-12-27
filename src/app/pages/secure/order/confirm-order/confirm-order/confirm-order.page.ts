@@ -20,7 +20,7 @@ export class ConfirmOrderPage implements OnInit {
   iconLocation = '../../../../assets/icon/i-location.svg';
   iconStar = '../../../../assets/icon/i-star.svg';
 
-  orderID: string;
+  orderID: any;
   orderNameStatus: any;
   paymentData: any;
   orderData: any;
@@ -51,13 +51,18 @@ export class ConfirmOrderPage implements OnInit {
   }
 
   async loadData() {
-    this.originalData = JSON.parse(await this.orderService.getOrderData());
+    const getOriginalData = await this.orderService.getOrderData();
+    if (getOriginalData) {
+      this.originalData = JSON.parse(getOriginalData);
+    }
   }
 
   async getOrderData() {
-    this.orderData = JSON.parse(await this.orderService.getOrderData());
+    const getOrderData = await this.orderService.getOrderData();
 
-    if (this.orderData) {
+    if (getOrderData) {
+      this.orderData = JSON.parse(getOrderData);
+
       let statusName = this.orderService.orderStatus.filter(x => x.nameStatus == this.orderData.status);
       this.shipping = this.orderData.shipping;
       this.orderID = this.orderData.id;
@@ -101,7 +106,7 @@ export class ConfirmOrderPage implements OnInit {
 
       if (this.paymentData.id === "omise_mobilebanking") {
 
-        this.paymentData.subPayment.forEach(data => {
+        this.paymentData.subPayment.forEach((data: any) => {
           if (data.checked === true) {
             this.orderData.payment_id = data.type;
             this.orderData.payment_method_title = data.type;
@@ -111,7 +116,7 @@ export class ConfirmOrderPage implements OnInit {
 
         this.orderData.payment_id = "promptpay";
         this.orderData.payment_method_title = "Promptpay";
-      } else  if (this.paymentData.id === "omise") {
+      } else if (this.paymentData.id === "omise") {
 
         this.orderData.token = this.paymentData.token;
       }
@@ -146,15 +151,15 @@ export class ConfirmOrderPage implements OnInit {
         shipping: this.orderData.shipping,
         payment_method: this.orderData.payment_method,
         payment_method_title: this.orderData.payment_method_title,
-        
+
       }
 
       await this.orderService.updateOrder(this.orderID, updateOrder).then((data) => {
 
-        if(this.orderData.payment_method === "omise_mobilebanking" ){
+        if (this.orderData.payment_method === "omise_mobilebanking") {
           data.payment_id = this.orderData.payment_id
 
-        }else if(this.orderData.payment_method === "omise" ){
+        } else if (this.orderData.payment_method === "omise") {
           data.token = this.orderData.token;
         }
 
@@ -171,7 +176,7 @@ export class ConfirmOrderPage implements OnInit {
     }
   }
 
-  
+
 
   openInAppBrowser(url: any) {
     const browser = this.iab.create(

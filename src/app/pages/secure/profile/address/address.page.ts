@@ -41,7 +41,9 @@ export class AddressPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dataResolve = this.activeRoute.snapshot.data.myarray;
+    const getDataResolve: any = this.activeRoute.snapshot.data;
+    this.dataResolve = getDataResolve.myarray;
+
     this.activeRoute.params.subscribe(params => {
       this.getShipping();
     });
@@ -53,18 +55,22 @@ export class AddressPage implements OnInit {
 
   async getShipping() {
     this.customerService.updateCustomer();
-    const shippingDataNew = JSON.parse(await this.customerService.getCustomer());
-    this.billingData = shippingDataNew.billing
+    const getShippingDataNew = await this.customerService.getCustomer();
 
-    shippingDataNew.meta_data.forEach(data => {
-      if (data.key == 'shipping') {
-        this.shippingData = data.value;
-      }
-    })
+    if (getShippingDataNew) {
+      const shippingDataNew = JSON.parse(getShippingDataNew);
+      this.billingData = shippingDataNew.billing
+
+      shippingDataNew.meta_data.forEach((data: any) => {
+        if (data.key == 'shipping') {
+          this.shippingData = data.value;
+        }
+      })
+    }
   }
 
   selectShipping(shipping: any) {
-    if(this.dataResolve.statusCheck === 'select'){
+    if (this.dataResolve.statusCheck === 'select') {
       this.selectShippingData = shipping;
       this.addOrderShipping();
     }
@@ -72,22 +78,22 @@ export class AddressPage implements OnInit {
 
   async addOrderShipping() {
     this.checkoutService.setShippingData(this.selectShippingData);
-    
+
     let id = this.activeRoute.snapshot.paramMap.get('orderID');
-    if(!id){
+    if (!id) {
       this.route.navigate(['checkout'])
-    }else{
+    } else {
       this.route.navigate(['/confirm-order'])
     }
   }
 
-  async AddNewShipping(){
+  async AddNewShipping() {
     await this.customerService.clearShippingData();
-    this.route.navigate(['/','address','add-address']);
+    this.route.navigate(['/', 'address', 'add-address']);
   }
 
-  async editShipping(shipping: any){
+  async editShipping(shipping: any) {
     await this.customerService.setShippingData(shipping);
-    this.route.navigate(['/','address','edit-address'])
+    this.route.navigate(['/', 'address', 'edit-address'])
   }
 }

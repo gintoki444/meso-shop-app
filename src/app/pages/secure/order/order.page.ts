@@ -15,7 +15,7 @@ export class OrderPage implements OnInit {
   iconLocation = '../../../../assets/icon/i-location.svg';
   iconStar = '../../../../assets/icon/i-star.svg';
 
-  orderID: string;
+  orderID: any;
   orderNameStatus: any;
   orderData: any;
   shipping: any

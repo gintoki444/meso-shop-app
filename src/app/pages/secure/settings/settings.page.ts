@@ -23,7 +23,7 @@ export class SettingsPage implements OnInit {
   orderList: any;
 
   orderPending: any;
-  orderProcessing:any;
+  orderProcessing: any;
 
   cartItem: any;
   pages = [
@@ -56,7 +56,10 @@ export class SettingsPage implements OnInit {
     private WC: WoocommerceService,
   ) { }
 
-  ngOnInit() {
+
+  ngOnInit() { }
+  
+  ionViewWillEnter() {
     this.getCustomer();
     this.getCart();
   }
@@ -78,29 +81,32 @@ export class SettingsPage implements OnInit {
 
   async getCustomer() {
     await this.customerService.getCustomer().then(data => {
-      this.customerData = JSON.parse(data);
+      if (data) {
+        this.customerData = JSON.parse(data);
 
-      this.getOrderData();
+        this.getOrderData();
 
-      // console.log('this.customerName :',this.customerData.last_name)
-      this.imgProfile = this.customerData.avatar_url;
+        // console.log('this.customerName :',this.customerData.last_name)
+        this.imgProfile = this.customerData.avatar_url;
 
-      if (this.customerData.first_name && this.customerData.last_name) {
-        this.displayName = this.customerData.first_name + ' ' + this.customerData.last_name;
-      } else {
-        this.displayName = this.customerData.username;
+        if (this.customerData.first_name && this.customerData.last_name) {
+          this.displayName = this.customerData.first_name + ' ' + this.customerData.last_name;
+        } else {
+          this.displayName = this.customerData.username;
+        }
       }
+
     });
   }
 
   async getOrderData() {
     this.orderList = await this.WC.getOrderByCustomerID(this.customerData.id).toPromise();
-    this.orderPending = this.countOrderByStatus(this.orderList,"pending");
-    this.orderProcessing = this.countOrderByStatus(this.orderList,"processing");
+    this.orderPending = this.countOrderByStatus(this.orderList, "pending");
+    this.orderProcessing = this.countOrderByStatus(this.orderList, "processing");
   }
 
   countOrderByStatus(orders: any, status: any) {
-    const filteredOrders = orders.filter(order => order.status === status);
+    const filteredOrders = orders.filter((order: any) => order.status === status);
     return filteredOrders.length;
   }
 

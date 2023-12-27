@@ -9,9 +9,9 @@ import { CouponService } from 'src/app/services/coupon/coupon.service';
 })
 export class CouponPage implements OnInit {
 
-  dataResolve : any;
+  dataResolve: any;
   couponData: any;
-  selectCouponData:any;
+  selectCouponData: any;
 
   constructor(
     private route: Router,
@@ -19,20 +19,21 @@ export class CouponPage implements OnInit {
     private couponService: CouponService,
   ) { }
 
+
   ngOnInit() {
     this.getCouponList();
+    const getDataResolve: any = this.routeActive.snapshot.data;
+    this.dataResolve = getDataResolve.myarray
 
-    this.dataResolve = this.routeActive.snapshot.data.myarray;
-    console.log('dataResolve :',this.dataResolve)
   }
 
-  async getCouponList(){
-   const coupon = await this.couponService.getCouponList();
-   this.couponData = coupon;
+  async getCouponList() {
+    const coupon = await this.couponService.getCouponList();
+    this.couponData = coupon;
   }
 
   selectCoupon(coupon: any) {
-    if(this.dataResolve.statusCheck === 'select'){
+    if (this.dataResolve.myarray.statusCheck === 'select') {
       this.selectCouponData = coupon;
       this.addOrderCoupon();
     }
@@ -43,7 +44,7 @@ export class CouponPage implements OnInit {
     this.route.navigate(['checkout'])
   }
 
-  validationCondition(){
+  validationCondition() {
 
   }
 

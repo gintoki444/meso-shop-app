@@ -5,24 +5,44 @@ import { StorageService } from '../storage/storage.service';
   providedIn: 'root'
 })
 export class WishlistsService {
+  private wishlistKey = 'user_wishlist';
   myWistlists: any = [];
 
   constructor(
     private storage: StorageService,
   ) { }
 
-  setWishlists(data: any) {
-    data.wishlist = true;
-    this.myWistlists.push(data);
-    this.storage.setStorage('wishlist', this.myWistlists);
+  async getWishlist(): Promise<number[]> {
+    const data = await this.storage.getStorage(this.wishlistKey);
+    return data ? JSON.parse(data.value) : [];
   }
 
-  async getWishlists(){
-    let data = await this.storage.getStorage('wishlist');
-    
-    if (data?.value) {
-      this.myWistlists = await JSON.parse(data.value);
+  async addToWishlist(product: any): Promise<void> {
+    const existingWishlist = await this.getWishlist();
+    let updatedWishlist: any;
+    if (existingWishlist && existingWishlist.length > 0) {
+      console.log("have product", product);
+
+      const checkWishlist = existingWishlist.filter((products: any) => products.id === product.id);
+      if (checkWishlist.length > 0) {
+
+        this.removeFromWishlist(product);
+      } else {
+
+        updatedWishlist = [...existingWishlist, product];
+        this.storage.setStorage(this.wishlistKey, JSON.stringify(updatedWishlist));
+      }
+    } else {
+
+      updatedWishlist = [product];
+      this.storage.setStorage(this.wishlistKey, JSON.stringify(updatedWishlist));
     }
-    return this.myWistlists
+
+  }
+
+  async removeFromWishlist(product: any): Promise<void> {
+    const existingWishlist = await this.getWishlist();
+    const updatedWishlist = existingWishlist.filter((products: any) => products.id !== product.id);
+    this.storage.setStorage(this.wishlistKey, JSON.stringify(updatedWishlist));
   }
 }

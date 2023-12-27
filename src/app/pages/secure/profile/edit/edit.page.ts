@@ -17,7 +17,7 @@ export class EditPage implements OnInit {
 
   customer: any;
   imgProfile: any;
-  edit_profile_form: FormGroup;
+  edit_profile_form:any = FormGroup;
   submit_attempt: boolean = false;
 
   constructor(
@@ -42,12 +42,6 @@ export class EditPage implements OnInit {
       phone: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(10), Validators.maxLength(10)]],
     });
 
-
-    // // DEBUG: Prefill inputs
-    // this.edit_profile_form.get('full_name').setValue('ชัยยันต์ แจ้งกระจ่าง');
-    // this.edit_profile_form.get('full_name').setValue('ชัยยันต์ แจ้งกระจ่าง');
-    // this.edit_profile_form.get('email').setValue('chaiyun@hotmail.com');
-    // this.edit_profile_form.get('tel_phone').setValue('061 235 4665');
   }
 
   // Update profile picture
@@ -80,13 +74,17 @@ export class EditPage implements OnInit {
   }
 
   async getCustomer() {
-    this.customer = JSON.parse(await this.customerService.getCustomer());
+    const getCustomer = await this.customerService.getCustomer();
+    if(getCustomer){
+      
+    this.customer = JSON.parse(getCustomer);
     this.imgProfile = this.customer.avatar_url;
 
-    this.edit_profile_form.get('first_name').setValue(this.customer.first_name);
-    this.edit_profile_form.get('last_name').setValue(this.customer.last_name);
-    this.edit_profile_form.get('email').setValue(this.customer.email);
-    this.edit_profile_form.get('phone').setValue(this.customer.billing.phone);
+    this.edit_profile_form.get('first_name')?.setValue(this.customer!.first_name);
+    this.edit_profile_form.get('last_name')?.setValue(this.customer.last_name);
+    this.edit_profile_form.get('email')?.setValue(this.customer.email);
+    this.edit_profile_form.get('phone')?.setValue(this.customer.billing.phone);
+    }
   }
 
   // Submit form

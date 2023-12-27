@@ -14,7 +14,7 @@ export class ChangePasswordPage implements OnInit {
 
   uid: any;
   cusID: any;
-  edit_profile_form: FormGroup;
+  edit_profile_form: any = FormGroup;
   submit_attempt: boolean = false;
 
   errorLog: boolean = false;
@@ -39,14 +39,17 @@ export class ChangePasswordPage implements OnInit {
 
 
     // // DEBUG: Prefill inputs
-    this.edit_profile_form.get('password').setValue('');
-    this.edit_profile_form.get('new_password').setValue('');
-    this.edit_profile_form.get('confirm_new_password').setValue('');
+    this.edit_profile_form.get('password')?.setValue('');
+    this.edit_profile_form.get('new_password')?.setValue('');
+    this.edit_profile_form.get('confirm_new_password')?.setValue('');
   }
 
   async getUserID() {
-    const userData = JSON.parse(await this.customerService.getCustomer());
-    this.cusID = userData.id;
+    const getUserData = await this.customerService.getCustomer();
+    if (getUserData) {
+      const userData = JSON.parse(getUserData);
+      this.cusID = userData.id;
+    }
   }
 
 
