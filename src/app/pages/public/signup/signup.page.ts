@@ -14,7 +14,7 @@ export class SignupPage implements OnInit {
 
   current_year: number = new Date().getFullYear();
 
-  signup_form: FormGroup;
+  signUpform: any = FormGroup;
   submit_attempt: boolean = false;
   showPassword: boolean = false;
   showIcon: boolean = false;
@@ -31,15 +31,15 @@ export class SignupPage implements OnInit {
     this.isLoggedIn();
     
     // Setup form
-    this.signup_form = this.formBuilder.group({
+    this.signUpform = this.formBuilder.group({
       email: ['', Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
       password_repeat: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
 
     // DEBUG: Prefill inputs
-    this.signup_form.get('email').setValue('');
-    this.signup_form.get('password').setValue('');
+    this.signUpform.get('email').setValue('');
+    this.signUpform.get('password').setValue('');
   }
 
   // Sign up
@@ -48,11 +48,11 @@ export class SignupPage implements OnInit {
     this.submit_attempt = true;
 
     // If email or password empty
-    if (this.signup_form.value.email == '' || this.signup_form.value.password == '' || this.signup_form.value.password_repeat == '') {
+    if (this.signUpform.value.email == '' || this.signUpform.value.password == '' || this.signUpform.value.password_repeat == '') {
       this.toastService.presentToast('Error', 'Please fill in all fields', 'top', 'danger', 4000);
 
       // If passwords do not match
-    } else if (this.signup_form.value.password != this.signup_form.value.password_repeat) {
+    } else if (this.signUpform.value.password != this.signUpform.value.password_repeat) {
       this.toastService.presentToast('Error', 'Passwords must match', 'top', 'danger', 4000);
 
     } else {
@@ -67,7 +67,7 @@ export class SignupPage implements OnInit {
 
       // TODO: Add your sign up logic
       // ...
-      this.authService.signUp(this.signup_form.value.email, this.signup_form.value.password).then(data => {
+      this.authService.signUp(this.signUpform.value.email, this.signUpform.value.password).then(data => {
         console.log("data", data)
         this.router.navigateByUrl('/home');
         loading.dismiss();
@@ -93,7 +93,7 @@ export class SignupPage implements OnInit {
   }
   
   onPasswordInput() {
-    this.showIcon = this.signup_form.get('password').value.length > 0;
+    this.showIcon = this.signUpform.get('password').value.length > 0;
   }
 
   async isLoggedIn() {

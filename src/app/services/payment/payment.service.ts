@@ -16,7 +16,7 @@ export class PaymentService {
 
   payment: any;
   cardToken: any;
-  paymentMobileBank: [
+  paymentMobileBank: any = [
     {
       type: 'mobile_banking_kbank',
       title: 'K PLUS',

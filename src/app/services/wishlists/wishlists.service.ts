@@ -14,35 +14,34 @@ export class WishlistsService {
 
   async getWishlist(): Promise<number[]> {
     const data = await this.storage.getStorage(this.wishlistKey);
-    return data ? JSON.parse(data.value) : [];
+    return data?.value ? JSON.parse(data.value) : [];
   }
 
-  async addToWishlist(product: any): Promise<void> {
+  async addToWishlist(productId: any): Promise<void> {
     const existingWishlist = await this.getWishlist();
     let updatedWishlist: any;
     if (existingWishlist && existingWishlist.length > 0) {
-      console.log("have product", product);
 
-      const checkWishlist = existingWishlist.filter((products: any) => products.id === product.id);
+      const checkWishlist = existingWishlist.filter(id => id === productId);
       if (checkWishlist.length > 0) {
 
-        this.removeFromWishlist(product);
+        this.removeFromWishlist(productId);
       } else {
 
-        updatedWishlist = [...existingWishlist, product];
+        updatedWishlist = [...existingWishlist, productId];
         this.storage.setStorage(this.wishlistKey, JSON.stringify(updatedWishlist));
       }
     } else {
 
-      updatedWishlist = [product];
+      updatedWishlist = [productId];
       this.storage.setStorage(this.wishlistKey, JSON.stringify(updatedWishlist));
     }
 
   }
 
-  async removeFromWishlist(product: any): Promise<void> {
+  async removeFromWishlist(productId: number): Promise<void> {
     const existingWishlist = await this.getWishlist();
-    const updatedWishlist = existingWishlist.filter((products: any) => products.id !== product.id);
+    const updatedWishlist = existingWishlist.filter(id => id !== productId);
     this.storage.setStorage(this.wishlistKey, JSON.stringify(updatedWishlist));
   }
 }

@@ -27,15 +27,11 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 // InAppBrowser
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
-
 // Import AngularFire and the Firebase module
 
 register();
-
-
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

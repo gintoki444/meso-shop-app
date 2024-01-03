@@ -24,7 +24,7 @@ export class CheckoutPage implements OnInit {
   iconLocation = '../../../../assets/icon/i-location.svg';
   iconCart = '../../../../assets/icon/i-cart.svg';
 
-  orderData: FormGroup;
+  orderData: any = FormGroup;
 
   constructor(
     private cartService: CartService,
@@ -79,12 +79,14 @@ export class CheckoutPage implements OnInit {
 
   async getCheckoutData() {
     const receivedData = await this.cartService.getSetCartData();
-    const customerData = JSON.parse(await this.customerService.getCustomer());
+    const getCustomerData = await this.customerService.getCustomer();
 
-    if (receivedData) {
 
+    if (receivedData && getCustomerData) {
+      const customerData =  JSON.parse(getCustomerData);
+      
       this.products = receivedData.products;
-      const lineProduct = []
+      const lineProduct: any = []
 
       this.products.forEach(data => {
         lineProduct.push({
@@ -100,8 +102,8 @@ export class CheckoutPage implements OnInit {
       this.orderData.value.line_items = lineProduct;
 
 
-      this.orderData.get('customer_id').setValue(customerData.id);
-      this.orderData.get('line_items').setValue(lineProduct);
+      this.orderData.get('customer_id')?.setValue(customerData.id);
+      this.orderData.get('line_items')?.setValue(lineProduct);
       this.calculatePrice();
 
     } else {
@@ -126,8 +128,8 @@ export class CheckoutPage implements OnInit {
         "phone": `${shipping.phone}`,
       }
 
-      this.orderData.get('billing').setValue(newShipping);
-      this.orderData.get('shipping').setValue(newShipping);
+      this.orderData.get('billing')?.setValue(newShipping);
+      this.orderData.get('shipping')?.setValue(newShipping);
 
       this.orderData.value.billing = newShipping;
       this.orderData.value.shipping = newShipping;
@@ -155,34 +157,34 @@ export class CheckoutPage implements OnInit {
 
       if (this.paymentData.id === "omise_mobilebanking") {
 
-        this.paymentData.subPayment.forEach(data => {
+        this.paymentData.subPayment.forEach((data: any) => {
           if (data.checked === true) {
-            this.orderData.get('payment_id').setValue(data.type);
+            this.orderData.get('payment_id')?.setValue(data.type);
             this.orderData.value.payment_method_title = data.type;
           }
         })
 
-        this.orderData.get('payment_method').setValue(this.paymentData.id);
-        this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+        this.orderData.get('payment_method')?.setValue(this.paymentData.id);
+        this.orderData.get('payment_method_title')?.setValue(this.paymentData.title);
         this.orderData.value.payment_method = this.paymentData.id;
         this.orderData.value.payment_method_title = this.paymentData.title;
       } else if (this.paymentData.id === "omise_promptpay") {
 
-        this.orderData.get('payment_id').setValue("promptpay");
+        this.orderData.get('payment_id')?.setValue("promptpay");
         this.orderData.value.payment_method_title = "Promptpay";
-        this.orderData.get('payment_method').setValue(this.paymentData.id);
-        this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+        this.orderData.get('payment_method')?.setValue(this.paymentData.id);
+        this.orderData.get('payment_method_title')?.setValue(this.paymentData.title);
         this.orderData.value.payment_method = this.paymentData.id;
         this.orderData.value.payment_method_title = this.paymentData.title;
       } else if (this.paymentData.id === "omise") {
 
         if (this.paymentData.token) {
 
-          this.orderData.get('token').setValue(this.paymentData.token);
+          this.orderData.get('token')?.setValue(this.paymentData.token);
           this.orderData.value.token = this.paymentData.token;
 
-          this.orderData.get('payment_method').setValue(this.paymentData.id);
-          this.orderData.get('payment_method_title').setValue(this.paymentData.title);
+          this.orderData.get('payment_method')?.setValue(this.paymentData.id);
+          this.orderData.get('payment_method_title')?.setValue(this.paymentData.title);
           this.orderData.value.payment_method = this.paymentData.id;
           this.orderData.value.payment_method_title = this.paymentData.title;
         }

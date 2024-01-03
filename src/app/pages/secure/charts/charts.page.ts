@@ -21,32 +21,32 @@ export class ChartsPage implements OnInit {
       delay: 25
     },
     responsive: true,
-    scales: {
-      x: {
-        grid: {
-          color: this.helperService.getColorVariable('medium')
-        },
-        ticks: {
-          color: this.helperService.getColorVariable('tertiary'),
-          font: {
-            family: 'Inter',
-            weight: '500'
-          }
-        }
-      },
-      y: {
-        position: 'right',
-        grid: {
-          color: this.helperService.getColorVariable('medium')
-        },
-        ticks: {
-          color: this.helperService.getColorVariable('tertiary'),
-          callback: function (value) {
-            return '$' + value;
-          }
-        }
-      }
-    },
+    // scales: {
+    //   x: {
+    //     grid: {
+    //       color: this.helperService.getColorVariable('medium')
+    //     },
+    //     ticks: {
+    //       color: this.helperService.getColorVariable('tertiary'),
+    //       font: {
+    //         family: 'Inter',
+    //         weight: '500'
+    //       }
+    //     }
+    //   },
+    //   y: {
+    //     position: 'right',
+    //     grid: {
+    //       color: this.helperService.getColorVariable('medium')
+    //     },
+    //     ticks: {
+    //       color: this.helperService.getColorVariable('tertiary'),
+    //       callback: function (value) {
+    //         return '$' + value;
+    //       }
+    //     }
+    //   }
+    // },
     plugins: {
       legend: {
         display: false,
@@ -105,32 +105,32 @@ export class ChartsPage implements OnInit {
     },
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
-    scales: {
-      x: {
-        grid: {
-          color: this.helperService.getColorVariable('medium')
-        },
-        ticks: {
-          color: this.helperService.getColorVariable('tertiary'),
-          font: {
-            family: 'Inter',
-            weight: '500'
-          }
-        }
-      },
-      y: {
-        position: 'right',
-        grid: {
-          color: this.helperService.getColorVariable('medium')
-        },
-        ticks: {
-          color: this.helperService.getColorVariable('tertiary'),
-          callback: function (value) {
-            return '$' + value;
-          }
-        }
-      }
-    },
+    // scales: {
+    //   x: {
+    //     grid: {
+    //       color: this.helperService.getColorVariable('medium')
+    //     },
+    //     ticks: {
+    //       color: this.helperService.getColorVariable('tertiary'),
+    //       font: {
+    //         family: 'Inter',
+    //         weight: '500'
+    //       }
+    //     }
+    //   },
+    //   y: {
+    //     position: 'right',
+    //     grid: {
+    //       color: this.helperService.getColorVariable('medium')
+    //     },
+    //     ticks: {
+    //       color: this.helperService.getColorVariable('tertiary'),
+    //       callback: function (value) {
+    //         return '$' + value;
+    //       }
+    //     }
+    //   }
+    // },
     plugins: {
       legend: {
         display: false,

@@ -1,14 +1,5 @@
 {
-  "targets": {
-    "meso-shop-app": {
-      "hosting": {
-        "app": [
-          "meso-shop-app"
-        ]
-      }
-    }
-  },
   "projects": {
-    "default": "meso-shop-app"
+    "default": "test-meso-shop-app"
   }
 }

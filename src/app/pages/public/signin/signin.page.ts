@@ -15,7 +15,7 @@ export class SigninPage implements OnInit {
 
   current_year: number = new Date().getFullYear();
 
-  signin_form: FormGroup;
+  signInform: any = FormGroup;
   submit_attempt: boolean = false;
   showPassword: boolean = false;
   showIcon: boolean = false;
@@ -33,7 +33,7 @@ export class SigninPage implements OnInit {
     this.isLoggedIn();
 
     // Setup form
-    this.signin_form = this.formBuilder.group({
+    this.signInform = this.formBuilder.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
@@ -54,10 +54,10 @@ export class SigninPage implements OnInit {
       if (!val) {
         this.loadingController.dismiss();
 
-      }else{
+      } else {
         this.loadingController.dismiss();
         this.router.navigateByUrl('/home');
-        
+
       }
     } catch (e) {
       this.loadingController.dismiss();
@@ -70,7 +70,7 @@ export class SigninPage implements OnInit {
 
     this.submit_attempt = true;
     // If email or password empty
-    if (this.signin_form.value.email == '' || this.signin_form.value.password == '') {
+    if (this.signInform.value.email == '' || this.signInform.value.password == '') {
       this.toastService.presentToast('Error', 'Please input email and password', 'top', 'danger', 2000);
 
     } else {
@@ -82,7 +82,7 @@ export class SigninPage implements OnInit {
       });
       await loading.present();
 
-      this.authService.signIn(this.signin_form.value.email, this.signin_form.value.password).then(data => {
+      this.authService.signIn(this.signInform.value.email, this.signInform.value.password).then(data => {
         this.router.navigateByUrl('/home');
         loading.dismiss();
       }).catch(e => {
@@ -96,13 +96,13 @@ export class SigninPage implements OnInit {
     this.loadingController.dismiss();
     this.toastService.presentToast('Error', message, 'top', 'danger', 3000);
   }
-  
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-  
+
   onPasswordInput() {
-    this.showIcon = this.signin_form.get('password').value.length > 0;
+    this.showIcon = this.signInform.get('password').value.length > 0;
   }
 
   signUp() {

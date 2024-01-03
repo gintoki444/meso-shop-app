@@ -10,8 +10,8 @@ import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 })
 export class OrderService {
 
-  orderData:any;
-  shippingData:any;
+  orderData: any;
+  shippingData: any;
 
   orderStatus = [
     {
@@ -60,7 +60,7 @@ export class OrderService {
     private WC: WoocommerceService,
     private OPN: OmiseService,
     private storage: StorageService,
-    private iab : InAppBrowser,
+    private iab: InAppBrowser,
   ) { }
 
 
@@ -74,14 +74,14 @@ export class OrderService {
     return updataOrder;
   }
 
-  setOrderData(data:any){
+  setOrderData(data: any) {
     this.orderData = data;
-    this.storage.setStorage('confirm-order',JSON.stringify(data))
+    this.storage.setStorage('confirm-order', JSON.stringify(data))
     return this.orderData;
   }
 
-  async getOrderData(){
-    return  (await this.storage.getStorage('confirm-order')).value;
+  async getOrderData() {
+    return (await this.storage.getStorage('confirm-order')).value;
   }
 
   async createOmiseCharges(data: any) {
@@ -105,7 +105,7 @@ export class OrderService {
         type: data.payment_id,
         phone_number: data.billing.phone
       }
-    }else if(data.payment_method === "omise") {
+    } else if (data.payment_method === "omise") {
       orderData.card = data.token
     }
 
@@ -116,30 +116,30 @@ export class OrderService {
       }
       let metaID = opnsData.source.metadata.order_id
 
-      this.WC.putOrders(metaID, updateOrder).subscribe((updateorder:any) => {
+      this.WC.putOrders(metaID, updateOrder).subscribe((updateorder: any) => {
         if (updateorder) {
-            setTimeout(() => {
-              this.openInAppBrowser(opnsData.source.authorize_uri);
-            }, 1000);
-          }
+          setTimeout(() => {
+            this.openInAppBrowser(opnsData.source.authorize_uri);
+          }, 1000);
+        }
       });
     },
-      (error) => {
+      (error: any) => {
         console.error('Error creating charge:', error);
       }
     );
   }
 
-  setshippingData(data:any){
+  setshippingData(data: any) {
     this.shippingData = data;
     return this.orderData;
   }
 
-  async getshippingData(){
+  async getshippingData() {
     return this.orderData;
   }
 
-  openInAppBrowser(url:any) {
+  openInAppBrowser(url: any) {
     const browser = this.iab.create(
       url,
       '_self',

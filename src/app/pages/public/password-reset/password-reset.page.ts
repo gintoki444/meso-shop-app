@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class PasswordResetPage implements OnInit {
 
-  reset_form: FormGroup;
+  resetForm: any = FormGroup;
   current_year: number = new Date().getFullYear();
 
   constructor(
@@ -17,7 +17,7 @@ export class PasswordResetPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.reset_form = this.formBuilder.group({
+    this.resetForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
     });
   }

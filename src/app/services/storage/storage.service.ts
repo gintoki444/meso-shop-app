@@ -8,15 +8,15 @@ export class StorageService {
 
   constructor() { }
 
-  setStorage(key, value) {
+  setStorage(key :any, value :any) {
     Preferences.set({key: key, value: value});
   }
 
-  getStorage(key) {
+  getStorage(key :any) {
     return Preferences.get({key: key});
   }
 
-  removeStorage(key) {
+  removeStorage(key :any) {
     Preferences.remove({key: key});
   }
 

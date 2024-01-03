@@ -48,7 +48,8 @@ export class CityPage implements OnInit {
     // this.address_form.get('provinces').setValue('นนทบุรี');
     // this.address_form.get('postcode').setValue('11000');
 
-    this.dataResolve = this.activeRoute.snapshot.data.myarray;
+    const getDataResolve: any = this.activeRoute.snapshot.data;
+    this.dataResolve = getDataResolve.myarray;
   }
 
 

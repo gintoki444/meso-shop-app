@@ -241,8 +241,7 @@ ion-button {
   }
 
 
-  .input-clear-icon.sc-ion-input-ios,
-  .searchbar-clear-button {
+  .input-clear-icon.sc-ion-input-ios {
     margin-right: 12px;
 
     ion-icon.sc-ion-input-ios {
@@ -251,7 +250,7 @@ ion-button {
     }
   }
 
-  .input-clear-icon.sc-ion-input-ios ion-icon.sc-ion-input-ios::after{
+  .input-clear-icon.sc-ion-input-ios ion-icon.sc-ion-input-ios::after {
     content: "";
     background-image: url('./assets/icon/i-close.svg');
     background-repeat: no-repeat;
@@ -261,19 +260,6 @@ ion-button {
     position: absolute;
     left: 5px;
     top: 10%;
-  }
-
-  .searchbar-clear-button ion-icon.searchbar-clear-icon::after{
-    content: "";
-    background-image: url('./assets/icon/i-close.svg');
-    background-repeat: no-repeat;
-    background-size: 80%;
-    background-position: center center;
-    position: absolute;
-    width: 100%;
-    height: 17px;
-    left: 5%;
-    top: 30%;
   }
 }
 
@@ -317,7 +303,7 @@ ion-content.container {
 form.form-signin,
 form.form-signup,
 form.form-reset-password,
-form.form-address {
+form.form-address{
   min-width: 274px;
 
 
