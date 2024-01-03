@@ -26,7 +26,10 @@
             </ion-item>
             
             <ion-item class="" lines="none">
-              <ion-input formControlName="password" type="password" placeholder="password" aria-label="password"></ion-input>
+              <ion-input formControlName="password" type="{{ showPassword ? 'text' : 'password' }}" class="password" (input)="onPasswordInput()" placeholder="password"></ion-input>
+              <ion-icon *ngIf="showIcon" name="{{ showPassword ? 'eye-off-outline' : 'eye-outline' }}" slot="end"
+                (click)="togglePasswordVisibility()"></ion-icon>
+              <!-- <ion-input formControlName="password" type="password" placeholder="password" aria-label="password"></ion-input> -->
             </ion-item>
 
             <ion-item class="" lines="none">

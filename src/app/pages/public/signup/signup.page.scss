@@ -1,5 +1,5 @@
-
-ion-text, ion-button {
+ion-text,
+ion-button {
   letter-spacing: 1px;
 }
 
@@ -24,12 +24,25 @@ ion-text, ion-button {
         align-items: center;
         justify-content: center;
 
+        ion-input {
+          --padding-start: 15px;
+          padding-right: 15px !important;
+        }
+
+        ion-icon {
+          background: #f3f3f3;
+          position: absolute;
+          right: 0px;
+          z-index: 10;
+          padding: 5px;
+        }
+
         .ion-footer {
           margin-top: 111px;
           width: 85%;
         }
 
-        ion-button.btn-signup{
+        ion-button.btn-signup {
           margin-top: 70px;
         }
       }

@@ -67,7 +67,7 @@
       </ion-col>
 
       <ion-col size-lg="4" size-xs="4" class="product-title-right">
-        <div class="product-review">
+        <div class="product-review" *ngIf="reviewStatus">
           <ion-icon [src]="iconStar"></ion-icon>
           4,9 (216)
         </div>
@@ -92,7 +92,7 @@
   </ion-grid>
 
   <!-- Review -->
-  <div class="review">
+  <div class="review" *ngIf="reviewStatus">
 
     <div class="review-list user-01">
       <div class="review-tile">

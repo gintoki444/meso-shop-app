@@ -17,6 +17,8 @@ export class SigninPage implements OnInit {
 
   signin_form: FormGroup;
   submit_attempt: boolean = false;
+  showPassword: boolean = false;
+  showIcon: boolean = false;
 
 
   constructor(
@@ -35,11 +37,6 @@ export class SigninPage implements OnInit {
       email: ['', Validators.compose([Validators.email, Validators.required])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
-
-    // this.signin_form.get('email').setValue('onlineuser@gmail.com');
-    // this.signin_form.get('password').setValue('Der@12345');
-    // this.signin_form.get('email').setValue('');
-    // this.signin_form.get('password').setValue('');
   }
 
   async isLoggedIn() {
@@ -68,19 +65,16 @@ export class SigninPage implements OnInit {
     }
   }
 
-
   // Sign in
   async signIn() {
 
     this.submit_attempt = true;
-
     // If email or password empty
     if (this.signin_form.value.email == '' || this.signin_form.value.password == '') {
       this.toastService.presentToast('Error', 'Please input email and password', 'top', 'danger', 2000);
 
     } else {
 
-      // Proceed with loading overlay
       const loading = await this.loadingController.create({
         cssClass: 'default-loading',
         message: 'Signing in...Please be patient.',
@@ -88,30 +82,12 @@ export class SigninPage implements OnInit {
       });
       await loading.present();
 
-
-      // TODO: Add your sign in logic
       this.authService.signIn(this.signin_form.value.email, this.signin_form.value.password).then(data => {
-        // console.log("data", data)
         this.router.navigateByUrl('/home');
         loading.dismiss();
       }).catch(e => {
         this.presentErrorToast("Login failed. Please check your credentials.");
       })
-
-
-      // try {
-      //   const response = await this.WC.getLogin(this.signin_form.value.email, this.signin_form.value.password).toPromise();
-      //   if (response.token != null) {
-      //     setTimeout(async () => {
-      //       // Sign in success
-      //       await this.router.navigate(['/home']);
-      //       loading.dismiss();
-      //     }, 300);
-      //   }
-      // } catch (e) {
-
-      //   this.presentErrorToast("Login failed. Please check your credentials.");
-      // }
     }
   }
 
@@ -120,8 +96,14 @@ export class SigninPage implements OnInit {
     this.loadingController.dismiss();
     this.toastService.presentToast('Error', message, 'top', 'danger', 3000);
   }
-
-
+  
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+  
+  onPasswordInput() {
+    this.showIcon = this.signin_form.get('password').value.length > 0;
+  }
 
   signUp() {
     this.router.navigateByUrl('/signup');

@@ -53,7 +53,6 @@ export class CategoriesPage implements OnInit {
       let categoriesID = paramMap.get('categoriesID');
       this.WC.getCategoriesDetail(categoriesID).subscribe((data: any) => {
         this.getCategories = data;
-        console.log('categoriesID Data: ', this.getCategories);
       });
     });
   }
@@ -63,7 +62,6 @@ export class CategoriesPage implements OnInit {
       let categoriesID = paramMap.get('categoriesID');
       this.WC.getProductByCategory(categoriesID).subscribe((data: any) => {
         this.getProduct = data;
-        console.log('product Data: ', this.getProduct);
       });
     });
   }

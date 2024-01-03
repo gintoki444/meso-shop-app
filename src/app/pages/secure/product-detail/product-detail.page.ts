@@ -31,6 +31,7 @@ export class ProductDetailPage implements OnInit {
   cartItem: any = {};
   storeData: any = {};
   id: any;
+  reviewStatus:boolean = false;
 
 
   swiperModules = [IonicSlides];

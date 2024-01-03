@@ -17,7 +17,7 @@ export class ShopPage implements OnInit {
 
   swiperModules = [IonicSlides];
 
-  contentLoaded: boolean = false;
+  content_loaded: boolean = false;
 
   constructor(
     private WC: WoocommerceService,
@@ -35,14 +35,10 @@ export class ShopPage implements OnInit {
   }
 
   shopPageProducts() {
-    // add cart service
-    // this.cartService.cartItem.subscribe((data) => {
-    //   this.cartItems = data;
-    // });
 
     this.WC.getAllProducts().subscribe((data: any) => {
       this.allProducts = data;
-      console.log('All Products: ', this.allProducts);
+      this.content_loaded = true;
     });
   }
 

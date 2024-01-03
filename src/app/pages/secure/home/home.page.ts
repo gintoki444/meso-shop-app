@@ -31,14 +31,15 @@ export class HomePage implements OnInit {
     this.getCart();
     this.homePageProducts();
     // Fake timeout
-    setTimeout(() => {
-      this.content_loaded = true;
-    }, 2000);
+    // setTimeout(() => {
+    //   this.content_loaded = true;
+    // }, 2000);
   }
 
   homePageProducts() {
     this.WC.getAllProducts().subscribe((data: any) => {
       this.allProducts = data;
+      this.content_loaded = true;
     });
   }
 
@@ -51,4 +52,5 @@ export class HomePage implements OnInit {
     });
     this.cartServices.getCartData();
   }
+
 }

@@ -20,12 +20,17 @@
           <!-- Login form -->
           <form class="form-signin" [formGroup]="signin_form" (submit)="signIn()">
             <ion-item class="" lines="none">
-              <ion-input color="secondary" type="email" formControlName="email" placeholder="email" aria-label="password"></ion-input>
+              <ion-input color="secondary" type="email" formControlName="email" placeholder="email"
+                aria-label="password"></ion-input>
             </ion-item>
 
             <ion-item class="" lines="none">
-              <ion-input color="secondary" formControlName="password" type="password"
-                placeholder="password" aria-label="password"></ion-input>
+
+              <ion-input formControlName="password" type="{{ showPassword ? 'text' : 'password' }}" class="password" (input)="onPasswordInput()" placeholder="password"></ion-input>
+              <ion-icon *ngIf="showIcon" name="{{ showPassword ? 'eye-off-outline' : 'eye-outline' }}" slot="end"
+                (click)="togglePasswordVisibility()"></ion-icon>
+              <!-- <ion-input color="secondary" formControlName="password" type="password" placeholder="password"
+                aria-label="password"></ion-input> -->
             </ion-item>
 
             <ion-button class="ion-margin-top width-75" type="submit" expand="block" size="large" color="secondary">

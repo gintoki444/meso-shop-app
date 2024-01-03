@@ -16,6 +16,8 @@ export class SignupPage implements OnInit {
 
   signup_form: FormGroup;
   submit_attempt: boolean = false;
+  showPassword: boolean = false;
+  showIcon: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -73,11 +75,6 @@ export class SignupPage implements OnInit {
         this.presentErrorToast("Sigup failed. Please check your credentials.");
         loading.dismiss();
       })
-
-      // // Success messages + routing
-      // this.toastService.presentToast('Welcome!', 'Lorem ipsum', 'top', 'success', 2000);
-      // await this.router.navigate(['/home']);
-      // loading.dismiss();
     }
   }
 
@@ -89,6 +86,14 @@ export class SignupPage implements OnInit {
   async presentErrorToast(message: string) {
     this.loadingController.dismiss();
     this.toastService.presentToast('Error', message, 'top', 'danger', 3000);
+  }
+  
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+  
+  onPasswordInput() {
+    this.showIcon = this.signup_form.get('password').value.length > 0;
   }
 
   async isLoggedIn() {
